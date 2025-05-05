@@ -1,0 +1,9 @@
+.userPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: #333;
+  font-family: Arial, sans-serif;
+}

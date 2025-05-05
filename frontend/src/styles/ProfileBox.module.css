@@ -1,0 +1,47 @@
+.profileContainer {
+  position: fixed;
+  top: 20px; /* Adjusts the vertical position */
+  right: 20px; /* Adjusts the horizontal position */
+  z-index: 1000; /* Keeps it above other elements */
+}
+
+.profileButton {
+  padding: 10px 15px;
+  background-color: #f4fafb;
+  color: rgb(5, 5, 5);
+  border-radius: 4px;
+  border: 3px solid #bcbaba;
+  cursor: pointer;
+  user-select: none; /* prevent text selection */
+  transition: background-color 0.2s;
+}
+
+.profileButton:hover {
+  background-color: #d7d7d8;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 1;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.menuItem {
+  padding: 10px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  user-select: none;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
+}

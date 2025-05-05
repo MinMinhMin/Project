@@ -1,0 +1,62 @@
+/* src/components/LoginForm.module.css */
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.loginTitle {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inputField {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #4d90fe;
+}
+
+.submitBtn {
+  padding: 10px;
+  font-size: 1rem;
+  color: white;
+  background-color: #4d90fe;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color: #357ae8;
+}
+
+.submitBtn:active {
+  background-color: #2d66b5;
+}
+.errorMessage {
+  color: rgb(36, 35, 35);
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  text-align: center;
+}
