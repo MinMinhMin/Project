@@ -36,3 +36,5 @@ This project includes:
    npm run dev
    
    ```
+## Setup Docker
+Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
