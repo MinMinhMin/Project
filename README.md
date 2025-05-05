@@ -36,5 +36,8 @@ This project includes:
    npm run dev
    
    ```
+## Database
+- Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
+- Details at backend/src/face_images/routes.py 
 ## Setup Docker
 Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
