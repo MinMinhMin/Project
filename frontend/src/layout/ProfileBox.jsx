@@ -1,20 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-import SavedImagesWindow from "../components/SavedImagesWindow";
-
+import { Link } from "react-router-dom";
+import { ProfileBox_Controller } from "../controllers/ProfileBox_Controller";
 import styles from "../styles/ProfileBox.module.css";
 
 const ProfileBox = ({ username, setUsername }) => {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUsername(null);
-    setOpen(false);
-    navigate("/login");
-  };
+  const { open, setOpen, handleLogout, navigate } = ProfileBox_Controller({
+    username,
+    setUsername,
+  });
 
   return (
     <div className={styles.profileContainer}>
@@ -56,7 +49,6 @@ const ProfileBox = ({ username, setUsername }) => {
               >
                 Work
               </div>
-              <SavedImagesWindow />
               <div onClick={handleLogout} className={styles.menuItem}>
                 Logout
               </div>
