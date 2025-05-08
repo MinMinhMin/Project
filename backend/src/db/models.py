@@ -8,14 +8,16 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
 
-    # This is NOT a database column — it helps you access user's images via ORM
-    face_images = relationship("FaceImage", back_populates="owner", cascade="all, delete")
+    parking_lots = relationship("ParkingLot", back_populates="owner", cascade="all, delete")
 
 
-class FaceImage(Base):
-    __tablename__ = "face_images"
+
+class ParkingLot(Base):
+    __tablename__ = "parking_lots"
     id = Column(Integer, primary_key=True, index=True)
-    image_url = Column(String)
+    name = Column(String, index=True)
+    location = Column(String, index=True)
+    capacity = Column(Integer)
+    available_spots = Column(Integer)
     user_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("User", back_populates="face_images")
