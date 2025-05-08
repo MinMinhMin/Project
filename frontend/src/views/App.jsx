@@ -4,6 +4,7 @@ import UserPage from "./UserPage";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import LogoutPage from "./LogoutPage";
+import ParkingLotsPage from "./ParkingLotsPage";
 
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
@@ -27,6 +28,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UserPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/parking-lots"
+            element={
+              <ProtectedRoute>
+                <ParkingLotsPage />
               </ProtectedRoute>
             }
           />
