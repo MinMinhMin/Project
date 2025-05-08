@@ -7,15 +7,18 @@ export default function LoginForm_Controller({ setUsername }) {
   const [formUsername, setFormUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const data = new URLSearchParams();
     data.append("username", formUsername);
     data.append("password", password);
 
-    Login({ data, setUsername, navigate });
+    await Login({ data, setUsername, navigate });
+    setLoading(false);
   };
   return {
     formUsername,
@@ -24,6 +27,8 @@ export default function LoginForm_Controller({ setUsername }) {
     setPassword,
     errorMessage,
     setErrorMessage,
+    loading,
+    setLoading,
     handleSubmit,
   };
 }

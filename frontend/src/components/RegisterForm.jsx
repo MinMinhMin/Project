@@ -2,9 +2,19 @@ import React from "react";
 import styles from "../styles/RegisterForm.module.css";
 import { RegisterForm_Controller } from "../controllers/RegisterForm_Controller";
 
+import LoadingIndicator from "./LoadingIndicator";
+
 const RegisterForm = () => {
-  const { username, setUsername, password, setPassword, error, handleSubmit } =
-    RegisterForm_Controller();
+  const {
+    username,
+    setUsername,
+    password,
+    setPassword,
+    error,
+    loading,
+    setLoading,
+    handleSubmit,
+  } = RegisterForm_Controller();
   return (
     <div className={styles.registerContainer}>
       <h2 className={styles.registerTitle}>Register</h2>
@@ -24,6 +34,7 @@ const RegisterForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {loading && <LoadingIndicator />}
         <button type="submit" className={styles.submitBtn}>
           Register
         </button>

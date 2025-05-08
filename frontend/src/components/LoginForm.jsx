@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "../styles/LoginForm.module.css";
 import LoginForm_Controller from "../controllers/LoginForm_Controller";
 
+import LoadingIndicator from "./LoadingIndicator";
+
 const LoginForm = ({ setUsername }) => {
   const {
     formUsername,
@@ -10,6 +12,8 @@ const LoginForm = ({ setUsername }) => {
     setPassword,
     errorMessage,
     setErrorMessage,
+    loading,
+    setLoading,
     handleSubmit,
   } = LoginForm_Controller({ setUsername });
 
@@ -34,6 +38,7 @@ const LoginForm = ({ setUsername }) => {
         {errorMessage && (
           <div className={styles.errorMessage}>{errorMessage}</div>
         )}
+        {loading && <LoadingIndicator />}
         <button type="submit" className={styles.submitBtn}>
           Submit
         </button>

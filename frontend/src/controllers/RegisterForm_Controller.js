@@ -6,13 +6,16 @@ export function RegisterForm_Controller() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // Error state
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     setError(""); // Clear previous error
 
-    Register(username, password, navigate);
+    await Register(username, password, navigate);
+    setLoading(false);
   };
 
   return {
@@ -21,6 +24,8 @@ export function RegisterForm_Controller() {
     password,
     setPassword,
     error,
+    loading,
+    setLoading,
     handleSubmit,
   };
 }
