@@ -1,0 +1,63 @@
+/* ParkingLotFormModal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: bold;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.formActions button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.formActions button[type="button"] {
+  background-color: #ccc;
+}
+
+.formActions button:hover {
+  background-color: #0056b3;
+}

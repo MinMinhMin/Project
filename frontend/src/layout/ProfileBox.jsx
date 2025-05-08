@@ -49,6 +49,16 @@ const ProfileBox = ({ username, setUsername }) => {
               >
                 Work
               </div>
+              <div
+                className={styles.menuItem}
+                onClick={() => {
+                  navigate("/parking-lots");
+                  setOpen(false);
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                ParkingLots
+              </div>
               <div onClick={handleLogout} className={styles.menuItem}>
                 Logout
               </div>
