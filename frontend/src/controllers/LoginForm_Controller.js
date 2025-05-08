@@ -16,9 +16,11 @@ export default function LoginForm_Controller({ setUsername }) {
     const data = new URLSearchParams();
     data.append("username", formUsername);
     data.append("password", password);
-
-    await Login({ data, setUsername, navigate });
-    setLoading(false);
+    try {
+      await Login({ data, setUsername, navigate, setErrorMessage });
+    } finally {
+      setLoading(false);
+    }
   };
   return {
     formUsername,

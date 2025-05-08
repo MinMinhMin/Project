@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ProfileBox_Controller } from "../controllers/ProfileBox_Controller";
 import styles from "../styles/ProfileBox.module.css";
 
-const ProfileBox = ({ username, setUsername }) => {
+const ProfileBox = ({ username, setUsername, role }) => {
   const { open, setOpen, handleLogout, navigate } = ProfileBox_Controller({
     username,
     setUsername,
@@ -20,19 +20,18 @@ const ProfileBox = ({ username, setUsername }) => {
           {!username ? (
             <>
               <Link
-                to="/register"
-                onClick={() => setOpen(false)}
-                className={styles.menuItem}
-              >
-                Register
-              </Link>
-              <Link
                 to="/login"
                 onClick={() => setOpen(false)}
                 className={styles.menuItem}
               >
                 Login
               </Link>
+              <div onClick={handleLogout} className={styles.menuItem}>
+                Logout
+              </div>
+            </>
+          ) : role === "admin" ? (
+            <>
               <div onClick={handleLogout} className={styles.menuItem}>
                 Logout
               </div>

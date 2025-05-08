@@ -11,6 +11,7 @@ class Token(BaseModel):
 class User(BaseModel):
     id: int
     username: str
+    role: str  # <-- Add this
 
     class Config:
         orm_mode = True
