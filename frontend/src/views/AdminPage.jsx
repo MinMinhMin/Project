@@ -1,104 +1,25 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import "../styles/AdminPage.css";
-
-const backendUrl = import.meta.env.VITE_API_URL;
+import AdminPage_Controller from "../controllers/AdminPage_Controller";
 
 export default function AdminPage() {
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState("");
-  const [newUser, setNewUser] = useState({ username: "", password: "" });
-  const [editIndex, setEditIndex] = useState(null);
-  const [editUser, setEditUser] = useState({ username: "", password: "" });
-  const [localPasswords, setLocalPasswords] = useState({});
-  const [visiblePasswords, setVisiblePasswords] = useState({});
-
-  const token = localStorage.getItem("token");
-
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get(`${backendUrl}/user/get`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUsers(response.data);
-    } catch (err) {
-      setError(err.response?.data?.detail || "Failed to fetch users");
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const handleInputChange = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
-  };
-
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${backendUrl}/user/create`, newUser, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLocalPasswords((prev) => ({
-        ...prev,
-        [newUser.username]: newUser.password,
-      }));
-      setNewUser({ username: "", password: "" });
-      fetchUsers();
-    } catch (err) {
-      setError(err.response?.data?.detail || "Failed to create user");
-    }
-  };
-
-  const togglePassword = (username) => {
-    setVisiblePasswords((prev) => ({
-      ...prev,
-      [username]: !prev[username],
-    }));
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${backendUrl}/user/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      fetchUsers();
-    } catch (err) {
-      setError(err.response?.data?.detail || "Failed to delete user");
-    }
-  };
-
-  const startEdit = (index) => {
-    setEditIndex(index);
-    const user = users[index];
-    setEditUser({
-      username: user.username,
-      password: localPasswords[user.username] || "",
-    });
-  };
-
-  const cancelEdit = () => {
-    setEditIndex(null);
-    setEditUser({ username: "", password: "" });
-  };
-
-  const saveEdit = async (userId) => {
-    try {
-      await axios.put(`${backendUrl}/user/update/${userId}`, editUser, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLocalPasswords((prev) => ({
-        ...prev,
-        [editUser.username]: editUser.password,
-      }));
-      fetchUsers();
-      cancelEdit();
-    } catch (err) {
-      setError(err.response?.data?.detail || "Failed to update user");
-    }
-  };
-
+  const {
+    users,
+    error,
+    newUser,
+    editIndex,
+    editUser,
+    localPasswords,
+    visiblePasswords,
+    setEditUser,
+    handleInputChange,
+    handleCreateUser,
+    togglePassword,
+    handleDelete,
+    startEdit,
+    cancelEdit,
+    saveEdit,
+  } = AdminPage_Controller();
   return (
     <div className="admin-container">
       <h2>Admin User Management</h2>
