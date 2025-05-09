@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { ProfileBox_Controller } from "../controllers/ProfileBox_Controller";
 import styles from "../styles/ProfileBox.module.css";
 
-const ProfileBox = ({ username, setUsername, role }) => {
+const ProfileBox = ({ username, setUsername }) => {
   const { open, setOpen, handleLogout, navigate } = ProfileBox_Controller({
     username,
     setUsername,
   });
+  const role = localStorage.getItem("role");
 
   return (
     <div className={styles.profileContainer}>

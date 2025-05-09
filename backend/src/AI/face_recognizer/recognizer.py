@@ -1,7 +1,7 @@
 import cv2
 from deepface import DeepFace
 import numpy as np
-
+from scipy.spatial.distance import cosine
 
 class FaceRecognizer:
     def __init__(self, model_name="Facenet", enforce_detection=True):
@@ -12,7 +12,7 @@ class FaceRecognizer:
         """
         self.model_name = model_name
         self.enforce_detection = enforce_detection
-        self.model = DeepFace.build_model(model_name)
+        
 
     def load_image(self, img_path):
         """
@@ -32,7 +32,6 @@ class FaceRecognizer:
         try:
             embedding = DeepFace.represent(
                 img_path=img,
-                model=self.model,
                 model_name=self.model_name,
                 enforce_detection=self.enforce_detection
             )[0]["embedding"]
@@ -40,6 +39,18 @@ class FaceRecognizer:
         except Exception as e:
             print(f"Failed to get embedding: {e}")
             return None
+    
+    def is_match(self, embedding1: np.ndarray, embedding2: np.ndarray, threshold: float = 0.4) -> bool:
+        """
+        So sánh hai face embedding để kiểm tra xem có phải cùng một người không.
+        threshold: Ngưỡng xác định xem hai vector có giống nhau không (cosine distance).
+        Trả về True nếu là cùng người, False nếu không.
+        """
+        if embedding1 is None or embedding2 is None:
+            return False
+
+        distance = cosine(embedding1, embedding2)
+        return distance < threshold
 
 
 """ Example usage:
@@ -52,4 +63,5 @@ if embedding is not None:
     print("Embedding shape:", embedding.shape)
 else:
     print("No face found.")
+
 """

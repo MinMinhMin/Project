@@ -14,15 +14,13 @@ import { getUserName } from "../controllers/App_Controller";
 import "../styles/App.css";
 
 function App() {
-  const { username, setUsername, role } = getUserName();
+  const { username, setUsername } = getUserName();
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          element={
-            <Layout username={username} setUsername={setUsername} role={role} />
-          }
+          element={<Layout username={username} setUsername={setUsername} />}
         >
           <Route path="*" element={<h1>Nothing to see LMAO</h1>} />
           <Route
