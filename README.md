@@ -6,7 +6,7 @@ This project includes:
 ## Backend Setup
 - Install back-end packages
   ```batch
-   pip install requirements.txt
+   pip install -r requirements.txt
    ```
 - Start a back-end server (the server is hosted at port 8000 by default, can be customized in main.py)
   ```batch
