@@ -36,6 +36,9 @@ This project includes:
    npm run dev
    
    ```
+## Admin
+- Username: admin
+- Password: 123
 ## Database
 - Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
 - Details at backend/src/face_images/routes.py 
