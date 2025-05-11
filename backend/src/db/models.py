@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String,Float
 from db.database import Base
 from sqlalchemy.orm import relationship
 
@@ -23,4 +23,19 @@ class ParkingLot(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="parking_lots")
+    histories = relationship("History", back_populates="parking_lot", cascade="all, delete")
+
+
+class History(Base):
+    __tablename__ = "history"
+    id = Column(Integer, primary_key=True, index=True)
+    face_image_path = Column(String)
+    license_plate_image_path = Column(String)
+    face_embedding = Column(String)
+    license_plate = Column(String)
+
+
+    parking_lot_id = Column(Integer, ForeignKey("parking_lots.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    parking_lot = relationship("ParkingLot", back_populates="histories")
 

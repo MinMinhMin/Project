@@ -1,0 +1,157 @@
+.userpage-container {
+  padding: 20px;
+}
+
+.session-bar {
+  margin-bottom: 15px;
+}
+
+.session-bar button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border: none;
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.session-bar button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.page-content {
+  display: flex;
+  gap: 30px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 20px;
+}
+
+.info-panel {
+  flex: 1;
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+}
+.image-grid-labeled {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+}
+
+.column-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  width: 45%;
+  text-align: center;
+}
+
+.image-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.image-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.image-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cell-title {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.upload-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.upload-btn:hover {
+  background-color: #005fa3;
+}
+.image-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.upload-btn:hover {
+  background-color: #005fa3;
+}
+.image-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.upload-btn:hover {
+  background-color: #005fa3;
+}
+
+.image-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upload-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.upload-btn:hover {
+  background-color: #005fa3;
+}
