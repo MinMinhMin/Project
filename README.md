@@ -6,7 +6,7 @@ This project includes:
 ## Backend Setup
 - Install back-end packages
   ```batch
-   pip install requirements.txt
+   pip install -r requirements.txt
    ```
 - Start a back-end server (the server is hosted at port 8000 by default, can be customized in main.py)
   ```batch
@@ -36,6 +36,9 @@ This project includes:
    npm run dev
    
    ```
+## Admin
+- Username: admin
+- Password: 123
 ## Database
 - Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
 - Details at backend/src/face_images/routes.py 
