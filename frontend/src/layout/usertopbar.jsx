@@ -27,7 +27,7 @@ const UserTopBar = () => {
 
       <div className={styles["topbar-right"]}>
         <Link to="/my-parking" className={styles["nav-link"]}>Bãi đỗ của tôi</Link>
-        <Link to="/monitor" className={`${styles["nav-link"]} ${styles["active"]}`}>Theo dõi ra vào</Link>
+        <Link to="/observe" className={`${styles["nav-link"]} ${styles["active"]}`}>Theo dõi ra vào</Link>
         <Link to="/history" className={styles["nav-link"]}>Tra cứu lịch sử</Link>
         <div className={`${styles["nav-link"]} ${styles["logout-btn"]}`} onClick={handleLogout}>
           Đăng xuất
