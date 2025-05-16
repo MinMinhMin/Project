@@ -5,6 +5,7 @@ import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import ParkingLotsPage from "./ParkingLotsPage";
 import AdminPage from "./AdminPage";
+import UserTopBar from "../layout/usertopbar";
 
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
@@ -18,43 +19,45 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          element={<Layout username={username} setUsername={setUsername} />}
-        >
-          <Route path="*" element={<h1>Nothing to see LMAO</h1>} />
+      <div>
+        <UserTopBar />
+        {/* <Routes>
           <Route
-            path="/user"
-            element={
-              <ProtectedRoute role="user">
-                <UserPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/parking-lots"
-            element={
-              <ProtectedRoute role="user">
-                <ParkingLotsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/login"
-            element={<LoginPage setUsername={setUsername} />}
-          />
-          <Route path="/logout" element={<LogoutPage />} />
-        </Route>
-      </Routes>
+            element={<Layout username={username} setUsername={setUsername} />}
+          >
+            <Route path="*" element={<h1>Nothing to see LMAO</h1>} />
+            <Route
+              path="/user"
+              element={
+                <ProtectedRoute role="user">
+                  <UserPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/parking-lots"
+              element={
+                <ProtectedRoute role="user">
+                  <ParkingLotsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={<LoginPage setUsername={setUsername} />}
+            />
+            <Route path="/logout" element={<LogoutPage />} />
+          </Route>
+        </Routes> */}
+      </div>
     </BrowserRouter>
   );
 }

@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #FF8C00;
+  --text-color: rgba(45, 45, 45, 0,95);
+  --active-text-color: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.topbar {
+    display: flex;
+    width: 1440px;
+    height: 113px;
+    padding: 17px 0px 16px 0px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.topbar-left {
+    display: flex;
+    width: auto;
+    height: 58px;
+    padding: 6px 19px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.topbar-left .logo-circle {
+    display: flex;
+    width: 45px;
+    height: 46px;
+    padding: 0% 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 999px;
+    background: var(--primary-color);
+}
+
+.logo-circle .logo-inside {
+    width: 13px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.topbar-left .logo-text {
+    width: 170px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.logo-text .title {
+    width: 93px;
+    font-size: 16px;
+}
+
+.logo-text .subtitle {
+    width: 170px;
+    font-size: 13px;
+}
+
+.topbar-right {
+    display: flex;
+    width: 1032px;
+    height: 80px;
+    padding: 10px 25px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.topbar-right .nav-link {
+    display: flex;
+    padding: 11px 37px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 5px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 18px;
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: var(--active-text-color);
+}
+
+.nav-link.logout-btn {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
