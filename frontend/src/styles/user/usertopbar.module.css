@@ -1,8 +1,5 @@
-
 .topbar {
     display: flex;
-    width: 1440px;
-    height: 113px;
     padding: 17px 0px 16px 0px;
     justify-content: space-between;
     align-items: center;
@@ -11,7 +8,7 @@
 
 .topbar-left {
     display: flex;
-    width: auto;
+    width: 263px;
     height: 58px;
     padding: 6px 19px;
     justify-content: center;
@@ -24,24 +21,16 @@
     display: flex;
     width: 45px;
     height: 46px;
-    padding: 0% 0px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
     border-radius: 999px;
     background: var(--primary-color);
 }
 
-.logo-circle .logo-inside {
-    width: 13px;
-    height: 18px;
-    flex-shrink: 0;
-}
-
 .topbar-left .logo-text {
-    width: 170px;
-    height: 45px;
     display: flex;
+    width: auto;
+    height: 45px;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -49,13 +38,12 @@
 }
 
 .logo-text .title {
-    width: 93px;
     font-size: 16px;
 }
 
 .logo-text .subtitle {
-    width: 170px;
     font-size: 13px;
+    width: auto;
 }
 
 .topbar-right {
@@ -87,4 +75,5 @@
 
 .nav-link.logout-btn {
     border: 1px solid rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }

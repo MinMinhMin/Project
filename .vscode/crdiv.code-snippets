@@ -1,0 +1,7 @@
+{
+  "Div with class content-right": {
+    "prefix": "crdiv",
+    "body": ["<div className={styles[\"content-right\"]}>$0</div>"],
+    "description": "Div with class content-right using CSS module"
+  }
+}

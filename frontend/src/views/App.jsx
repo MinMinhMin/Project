@@ -6,13 +6,14 @@ import LogoutPage from "./LogoutPage";
 import ParkingLotsPage from "./ParkingLotsPage";
 import AdminPage from "./AdminPage";
 import UserTopBar from "../layout/usertopbar";
-
+import Notification from "../components/user/observe/notification";
+import MainScreen from "../components/user/observe/mainScreen";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 
 import { getUserName } from "../controllers/App_Controller";
 
-import "../styles/App.css";
+import "../index.css";
 
 function App() {
   const { username, setUsername } = getUserName();
@@ -21,6 +22,8 @@ function App() {
     <BrowserRouter>
       <div>
         <UserTopBar />
+        <Notification />
+        <MainScreen />
         {/* <Routes>
           <Route
             element={<Layout username={username} setUsername={setUsername} />}
