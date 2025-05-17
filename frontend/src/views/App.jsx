@@ -12,7 +12,7 @@ import ProtectedRoute from "../routes/ProtectedRoute";
 
 import { getUserName } from "../controllers/App_Controller";
 
-import "../styles/App.css";
+import "../index.css";
 
 function App() {
   const { username, setUsername } = getUserName();
