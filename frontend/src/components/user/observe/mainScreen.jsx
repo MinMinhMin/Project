@@ -84,12 +84,16 @@ const MainScreen = ({
                 <p>14/05/2025</p>
               </div>
 
+              <div className={styles["hori-line"]}></div>
+
               <div className={styles["time-in"]}>
                 Giờ vào
-                <p>17/34/28</p>
+                <p>17:34:28</p>
               </div>
 
-              <div className={styles["day-in"]}>
+              <div className={styles["hori-line"]}></div>
+
+              <div className={styles["plate"]}>
                 Biển số xe vào
                 <p>47-B2-722.38</p>
               </div>
@@ -107,7 +111,7 @@ const MainScreen = ({
         {/* ======================VÙNG LÀN RA========================== */}
         <div className={styles["back-side"]}>
           <div className={styles["choose-bar"]}>
-            <p>Làn vào</p>
+            <p>Làn ra</p>
             
             <div className={styles["container-id-scan"]}>
               {/* Vùng ID */}
@@ -163,12 +167,16 @@ const MainScreen = ({
                 <p>14/05/2025</p>
               </div>
 
+              <div className={styles["hori-line"]}></div>
+
               <div className={styles["time-in"]}>
                 Giờ ra
-                <p>17/34/28</p>
+                <p>17:34:28</p>
               </div>
 
-              <div className={styles["day-in"]}>
+              <div className={styles["hori-line"]}></div>
+
+              <div className={styles["plate"]}>
                 Biển số xe ra
                 <p>47-B2-722.38</p>
               </div>
