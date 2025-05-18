@@ -8,6 +8,9 @@ This project includes:
   ```batch
    pip install -r requirements.txt
    ```
+  ```batch
+   pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
+   ```
 - Start a back-end server (the server is hosted at port 8000 by default, can be customized in main.py)
   ```batch
    cd backend/src
