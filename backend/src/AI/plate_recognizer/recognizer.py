@@ -10,12 +10,16 @@ import os
 class PlateRecognizer:
     def __init__(self):
         # Load YOLO models
+
         base_path = os.path.dirname(__file__)  # chính là AI/plate_recognizer
+
         yolov5_path = os.path.join(base_path, 'yolov5')
         model_lp_path = os.path.join(base_path, 'model/LP_detector.pt')
+
         model_ocr_path = os.path.join(base_path, 'model/LP_ocr.pt')
 
         self.yolo_LP_detect = torch.hub.load(yolov5_path, 'custom', path=model_lp_path, force_reload=True, source='local')
+        print("yolov5 path:", yolov5_path)
         self.yolo_license_plate = torch.hub.load(yolov5_path, 'custom', path=model_ocr_path, force_reload=True, source='local')
         self.yolo_license_plate.conf = 0.60
 
@@ -48,24 +52,35 @@ class PlateRecognizer:
             raise ValueError("Failed to decode image")
         return img
 
+    def detect_plate_box(self, img):
+        """
+        Trả về bounding box đầu tiên của biển số nếu detect được.
+        Nếu không detect được, fallback trả về toàn bộ ảnh [0, 0, w, h].
+        """
+        plates = self.yolo_LP_detect(img, size=640)
+        boxes = plates.pandas().xyxy[0].values.tolist()
+
+        if boxes:
+            # Lấy box đầu tiên và ép về int
+            x1, y1, x2, y2 = map(int, boxes[0][:4])
+            return [x1, y1, x2, y2]
+        else:
+            # fallback: dùng toàn bộ ảnh
+            h, w = img.shape[:2]
+            return [0, 0, w, h]
+
 
 
     def detect_plate(self, img):
         """
-        Detect and recognize license plate from input image.
-        Returns the recognized plate number (str).
+        Detect và nhận dạng biển số từ ảnh.
+        Trả về chuỗi mã biển số (hoặc "unknown" nếu không nhận được).
         """
-        plates = self.yolo_LP_detect(img, size=640)
-        list_plates = plates.pandas().xyxy[0].values.tolist()
+        # Lấy vùng ảnh chứa biển số (nếu detect được) hoặc toàn ảnh
+        x1, y1, x2, y2 = self.detect_plate_box(img)
+        plate_img = img[y1:y2, x1:x2]
 
-        if not list_plates:
-            plate_img = img
-        else:
-            # Chọn biển số đầu tiên
-            x1, y1, x2, y2 = map(int, list_plates[0][:4])
-            plate_img = img[y1:y2, x1:x2]
-
-        # Deskew và OCR
+        # Deskew + OCR
         plate_number = "unknown"
         for cc in range(2):
             for ct in range(2):
@@ -79,12 +94,10 @@ class PlateRecognizer:
         return plate_number
 
 
-""" Example usage: url
-from recognizer import PlateRecognizer
 
-recog = PlateRecognizer()
+""" recog = PlateRecognizer()
 img = recog.load_image("https://i.imgur.com/hKfidAz.png")
-plate_number = recog.detect_plate(img)
-print("Detected Plate:", plate_number)
+print(recog.detect_plate_boxes(img))
+print(recog.detect_plate(img))  """
 
-"""
+
