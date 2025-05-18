@@ -1,4 +1,5 @@
-from fastapi import APIRouter, WebSocket
+import base64
+from fastapi import APIRouter, File, HTTPException, UploadFile, WebSocket
 import cv2
 import numpy as np
 from deepface import DeepFace
@@ -208,3 +209,18 @@ async def streamPlate_video(websocket: WebSocket):
         except Exception as e:
             print("WebSocket closed:", e)
             break
+
+
+@router.post("/getPlateNumber")
+async def getPlateNumber(plate_image: UploadFile = File(...)):
+    plate_image_content = plate_image.file.read()
+    base64_plate_img = base64.b64encode(plate_image_content).decode("utf-8")
+    plate_recognizer = PlateRecognizer()
+
+    try:
+        plate_img = plate_recognizer.load_image(base64_plate_img)
+        license_plate = plate_recognizer.detect_plate(plate_img)
+    except Exception as e:
+         raise HTTPException(status_code=400, detail=f"Plate recognition error: {e}")
+
+    return {"license_plate": license_plate}

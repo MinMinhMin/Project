@@ -1,8 +1,12 @@
 import styles from "../../../styles/user/mainScreen.module.css";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, use } from "react";
+
+import axios from "axios";
 
 import FaceCamera from "./FaceCamera";
 import PlateCamera from "./PlateCamera";
+
+const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
 const MainScreen = ({
   in_id, // ID thẻ vào
@@ -25,7 +29,7 @@ const MainScreen = ({
   const [rotateOut, setRotateOut] = useState(0); // Góc quay cho làn ra
 
   // Danh sách ID giả lập
-  const idList = [
+  const idList_IN = [
     "000001",
     "000002",
     "000003",
@@ -38,9 +42,66 @@ const MainScreen = ({
     "000010",
   ];
 
+  const [id, setId] = useState("0000001");
+  const [DateIn, setDateIn] = useState(null);
+  const [TimeIn, setTimeIn] = useState(null);
+  const [plateNumberIn, setPlateNumberIn] = useState(null);
+
+  const [in_face_img, setInFaceImg] = useState(null);
+  const [in_plate_img, setInPlateImg] = useState(null);
+
+  //get Time
+  function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  //Get Date
+  function getCurrentDateInfo() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // months are 0-indexed
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   // Ref để bắt sự kiện click ngoài
   const refIn = useRef(null);
   const refOut = useRef(null);
+  function getPlateNumberFromImage(base64String) {
+    const formData = new FormData();
+
+    // Convert base64 to a Blob
+    const byteString = atob(base64String.split(",")[1]); // decode base64
+    const mimeString = base64String.split(",")[0].split(":")[1].split(";")[0]; // get MIME type
+
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    const blob = new Blob([ab], { type: mimeString });
+
+    // Append to FormData
+    formData.append("plate_image", blob, "snapshot.jpg");
+
+    axios
+      .post(`${backendUrl_AI}/AI/getPlateNumber`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setPlateNumberIn(response.data.license_plate); // handle the detected license plate
+      })
+      .catch((error) => {
+        console.error("Error recognizing plate:", error);
+      });
+  }
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -90,9 +151,6 @@ const MainScreen = ({
 
   const [cameraMessage, setCameraMessage] = useState("");
 
-  const [in_face_img, setInFaceImg] = useState(null);
-  const [in_plate_img, setInPlateImg] = useState(null);
-
   useEffect(() => {
     const startCamera = async (videoRef, deviceIndex = 0) => {
       try {
@@ -137,6 +195,9 @@ const MainScreen = ({
         if (faceImg && plateImg) {
           setInFaceImg(faceImg);
           setInPlateImg(plateImg);
+          setTimeIn(getCurrentTime());
+          setDateIn(getCurrentDateInfo());
+          getPlateNumberFromImage(plateImg);
           setCameraMessage("Done");
           console.log("Captured face and plate images");
         } else {
@@ -247,27 +308,53 @@ const MainScreen = ({
             <div className={styles["text-info"]}>
               <div className={styles["day-in"]}>
                 <span>Ngày vào</span>
-                <p>14/05/2025</p>
+                {DateIn || "No Info"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["time-in"]}>
                 <span>Giờ vào</span>
-                <p>17:34:28</p>
+                {TimeIn || "No Info"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["plate"]}>
                 <span>Biển số xe vào</span>
-                <p>{in_plate_content}</p>
+                <p>{plateNumberIn}</p>
               </div>
             </div>
             <div className={styles["img-info"]}>
               <div className={styles["img-face"]}>
                 Ảnh chụp khuôn mặt
-                {in_face_img && <img src={in_face_img} alt="Khuôn mặt" />}
+                {in_face_img ? (
+                  <img
+                    src={in_face_img}
+                    alt="Mặt sau"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  "No image"
+                )}
               </div>
               <div className={styles["img-plate"]}>
                 Ảnh chụp biển số
-                {in_plate_img && <img src={in_plate_img} alt="Biển số" />}
+                {in_plate_img ? (
+                  <img
+                    src={in_plate_img}
+                    alt="Mặt sau"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  "No image"
+                )}
               </div>
             </div>
           </div>
