@@ -4,7 +4,6 @@ import styles from "../styles/user/usertopbar.module.css";
 
 const UserTopBar = () => {
   const handleLogout = () => {
-    // Xử lý đăng xuất, ví dụ: xóa token, chuyển hướng...
     console.log("Logging out...");
   };
 
