@@ -27,9 +27,14 @@ const MainScreen = ({
   const [rotateOut, setRotateOut] = useState(0); // Góc quay cho làn ra
 
   // Danh sách ID giả lập
-  const idList = [
+  const idList_IN = [
     "000001", "000002", "000003", "000004", "000005",
     "000006", "000007", "000008", "000009", "000010"
+  ];
+
+  const idList_OUT = [
+    "000011", "000012", "000013", "000014", "000015",
+    "000016", "000017", "000018", "000019", "000020"
   ];
 
   // Ref để bắt sự kiện click ngoài
@@ -100,7 +105,7 @@ const MainScreen = ({
                 </button>
                 {dropdownInOpen && (
                   <ul className={styles["dropdown-list"]}>
-                    {idList.map((id) => (
+                    {idList_IN.map((id) => (
                       <li
                         key={id}
                         className={styles["dropdown-item"]}
@@ -223,7 +228,7 @@ const MainScreen = ({
                 </button>
                 {dropdownOutOpen && (
                   <ul className={styles["dropdown-list"]}>
-                    {idList.map((id) => (
+                    {idList_OUT.map((id) => (
                       <li
                         key={id}
                         className={styles["dropdown-item"]}
