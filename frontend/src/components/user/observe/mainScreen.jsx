@@ -19,6 +19,69 @@ const MainScreen = ({
   // Trạng thái so sánh: Mời xe ra, Biển không khớp, Mặt không khớp
   status,
 }) => {
+  const [dropdownInOpen, setDropdownInOpen] = useState(false);
+  const [dropdownOutOpen, setDropdownOutOpen] = useState(false);
+  const [rotateIn, setRotateIn] = useState(0); // Góc quay cho làn vào
+  const [rotateOut, setRotateOut] = useState(0); // Góc quay cho làn ra
+
+  // Danh sách ID giả lập
+  const idList = [
+    "000001",
+    "000002",
+    "000003",
+    "000004",
+    "000005",
+    "000006",
+    "000007",
+    "000008",
+    "000009",
+    "000010",
+  ];
+
+  // Ref để bắt sự kiện click ngoài
+  const refIn = useRef(null);
+  const refOut = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (refIn.current && !refIn.current.contains(event.target)) {
+        setDropdownInOpen(false);
+        setRotateIn(0); // Quay về 0 độ khi đóng
+      }
+      if (refOut.current && !refOut.current.contains(event.target)) {
+        setDropdownOutOpen(false);
+        setRotateOut(0); // Quay về 0 độ khi đóng
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Hàm chọn ID trong dropdown
+  const selectInId = (id) => {
+    console.log("Selected in ID:", id);
+    setDropdownInOpen(false);
+    setRotateIn(0); // Quay về 0 độ sau khi chọn
+  };
+
+  const selectOutId = (id) => {
+    console.log("Selected out ID:", id);
+    setDropdownOutOpen(false);
+    setRotateOut(0); // Quay về 0 độ sau khi chọn
+  };
+
+  const toggleDropdownIn = () => {
+    setDropdownInOpen(!dropdownInOpen);
+    setRotateIn(dropdownInOpen ? 0 : 180); // Quay 180 độ khi mở, 0 độ khi đóng
+  };
+
+  const toggleDropdownOut = () => {
+    setDropdownOutOpen(!dropdownOutOpen);
+    setRotateOut(dropdownOutOpen ? 0 : 180); // Quay 180 độ khi mở, 0 độ khi đóng
+  };
+
   const faceVideoRef = useRef(null);
   const plateVideoRef = useRef(null);
 
@@ -302,14 +365,8 @@ const MainScreen = ({
               </div>
             </div>
             <div className={styles["img-info"]}>
-              <div className={styles["img-face"]}>
-                Ảnh chụp khuôn mặt
-                {out_face && <img src={out_face} alt="Khuôn mặt" />}
-              </div>
-              <div className={styles["img-plate"]}>
-                Ảnh chụp biển số
-                {out_plate && <img src={out_plate} alt="Biển số" />}
-              </div>
+              <div className={styles["img-face"]}>Ảnh chụp khuôn mặt</div>
+              <div className={styles["img-plate"]}>Ảnh chụp biển số</div>
             </div>
           </div>
         </div>
