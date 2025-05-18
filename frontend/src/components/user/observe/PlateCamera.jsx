@@ -6,7 +6,7 @@ import React, {
   forwardRef,
 } from "react";
 
-const backendUrl = import.meta.env.VITE_API_URL;
+const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
 const PlateCamera = forwardRef(
   ({ videoRef /* DOM ref from parent */ }, ref) => {
@@ -69,7 +69,7 @@ const PlateCamera = forwardRef(
 
           // Clamp lại hợp lý cho snapshot (không dịch thêm)
           x = Math.max(0, Math.min(x, 640 - w));
-          y = Math.max(0, Math.min(y, 480 - h)) - 80;
+          y = Math.max(0, Math.min(y, 480 - h)) - 10;
           w = Math.min(w, 640 - x);
           h = Math.min(h, 480 - y);
 
@@ -90,7 +90,7 @@ const PlateCamera = forwardRef(
     useEffect(() => {
       if (!videoRef.current) return;
 
-      const socket = new WebSocket(`${backendUrl}/test/streamPlate`);
+      const socket = new WebSocket(`${backendUrl_AI}/AI/streamPlate`);
       socketRef.current = socket;
 
       // Draw the green rectangle from server data
@@ -111,7 +111,7 @@ const PlateCamera = forwardRef(
 
           // Clamp cho overlay
           x = Math.max(0, Math.min(x, 640 - w));
-          y = Math.max(0, Math.min(y, 480 - h));
+          y = Math.max(0, Math.min(y, 480 - h)) - 80;
           w = Math.min(w, 640 - x);
           h = Math.min(h, 480 - y);
 

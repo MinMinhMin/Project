@@ -6,7 +6,7 @@ import React, {
   forwardRef,
 } from "react";
 
-const backendUrl = import.meta.env.VITE_API_URL;
+const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
 const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {
   // Refs for internal use
@@ -97,7 +97,7 @@ const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {
   useEffect(() => {
     if (!videoRef.current) return;
 
-    const socket = new WebSocket(`${backendUrl}/test/streamFace`);
+    const socket = new WebSocket(`${backendUrl_AI}/AI/streamFace`);
     socketRef.current = socket;
 
     // Draw the green rectangle from server data
@@ -114,7 +114,7 @@ const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {
         // Clamp coordinates
         let { x, y, w, h } = box;
         x = Math.max(0, Math.min(x, canvas.width - w));
-        y = Math.max(0, Math.min(y, canvas.height - h));
+        y = Math.max(0, Math.min(y, canvas.height - h)) - 60;
         w = Math.min(w, canvas.width - x);
         h = Math.min(h, canvas.height - y);
 

@@ -9,6 +9,8 @@ from db.database import Base, engine
 
 from middleware import add_cors_middleware
 
+import uvicorn
+
 # Create DB tables
 Base.metadata.create_all(bind=engine)
 
@@ -25,3 +27,8 @@ app.include_router(history_router, prefix="/history", tags=["history"])
 app.include_router(test_router, prefix="/test", tags=["test"])
 
 add_cors_middleware(app)
+
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
