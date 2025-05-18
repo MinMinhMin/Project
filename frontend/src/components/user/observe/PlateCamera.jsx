@@ -8,6 +8,10 @@ import React, {
 
 const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
+// Fixed dimensions for consistency
+const FIXED_WIDTH = 640;
+const FIXED_HEIGHT = 480;
+
 const PlateCamera = forwardRef(
   ({ videoRef /* DOM ref from parent */ }, ref) => {
     // Refs for internal use
@@ -27,11 +31,14 @@ const PlateCamera = forwardRef(
         takeSnapshot() {
           const video = videoRef.current;
           const canvas = sendCanvasRef.current;
-          if (!video || !canvas) return null;
+          if (!video || !canvas) {
+            console.log("Video or canvas not ready for snapshot");
+            return null;
+          }
 
-          // Draw the current video frame
-          canvas.width = video.videoWidth || 640;
-          canvas.height = video.videoHeight || 480;
+          // Draw the current video frame with fixed dimensions
+          canvas.width = FIXED_WIDTH;
+          canvas.height = FIXED_HEIGHT;
           const ctx = canvas.getContext("2d");
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -59,19 +66,19 @@ const PlateCamera = forwardRef(
           });
 
           if (!isStable) {
-            console.log("Face is moving. Keep steady and try again.");
+            console.log("Plate is moving. Keep steady and try again.");
             return null;
           }
 
-          // Use the latest box for cropping with adjustments
+          // Use the latest box for cropping
           const latestBox = recentBoxes[recentBoxes.length - 1];
           let { x, y, w, h } = latestBox;
 
-          // Clamp lại hợp lý cho snapshot (không dịch thêm)
-          x = Math.max(0, Math.min(x, 640 - w));
-          y = Math.max(0, Math.min(y, 480 - h)) - 10;
-          w = Math.min(w, 640 - x);
-          h = Math.min(h, 480 - y);
+          // Clamp coordinates
+          x = Math.max(0, Math.min(x, FIXED_WIDTH - w));
+          y = Math.max(0, Math.min(y, FIXED_HEIGHT - h)) - 10;
+          w = Math.min(w, FIXED_WIDTH - x);
+          h = Math.min(h, FIXED_HEIGHT - y);
 
           // Create a temporary canvas for cropping
           const tempCanvas = document.createElement("canvas");
@@ -90,72 +97,92 @@ const PlateCamera = forwardRef(
     useEffect(() => {
       if (!videoRef.current) return;
 
-      const socket = new WebSocket(`${backendUrl_AI}/AI/streamPlate`);
-      socketRef.current = socket;
+      const video = videoRef.current;
+      let socket = null;
+      let fpsTimer = null;
 
-      // Draw the green rectangle from server data
-      socket.onmessage = (evt) => {
-        const { box } = JSON.parse(evt.data);
-        const canvas = overlayRef.current;
-        const ctx = canvas.getContext("2d");
+      const initializeWebSocket = () => {
+        socket = new WebSocket(`${backendUrl_AI}/AI/streamPlate`);
+        socketRef.current = socket;
 
-        canvas.width = videoRef.current.videoWidth || 640;
-        canvas.height = videoRef.current.videoHeight || 480;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Draw the green rectangle from server data
+        socket.onmessage = (evt) => {
+          const { box } = JSON.parse(evt.data);
+          const canvas = overlayRef.current;
+          const ctx = canvas.getContext("2d");
 
-        if (box) {
-          // Clamp coordinates
-          let { x, y, w, h } = box;
-          // Dịch khung vẽ xuống để cân đối vị trí biển số
-          y += 80;
+          canvas.width = FIXED_WIDTH;
+          canvas.height = FIXED_HEIGHT;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          // Clamp cho overlay
-          x = Math.max(0, Math.min(x, 640 - w));
-          y = Math.max(0, Math.min(y, 480 - h)) - 80;
-          w = Math.min(w, 640 - x);
-          h = Math.min(h, 480 - y);
+          if (box) {
+            // Clamp coordinates
+            let { x, y, w, h } = box;
+            y += 80; // Adjust for plate position
+            x = Math.max(0, Math.min(x, FIXED_WIDTH - w));
+            y = Math.max(0, Math.min(y, FIXED_HEIGHT - h)) - 80;
+            w = Math.min(w, FIXED_WIDTH - x);
+            h = Math.min(h, FIXED_HEIGHT - y);
 
-          // Update box history for stability check
-          setBoxHistory((prev) => {
-            const newHistory = [
-              ...prev,
-              { x, y, w, h, timestamp: Date.now() },
-            ].slice(-10); // Keep last 10 boxes
-            return newHistory;
-          });
+            // Update box history for stability check
+            setBoxHistory((prev) => {
+              const newHistory = [
+                ...prev,
+                { x, y, w, h, timestamp: Date.now() },
+              ].slice(-10); // Keep last 10 boxes
+              return newHistory;
+            });
 
-          // Draw bounding box
-          ctx.strokeStyle = "lime";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(x, y, w, h);
-        }
+            // Draw bounding box
+            ctx.strokeStyle = "lime";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, w, h);
+          }
+        };
+
+        // Send frames every 200ms (5 fps)
+        fpsTimer = setInterval(() => {
+          if (
+            !sendCanvasRef.current ||
+            !videoRef.current ||
+            socket.readyState !== WebSocket.OPEN
+          ) {
+            return;
+          }
+
+          const c = sendCanvasRef.current;
+          c.width = FIXED_WIDTH;
+          c.height = FIXED_HEIGHT;
+          c.getContext("2d").drawImage(
+            videoRef.current,
+            0,
+            0,
+            c.width,
+            c.height
+          );
+
+          c.toBlob((blob) => blob && socket.send(blob), "image/jpeg", 0.9);
+        }, 200);
+
+        socket.onerror = () => {
+          console.error("WebSocket error in PlateCamera");
+        };
       };
 
-      // Send frames every 200ms (5 fps)
-      const fpsTimer = setInterval(() => {
-        if (
-          !sendCanvasRef.current ||
-          !videoRef.current ||
-          socket.readyState !== WebSocket.OPEN
-        ) {
-          return;
-        }
-
-        const c = sendCanvasRef.current;
-        c.width = videoRef.current.videoWidth;
-        c.height = videoRef.current.videoHeight;
-        c.getContext("2d").drawImage(videoRef.current, 0, 0, c.width, c.height);
-
-        c.toBlob((blob) => blob && socket.send(blob), "image/jpeg", 0.9);
-      }, 200);
-
-      socket.onerror = () => {
-        console.error("WebSocket error");
+      // Wait for video metadata to ensure dimensions are available
+      const handleLoadedMetadata = () => {
+        console.log(
+          `PlateCamera video dimensions: ${video.videoWidth}x${video.videoHeight}`
+        );
+        initializeWebSocket();
       };
+
+      video.addEventListener("loadedmetadata", handleLoadedMetadata);
 
       return () => {
-        clearInterval(fpsTimer);
-        socket.close();
+        video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        if (fpsTimer) clearInterval(fpsTimer);
+        if (socket) socket.close();
       };
     }, [videoRef]);
 

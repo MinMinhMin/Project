@@ -117,8 +117,8 @@ const MainScreen = ({
       }
     };
 
-    startCamera(faceVideoRef, 1); // Face cam: built-in
-    startCamera(plateVideoRef, 0); // Plate cam: external
+    startCamera(faceVideoRef, 0); // Face cam: built-in
+    startCamera(plateVideoRef, 1); // Plate cam: external
 
     return () => {
       [faceVideoRef, plateVideoRef].forEach((ref) => {
