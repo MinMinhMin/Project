@@ -21,9 +21,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <UserTopBar />
-        <Notification />
-        <MainScreen />
+        <LoginPage />
         
         {/* <Routes>
           <Route
