@@ -17,8 +17,16 @@ This project includes:
    
    ```
   ```batch
-   uvicorn main:app   
+   python main.py 
    ```
+- Start a back-end-AI server (the server is hosted at port 8001 by default, can be customized in main.py)
+```batch
+ cd backend-AI/src
+ 
+ ```
+```batch
+ python main.py 
+ ```
 ## Frontend Setup
 - Install Node.js at [here](https://nodejs.org/en)
 - Install front-end packages
