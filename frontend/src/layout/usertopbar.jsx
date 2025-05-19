@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/user/usertopbar.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -15,18 +16,7 @@ const UserTopBar = () => {
   return (
     <div className={styles.topbar}>
       <div className={styles["topbar-left"]}>
-        <div className={styles["logo-circle"]}>
-          <img
-            className={styles["logo-inside"]}
-            src="/assets/logo.svg"
-            alt="Logo"
-          />
-        </div>
-
-        <div className={styles["logo-text"]}>
-          <div className={styles.title}>Parking</div>
-          <div className={styles.subtitle}>Hệ thống đỗ xe thông minh</div>
-        </div>
+        <TopBarLeft />
       </div>
 
       <div className={styles["topbar-right"]}>
