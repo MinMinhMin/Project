@@ -64,7 +64,7 @@ const LoginForm = () => {
       </form>
 
       {loading && <LoadingIndicator />}
-      <button type="submit" className={styles.submitBtn}>
+      <button type="submit" className={styles.submitBtn} onClick={handleSubmit}>
         Đăng nhập
       </button>
     </div>

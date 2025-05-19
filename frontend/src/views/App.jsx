@@ -32,6 +32,14 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         {/* <Routes>
           <Route
