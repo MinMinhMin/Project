@@ -10,17 +10,7 @@ const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
 const MainScreen = ({
   in_id, // ID thẻ vào
-  in_video_back, // Video quay mặt sau ở làn vào
-  in_video_front, // Video quay mặt trước ở làn vào
-
-  in_plate_content, // Biển số sau khi nhận diện
-  // Tương tự ở làn ra
-  out_id,
-  out_video_back,
-  out_video_front,
-
-  out_plate_content,
-  // Trạng thái so sánh: Mời xe ra, Biển không khớp, Mặt không khớp
+  out_id, // ID thẻ ra
   status,
 }) => {
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
@@ -41,8 +31,21 @@ const MainScreen = ({
     "000009",
     "000010",
   ];
+
+  const idList_OUT = [
+    "000011",
+    "000012",
+    "000013",
+    "000014",
+    "000015",
+    "000016",
+    "000017",
+    "000018",
+    "000019",
+    "000020",
+  ];
   //In gate
-  const [id, setId] = useState("0000001");
+  const [InId, setInId] = useState("Choose ID");
   const [DateIn, setDateIn] = useState(null);
   const [TimeIn, setTimeIn] = useState(null);
   const [plateNumberIn, setPlateNumberIn] = useState(null);
@@ -57,6 +60,7 @@ const MainScreen = ({
   const plateCameraRef_In = useRef(null); // component handle (takeSnapshot)
 
   //Out gate
+  const [OutId, setOutId] = useState("Choose ID");
   const [DateOut, setDateOut] = useState(null);
   const [TimeOut, setTimeOut] = useState(null);
   const [plateNumberOut, setPlateNumberOut] = useState(null);
@@ -150,12 +154,14 @@ const MainScreen = ({
   const selectInId = (id) => {
     console.log("Selected in ID:", id);
     setDropdownInOpen(false);
+    setInId(id);
     setRotateIn(0); // Quay về 0 độ sau khi chọn
   };
 
   const selectOutId = (id) => {
     console.log("Selected out ID:", id);
     setDropdownOutOpen(false);
+    setOutId(id);
     setRotateOut(0); // Quay về 0 độ sau khi chọn
   };
 
@@ -273,8 +279,8 @@ const MainScreen = ({
               {/* Vùng ID */}
               <div className={styles["container-id"]}>
                 ID thẻ
-                <button className={styles["id"]}>
-                  {"0000001" || out_id}
+                <button className={styles["id"]} onClick={toggleDropdownIn}>
+                  {InId}
                   <img src="/assets/dropdown.svg" alt="dropdown" />
                 </button>
                 {dropdownInOpen && (
@@ -437,8 +443,8 @@ const MainScreen = ({
               {/* Vùng ID */}
               <div className={styles["container-id"]}>
                 ID thẻ
-                <button className={styles["id"]}>
-                  {"0000001" || in_id}
+                <button className={styles["id"]} onClick={toggleDropdownOut}>
+                  {OutId}
                   <img src="/assets/dropdown.svg" alt="dropdown" />
                 </button>
                 {dropdownOutOpen && (
