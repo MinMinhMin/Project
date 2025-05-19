@@ -1,0 +1,36 @@
+.topbar-right .nav-link {
+  display: flex;
+  padding: 11px 37px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 18px;
+}
+
+.role {
+  display: inline-flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  border: 1px solid #f00;
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: var(--active-text-color);
+}
+
+.nav-link:hover {
+  opacity: 0.9;
+}
+
+.nav-link.logout-btn {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}

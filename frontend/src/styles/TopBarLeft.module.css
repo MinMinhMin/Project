@@ -1,0 +1,47 @@
+.topbar {
+  display: flex;
+  width: 1470px;
+  padding: 17px 0px 16px 0px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.topbar-left {
+  display: flex;
+  width: 263px;
+  height: 58px;
+  padding: 6px 19px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-left .logo-circle {
+  display: flex;
+  width: 45px;
+  height: 46px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--primary-color);
+}
+
+.topbar-left .logo-text {
+  display: flex;
+  width: auto;
+  height: 45px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.logo-text .title {
+  font-size: 16px;
+}
+
+.logo-text .subtitle {
+  font-size: 13px;
+  width: auto;
+}
