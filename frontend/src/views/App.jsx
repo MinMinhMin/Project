@@ -13,17 +13,26 @@ import ProtectedRoute from "../routes/ProtectedRoute";
 
 import { getUserName } from "../controllers/App_Controller";
 
-import "../index.css";
-import AdminTopBar from "../layout/adminTopBar";
+import "../styles/App.css";
 
 function App() {
-  const { username, setUsername } = getUserName();
-
   return (
     <BrowserRouter>
       <div>
-        <AdminTopBar />
-        
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+
+          <Route element={<Layout />}>
+            <Route
+              path="/my-parking"
+              element={
+                <ProtectedRoute role="user">
+                  <UserPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+        </Routes>
         {/* <Routes>
           <Route
             element={<Layout username={username} setUsername={setUsername} />}

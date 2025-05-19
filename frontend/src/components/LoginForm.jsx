@@ -4,7 +4,7 @@ import LoginForm_Controller from "../controllers/LoginForm_Controller";
 
 import LoadingIndicator from "./LoadingIndicator";
 
-const LoginForm = ({ setUsername }) => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -17,7 +17,7 @@ const LoginForm = ({ setUsername }) => {
     loading,
     setLoading,
     handleSubmit,
-  } = LoginForm_Controller({ setUsername });
+  } = LoginForm_Controller();
 
   return (
     <div className={styles.loginContainer}>

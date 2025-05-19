@@ -2,10 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/user/usertopbar.module.css";
+import { useNavigate } from "react-router-dom";
 
 const UserTopBar = () => {
+  const navigate = useNavigate();
   const handleLogout = () => {
+    // Xử lý đăng xuất, ví dụ: xóa token, chuyển hướng...
+    localStorage.removeItem("token");
     console.log("Logging out...");
+    navigate("/"); // Chuyển hướng về trang đăng nhập
   };
 
   return (

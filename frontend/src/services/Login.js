@@ -2,12 +2,7 @@ import axios from "axios";
 
 const backendUrl = import.meta.env.VITE_API_URL;
 
-export default async function Login({
-  data,
-  setUsername,
-  navigate,
-  setErrorMessage,
-}) {
+export default async function Login({ data, navigate, setErrorMessage }) {
   try {
     const response = await axios.post(`${backendUrl}/user/login`, data, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -18,7 +13,6 @@ export default async function Login({
 
     const payload = JSON.parse(atob(token.split(".")[1]));
     const role = payload.role;
-    setUsername(payload.sub);
 
     if (role === "admin") {
       localStorage.setItem("role", role);
@@ -26,7 +20,7 @@ export default async function Login({
     }
     if (role === "user") {
       localStorage.setItem("role", role);
-      navigate("/user");
+      navigate("/my-parking");
     }
   } catch (error) {
     if (error.response) {
