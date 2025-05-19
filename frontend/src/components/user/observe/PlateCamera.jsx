@@ -18,7 +18,7 @@ const PlateCamera = forwardRef(({ videoRef }, ref) => {
   const fpsTimerRef = useRef(null); // <-- to store interval
 
   const [boxHistory, setBoxHistory] = useState([]);
-  const stabilityThreshold = 10;
+  const stabilityThreshold = 20;
   const stabilityDuration = 3000;
 
   // Clean up WebSocket and interval

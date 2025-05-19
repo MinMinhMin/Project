@@ -185,8 +185,8 @@ const MainScreen = ({
 
     // Handle starting/stopping for In
     if (cameraStatusIn) {
-      startCamera(faceCameraRef_In, 0);
-      startCamera(plateCameraRef_In, 1);
+      startCamera(faceCameraRef_In, 1);
+      startCamera(plateCameraRef_In, 0);
     } else {
       stopCamera(faceCameraRef_In);
       stopCamera(plateCameraRef_In);
@@ -194,8 +194,8 @@ const MainScreen = ({
 
     // Handle starting/stopping for Out
     if (cameraStatusOut) {
-      startCamera(faceCameraRef_Out, 0);
-      startCamera(plateCameraRef_Out, 1);
+      startCamera(faceCameraRef_Out, 1);
+      startCamera(plateCameraRef_Out, 0);
     } else {
       stopCamera(faceCameraRef_Out);
       stopCamera(plateCameraRef_Out);
