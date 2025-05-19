@@ -6,6 +6,13 @@ class HistoryCreate(BaseModel):  # <-- Rename this
     license_plate_image_path: str
     face_embedding: List[float]
     license_plate: str
+    date_in: str
+    date_out: str
+    time_in: str
+    time_out: str
+    ticket_id: str
+    ticket_type: str
+    vehicle_type: str
     parking_lot_id: int
 
 class History(HistoryCreate):  # <-- Also update inheritance

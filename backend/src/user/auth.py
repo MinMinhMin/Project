@@ -19,7 +19,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")  # or "/user/login" if nested
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/login")  # or "/user/login" if nested
 
 def get_db():
     db = SessionLocal()
