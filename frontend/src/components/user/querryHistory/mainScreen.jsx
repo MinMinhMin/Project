@@ -99,6 +99,48 @@ const data = [
     thoiGianVao: '2025-05-19 17:20',
     loaiXe: 'Xe máy',
   },
+  {
+    maThe: 'T007',
+    bienSo: '43C-11223',
+    thoiGianRa: '2025-05-19 23:30',
+    thoiGianVao: '2025-05-19 22:00',
+    loaiXe: 'Ô tô',
+  },
+  {
+    maThe: 'T008',
+    bienSo: '29B-33445',
+    thoiGianRa: '2025-05-19 09:00',
+    thoiGianVao: '2025-05-19 08:00',
+    loaiXe: 'Xe máy',
+  },
+  {
+    maThe: 'T009',
+    bienSo: '50C-66778',
+    thoiGianRa: '2025-05-19 11:30',
+    thoiGianVao: '2025-05-19 10:45',
+    loaiXe: 'Ô tô',
+  },
+  {
+    maThe: 'T010',
+    bienSo: '15A-88990',
+    thoiGianRa: '2025-05-19 14:20',
+    thoiGianVao: '2025-05-19 13:00',
+    loaiXe: 'Xe máy',
+  },
+  {
+    maThe: 'T011',
+    bienSo: '80B-22334',
+    thoiGianRa: '2025-05-19 16:50',
+    thoiGianVao: '2025-05-19 15:30',
+    loaiXe: 'Ô tô',
+  },
+  {
+    maThe: 'T012',
+    bienSo: '34A-44556',
+    thoiGianRa: '2025-05-19 18:40',
+    thoiGianVao: '2025-05-19 17:20',
+    loaiXe: 'Xe máy',
+  },
 ];
 const [plateNumber, setPlateNumber] = useState('');
 const [CardNumber, setCardNumber] = useState('');
@@ -384,7 +426,7 @@ const selectInId = (id) => {
         </div>
         {/*Danh sách truy vấn */}
         <div className={styles.listHistory}>
-            <table className="TableHistory">
+            <table className={styles.TableHistory}>
                 <thead>
                 <tr>
                     <th>Mã thẻ</th>
@@ -431,6 +473,7 @@ const selectInId = (id) => {
           </div>
             </div>
             <div className={styles.ScreenHistory}>
+                
                 <div className={styles.Screen1}>
                     <div className={styles.ImageContainer}>
                         {in_picture_plate ? (

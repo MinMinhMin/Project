@@ -236,16 +236,16 @@ background: #FFF;
 
 .TableHistory {
 color: #374151;
-height: 613px;
 font-family: "Be Vietnam Pro";
 font-style: normal;
 font-weight: 400;
 line-height: 24px; /* 200% */
-display: flex;
-height: 589px;
 align-items: flex-start;
 flex-shrink: 0;
 align-self: stretch;
+display: block; /* Chuyển từ flex sang block để scroll dễ dàng */
+max-height: 613px; /* Giới hạn chiều cao của bảng */
+overflow-y: auto;
 }
 
 /* Căn giữa tiêu đề */
@@ -257,7 +257,7 @@ font-style: normal;
 font-weight: 600;
 line-height: 20px;
 height: 40px;
-padding: 0px 44px 0px 8px;
+padding: 0px 30px 0px 15px;
 align-items: center;
 gap: 8px;
 align-self: stretch;
@@ -403,8 +403,8 @@ background: #FFF;
 }
 .ImageIN {
 position: absolute;
-top: 220px; /* Khoảng cách từ trên xuống, tuỳ chỉnh theo ý bạn */
-left: 625px;
+top: 5px; /* Khoảng cách từ trên xuống, tuỳ chỉnh theo ý bạn */
+left: 5px;
 display: inline-flex;
 padding: 6px 7px;
 width: 100px;
@@ -415,6 +415,7 @@ background: #679DFF;
 z-index: 10;
 }
 .Screen1 {
+position: relative;
 flex: 1 0 0;
 align-self: stretch;
 grid-row: 1 / span 1;
@@ -430,6 +431,7 @@ grid-column: 2 / span 1;
 border: 1px solid #000;
 }
 .Screen3 {
+position: relative;
 flex: 1 0 0;
 align-self: stretch;
 grid-row: 2 / span 1;
@@ -453,8 +455,8 @@ align-items: center;
 }
 .ImageOUT {
 position: absolute;
-bottom: 55px; /* Khoảng cách từ trên xuống, tuỳ chỉnh theo ý bạn */
-left: 625px;
+top: 5px; /* Khoảng cách từ trên xuống, tuỳ chỉnh theo ý bạn */
+left: 5px;
 display: inline-flex;
 padding: 6px 7px;
 width: 100px;
