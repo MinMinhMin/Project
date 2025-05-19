@@ -21,7 +21,7 @@ This project includes:
    ```
 - Start a back-end-AI server (the server is hosted at port 8001 by default, can be customized in main.py)
 ```batch
- cd backend-AI/src
+ cd backend-AI
  
  ```
 ```batch
@@ -54,4 +54,5 @@ This project includes:
 - Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
 - Details at backend/src/face_images/routes.py 
 ## Setup Docker
-Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
+- Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
+- Package backend, backend-AI, frontend into 3 docker compose
