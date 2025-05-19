@@ -8,6 +8,10 @@ from collections import deque
 from model.plate_recognizer.recognizer import PlateRecognizer
 router = APIRouter()
 
+
+plate_AI=PlateRecognizer()  # Khởi tạo đối tượng PlateRecognizer
+face_AI=DeepFace  # Sử dụng DeepFace cho nhận diện khuôn mặt
+
 @router.websocket("/streamFace")
 async def streamFace_video(websocket: WebSocket):
     await websocket.accept()
@@ -68,7 +72,7 @@ async def streamFace_video(websocket: WebSocket):
                 for backend in backends:
                     try:
                         print(f"Trying backend: {backend}")
-                        result = DeepFace.extract_faces(frame, detector_backend=backend, enforce_detection=False, align=True)
+                        result = face_AI.extract_faces(frame, detector_backend=backend, enforce_detection=False, align=True)
                         if result:
                             face = result[0]
                             region = face["facial_area"]
@@ -146,7 +150,6 @@ async def streamFace_video(websocket: WebSocket):
 @router.websocket("/streamPlate")
 async def streamPlate_video(websocket: WebSocket):
     await websocket.accept()
-    recog = PlateRecognizer()             # <-- vẫn giữ nguyên
 
     last_detect_time = 0
     detect_interval  = 0.5                # giây
@@ -176,7 +179,7 @@ async def streamPlate_video(websocket: WebSocket):
             # chỉ detect mỗi 0.5 s
             now = time.time()
             if now - last_detect_time >= detect_interval:
-                box_xyxy = recog.detect_plate_box(frame)  # [x1,y1,x2,y2] hoặc [0,0,640,480]
+                box_xyxy = plate_AI.detect_plate_box(frame)  # [x1,y1,x2,y2] hoặc [0,0,640,480]
 
                 # Chuyển sang (x,y,w,h) + kiểm tra hợp lệ
                 detected_box = None
@@ -215,11 +218,10 @@ async def streamPlate_video(websocket: WebSocket):
 async def getPlateNumber(plate_image: UploadFile = File(...)):
     plate_image_content = plate_image.file.read()
     base64_plate_img = base64.b64encode(plate_image_content).decode("utf-8")
-    plate_recognizer = PlateRecognizer()
 
     try:
-        plate_img = plate_recognizer.load_image(base64_plate_img)
-        license_plate = plate_recognizer.detect_plate(plate_img)
+        plate_img = plate_AI.load_image(base64_plate_img)
+        license_plate = plate_AI.detect_plate(plate_img)
     except Exception as e:
          raise HTTPException(status_code=400, detail=f"Plate recognition error: {e}")
 

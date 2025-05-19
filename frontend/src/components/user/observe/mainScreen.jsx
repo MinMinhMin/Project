@@ -41,14 +41,34 @@ const MainScreen = ({
     "000009",
     "000010",
   ];
-
+  //In gate
   const [id, setId] = useState("0000001");
   const [DateIn, setDateIn] = useState(null);
   const [TimeIn, setTimeIn] = useState(null);
   const [plateNumberIn, setPlateNumberIn] = useState(null);
-
   const [in_face_img, setInFaceImg] = useState(null);
   const [in_plate_img, setInPlateImg] = useState(null);
+  const [cameraMessageIn, setCameraMessageIn] = useState("");
+  const [cameraStatusIn, setCameraStatusIn] = useState(false);
+
+  const faceVideoRef_In = useRef(null);
+  const plateVideoRef_In = useRef(null);
+  const faceCameraRef_In = useRef(null); // component handle (takeSnapshot)
+  const plateCameraRef_In = useRef(null); // component handle (takeSnapshot)
+
+  //Out gate
+  const [DateOut, setDateOut] = useState(null);
+  const [TimeOut, setTimeOut] = useState(null);
+  const [plateNumberOut, setPlateNumberOut] = useState(null);
+  const [out_face_img, setOutFaceImg] = useState(null);
+  const [out_plate_img, setOutPlateImg] = useState(null);
+  const [cameraMessageOut, setCameraMessageOut] = useState("");
+  const [cameraStatusOut, setCameraStatusOut] = useState(false);
+
+  const faceVideoRef_Out = useRef(null);
+  const plateVideoRef_Out = useRef(null);
+  const faceCameraRef_Out = useRef(null); // component handle (takeSnapshot)
+  const plateCameraRef_Out = useRef(null); // component handle (takeSnapshot)
 
   //get Time
   function getCurrentTime() {
@@ -71,7 +91,10 @@ const MainScreen = ({
   // Ref để bắt sự kiện click ngoài
   const refIn = useRef(null);
   const refOut = useRef(null);
-  function getPlateNumberFromImage(base64String) {
+
+  // Plate Image -> Plate Number
+
+  function getPlateNumberFromImage(base64String, gate) {
     const formData = new FormData();
 
     // Convert base64 to a Blob
@@ -85,8 +108,6 @@ const MainScreen = ({
     }
 
     const blob = new Blob([ab], { type: mimeString });
-
-    // Append to FormData
     formData.append("plate_image", blob, "snapshot.jpg");
 
     axios
@@ -96,7 +117,12 @@ const MainScreen = ({
         },
       })
       .then((response) => {
-        setPlateNumberIn(response.data.license_plate); // handle the detected license plate
+        console.log("Plate number recognized:", response.data.license_plate);
+        if (gate === "IN") {
+          setPlateNumberIn(response.data.license_plate);
+        } else {
+          setPlateNumberOut(response.data.license_plate);
+        }
       })
       .catch((error) => {
         console.error("Error recognizing plate:", error);
@@ -143,71 +169,99 @@ const MainScreen = ({
     setRotateOut(dropdownOutOpen ? 0 : 180); // Quay 180 độ khi mở, 0 độ khi đóng
   };
 
-  const faceVideoRef = useRef(null);
-  const plateVideoRef = useRef(null);
-
-  const faceCameraRef = useRef(null); // component handle (takeSnapshot)
-  const plateCameraRef = useRef(null); // component handle (takeSnapshot)
-
-  const [cameraMessage, setCameraMessage] = useState("");
-
   useEffect(() => {
-    const startCamera = async (videoRef, deviceIndex = 0) => {
-      try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter((d) => d.kind === "videoinput");
-        if (videoDevices.length === 0) throw new Error("No camera found");
-
-        const selectedDeviceId =
-          videoDevices[deviceIndex]?.deviceId || videoDevices[0].deviceId;
-
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: { exact: selectedDeviceId } },
-          audio: false,
-        });
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.error("Camera access error:", err);
-      }
+    const startCamera = (cameraRef, deviceIndex) => {
+      cameraRef.current?.startStream?.(deviceIndex);
+    };
+    const stopCamera = (cameraRef) => {
+      cameraRef.current?.stopStream?.();
     };
 
-    startCamera(faceVideoRef, 0); // Face cam: built-in
-    startCamera(plateVideoRef, 1); // Plate cam: external
+    // Handle starting/stopping for In
+    if (cameraStatusIn) {
+      startCamera(faceCameraRef_In, 0);
+      startCamera(plateCameraRef_In, 1);
+    } else {
+      stopCamera(faceCameraRef_In);
+      stopCamera(plateCameraRef_In);
+    }
 
+    // Handle starting/stopping for Out
+    if (cameraStatusOut) {
+      startCamera(faceCameraRef_Out, 0);
+      startCamera(plateCameraRef_Out, 1);
+    } else {
+      stopCamera(faceCameraRef_Out);
+      stopCamera(plateCameraRef_Out);
+    }
+
+    // Cleanup on unmount
     return () => {
-      [faceVideoRef, plateVideoRef].forEach((ref) => {
-        ref.current?.srcObject?.getTracks().forEach((track) => track.stop());
-      });
+      [
+        faceCameraRef_In,
+        plateCameraRef_In,
+        faceCameraRef_Out,
+        plateCameraRef_Out,
+      ].forEach((ref) => stopCamera(ref));
     };
-  }, []);
+  }, [cameraStatusIn, cameraStatusOut]);
 
   const in_button_handle = () => {
-    setCameraMessage("Capturing...");
+    setCameraMessageIn("Capturing...");
     setTimeout(() => {
-      //&& plateVideoRef.current
-      if (faceVideoRef.current && plateVideoRef.current) {
-        const faceImg = faceCameraRef.current.takeSnapshot();
-        const plateImg = plateCameraRef.current.takeSnapshot();
+      //&& plateVideoRef_In.current
+      if (faceVideoRef_In.current && plateVideoRef_In.current) {
+        const faceImg = faceCameraRef_In.current.takeSnapshot();
+        const plateImg = plateCameraRef_In.current.takeSnapshot();
         if (faceImg && plateImg) {
           setInFaceImg(faceImg);
           setInPlateImg(plateImg);
           setTimeIn(getCurrentTime());
           setDateIn(getCurrentDateInfo());
-          getPlateNumberFromImage(plateImg);
-          setCameraMessage("Done");
+          getPlateNumberFromImage(plateImg, "IN");
+          setCameraMessageIn("Done");
           console.log("Captured face and plate images");
         } else {
-          setCameraMessage("Try again");
+          setCameraMessageIn("Try again");
           console.log("Failed to capture images");
         }
         // setInPlateImg(plateImg);
       }
     }, 2000); // wait 2 seconds
   };
+
+  const out_button_handle = () => {
+    setCameraMessageOut("Capturing...");
+    setTimeout(() => {
+      //&& plateVideoRef_In.current
+      if (faceVideoRef_Out.current && plateVideoRef_Out.current) {
+        const faceImg = faceCameraRef_Out.current.takeSnapshot();
+        const plateImg = plateCameraRef_Out.current.takeSnapshot();
+        if (faceImg && plateImg) {
+          setOutFaceImg(faceImg);
+          setOutPlateImg(plateImg);
+          setTimeOut(getCurrentTime());
+          setDateOut(getCurrentDateInfo());
+          getPlateNumberFromImage(plateImg, "OUT");
+          setCameraMessageOut("Done");
+          console.log("Captured face and plate images");
+        } else {
+          setCameraMessageOut("Try again");
+          console.log("Failed to capture images");
+        }
+        // setInPlateImg(plateImg);
+      }
+    }, 2000); // wait 2 seconds
+  };
+
+  const cameraInHandle = () => {
+    setCameraStatusIn(!cameraStatusIn);
+  };
+
+  const cameraOutHandle = () => {
+    setCameraStatusOut(!cameraStatusOut);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles["cam-and-info"]}>
@@ -241,7 +295,7 @@ const MainScreen = ({
               <div className={styles["container-scan"]}>
                 Quẹt thẻ
                 <button className={styles["scan"]} onClick={in_button_handle}>
-                  <img src="/assets/scan.svg" alt="scan" />
+                  <img src="/assets/scan2.svg" alt="scan" />
                 </button>
               </div>
             </div>
@@ -249,16 +303,30 @@ const MainScreen = ({
 
           {/* Vùng video quay */}
           <div className={styles["container-video-cam"]}>
-            <p>Video Cam</p>
-            <div className={styles["cam-message"]}>{cameraMessage}</div>
+            <div className={styles["container-button"]}>
+              <p>Video Cam</p>
+              <button
+                className={styles["cam-controller"]}
+                onClick={cameraInHandle}
+              >
+                Turn on/off
+              </button>
+            </div>
+
+            {/* add css */}
+            <div className={styles["cam-message-in"]}>{cameraMessageIn}</div>
+            {/* add css */}
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-video-back"]} ${styles["cam"]}`}>
                 Mặt sau
-                <PlateCamera videoRef={plateVideoRef} ref={plateCameraRef} />
+                <PlateCamera
+                  videoRef={plateVideoRef_In}
+                  ref={plateCameraRef_In}
+                />
               </div>
               <div className={`${styles["in-video-front"]} ${styles["cam"]}`}>
                 Mặt trước
-                <FaceCamera videoRef={faceVideoRef} ref={faceCameraRef} />
+                <FaceCamera videoRef={faceVideoRef_In} ref={faceCameraRef_In} />
               </div>
             </div>
           </div>
@@ -363,7 +431,7 @@ const MainScreen = ({
         {/* ======================VÙNG LÀN RA========================== */}
         <div className={styles["back-side"]}>
           <div className={styles["choose-bar"]}>
-            <p>Làn vào</p>
+            <p>Làn Ra</p>
 
             <div className={styles["container-id-scan"]}>
               {/* Vùng ID */}
@@ -390,7 +458,7 @@ const MainScreen = ({
               {/* Vùng quẹt thẻ */}
               <div className={styles["container-scan"]}>
                 <span>Quẹt thẻ</span>
-                <button className={styles.scan}>
+                <button className={styles.scan} onClick={out_button_handle}>
                   <img src="/assets/scan2.svg" alt="scan" />
                 </button>
               </div>
@@ -399,15 +467,32 @@ const MainScreen = ({
 
           {/* Vùng video quay */}
           <div className={styles["container-video-cam"]}>
-            <p>Video Cam</p>
+            <div className={styles["container-button"]}>
+              <p>Video Cam</p>
+              <button
+                className={styles["cam-controller"]}
+                onClick={cameraOutHandle}
+              >
+                Turn on/off
+              </button>
+            </div>
+            {/* add css */}
+            <div className={styles["cam-message-out"]}>{cameraMessageOut}</div>
+            {/* add css */}
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-video-back"]} ${styles["cam"]}`}>
                 Mặt sau
-                {"Unconnect back camera" || in_video_back}
+                <PlateCamera
+                  videoRef={plateVideoRef_Out}
+                  ref={plateCameraRef_Out}
+                />
               </div>
               <div className={`${styles["in-video-front"]} ${styles["cam"]}`}>
                 Mặt trước
-                {"Unconnect back camera" || in_video_front}
+                <FaceCamera
+                  videoRef={faceVideoRef_Out}
+                  ref={faceCameraRef_Out}
+                />
               </div>
             </div>
           </div>
@@ -417,19 +502,37 @@ const MainScreen = ({
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-picture-back"]} ${styles["cam"]}`}>
                 Mặt sau
-                {/* {in_plate_img ? (
-                  <img src={in_plate_img} alt="Mặt sau" />
+                {out_plate_img ? (
+                  <img
+                    src={out_plate_img}
+                    alt="Mặt sau"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
                 ) : (
                   "No image"
-                )} */}
+                )}
               </div>
               <div className={`${styles["in-picture-front"]} ${styles["cam"]}`}>
-                Mặt trước
-                {/* {in_face_img ? (
-                  <img src={in_face_img} alt="Mặt trước" />
+                Mặt trước Mặt trước
+                {out_face_img ? (
+                  <img
+                    src={in_face_img}
+                    alt="Mặt trước"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
                 ) : (
                   "No image"
-                )} */}
+                )}
               </div>
             </div>
           </div>
@@ -438,22 +541,54 @@ const MainScreen = ({
             <div className={styles["text-info"]}>
               <div className={styles["day-in"]}>
                 <span>Ngày ra</span>
-                <p>14/05/2025</p>
+                {DateOut || "No Info"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["time-in"]}>
                 <span>Giờ ra</span>
-                <p>17:34:28</p>
+                {TimeOut || "No Info"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["plate"]}>
                 <span>Biển số xe ra</span>
-                <p>{out_plate_content}</p>
+                <p>{plateNumberOut}</p>
               </div>
             </div>
             <div className={styles["img-info"]}>
-              <div className={styles["img-face"]}>Ảnh chụp khuôn mặt</div>
-              <div className={styles["img-plate"]}>Ảnh chụp biển số</div>
+              <div className={styles["img-face"]}>
+                Ảnh chụp khuôn mặt
+                {out_face_img ? (
+                  <img
+                    src={out_face_img}
+                    alt="Mặt sau"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  "No image"
+                )}
+              </div>
+              <div className={styles["img-plate"]}>
+                Ảnh chụp biển số
+                {out_plate_img ? (
+                  <img
+                    src={out_plate_img}
+                    alt="Mặt sau"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  "No image"
+                )}
+              </div>
             </div>
           </div>
         </div>

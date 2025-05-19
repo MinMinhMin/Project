@@ -17,13 +17,97 @@ const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {
   const overlayRef = useRef(null);
   const socketRef = useRef(null);
   const sendCanvasRef = useRef(null);
+  const fpsTimerRef = useRef(null); // Store interval for cleanup
 
   // State for stability
   const [boxHistory, setBoxHistory] = useState([]);
   const stabilityThreshold = 10; // Max pixel difference for stability
   const stabilityDuration = 3000; // 3 seconds for stability check
 
-  /* ---------- Expose takeSnapshot() to the parent ---------- */
+  // Clean up WebSocket, interval, canvas, and state
+  const stopDetection = () => {
+    if (fpsTimerRef.current) {
+      clearInterval(fpsTimerRef.current);
+      fpsTimerRef.current = null;
+    }
+
+    if (socketRef.current) {
+      socketRef.current.close();
+      socketRef.current = null;
+    }
+
+    // Clear overlay canvas
+    const canvas = overlayRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Clear box history
+    setBoxHistory([]);
+  };
+
+  const initializeWebSocket = () => {
+    const socket = new WebSocket(`${backendUrl_AI}/AI/streamFace`);
+    socketRef.current = socket;
+
+    socket.onmessage = (evt) => {
+      const { box } = JSON.parse(evt.data);
+      const canvas = overlayRef.current;
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = FIXED_WIDTH;
+      canvas.height = FIXED_HEIGHT;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (box) {
+        // Clamp coordinates
+        let { x, y, w, h } = box;
+        x = Math.max(0, Math.min(x, FIXED_WIDTH - w));
+        y = Math.max(0, Math.min(y, FIXED_HEIGHT - h)) - 60;
+        w = Math.min(w, FIXED_WIDTH - x);
+        h = Math.min(h, FIXED_HEIGHT - y);
+
+        // Update box history for stability check
+        setBoxHistory((prev) => {
+          const newHistory = [
+            ...prev,
+            { x, y, w, h, timestamp: Date.now() },
+          ].slice(-10); // Keep last 10 boxes
+          return newHistory;
+        });
+
+        // Draw bounding box
+        ctx.strokeStyle = "lime";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+      }
+    };
+
+    socket.onerror = () => {
+      console.error("WebSocket error in FaceCamera");
+    };
+
+    // Send frames every 200ms (5 fps)
+    fpsTimerRef.current = setInterval(() => {
+      if (
+        !sendCanvasRef.current ||
+        !videoRef.current ||
+        socket.readyState !== WebSocket.OPEN
+      ) {
+        return;
+      }
+
+      const c = sendCanvasRef.current;
+      c.width = FIXED_WIDTH;
+      c.height = FIXED_HEIGHT;
+      c.getContext("2d").drawImage(videoRef.current, 0, 0, c.width, c.height);
+
+      c.toBlob((blob) => blob && socket.send(blob), "image/jpeg", 0.9);
+    }, 200);
+  };
+
+  /* ---------- Expose methods to the parent ---------- */
   useImperativeHandle(
     ref,
     () => ({
@@ -96,93 +180,74 @@ const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {
 
         return tempCanvas.toDataURL("image/jpeg", 0.9);
       },
+
+      startStream(deviceIndex = 0) {
+        // Prevent multiple streams
+        if (videoRef.current?.srcObject || socketRef.current) {
+          console.log("Stream or WebSocket already active. Stopping first.");
+          stopStream();
+        }
+
+        navigator.mediaDevices
+          .enumerateDevices()
+          .then((devices) => {
+            const videoDevices = devices.filter((d) => d.kind === "videoinput");
+            const selectedDeviceId =
+              videoDevices[deviceIndex]?.deviceId || videoDevices[0]?.deviceId;
+            if (!selectedDeviceId) {
+              throw new Error("No video devices available");
+            }
+            return navigator.mediaDevices.getUserMedia({
+              video: {
+                deviceId: { exact: selectedDeviceId },
+                width: { exact: FIXED_WIDTH },
+                height: { exact: FIXED_HEIGHT },
+              },
+              audio: false,
+            });
+          })
+          .then((stream) => {
+            if (videoRef.current) {
+              videoRef.current.srcObject = stream;
+              videoRef.current.onloadedmetadata = () => {
+                console.log(
+                  `FaceCamera video dimensions: ${videoRef.current.videoWidth}x${videoRef.current.videoHeight}`
+                );
+                initializeWebSocket();
+              };
+            }
+          })
+          .catch((err) => {
+            console.error("Camera access error:", err);
+          });
+      },
+
+      stopStream() {
+        stopDetection(); // Clean up WebSocket, interval, canvas, and state
+
+        const stream = videoRef.current?.srcObject;
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+          videoRef.current.srcObject = null;
+        }
+
+        if (videoRef.current) {
+          videoRef.current.pause(); // Explicitly pause video
+        }
+      },
     }),
     [videoRef, boxHistory]
   );
 
-  /* ---------- WebSocket overlay & frame sending ---------- */
+  /* ---------- Cleanup on unmount ---------- */
   useEffect(() => {
-    if (!videoRef.current) return;
-
-    const video = videoRef.current;
-    let socket = null;
-    let fpsTimer = null;
-
-    const initializeWebSocket = () => {
-      socket = new WebSocket(`${backendUrl_AI}/AI/streamFace`);
-      socketRef.current = socket;
-
-      // Draw the green rectangle from server data
-      socket.onmessage = (evt) => {
-        const { box } = JSON.parse(evt.data);
-        const canvas = overlayRef.current;
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = FIXED_WIDTH;
-        canvas.height = FIXED_HEIGHT;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        if (box) {
-          // Clamp coordinates
-          let { x, y, w, h } = box;
-          x = Math.max(0, Math.min(x, FIXED_WIDTH - w));
-          y = Math.max(0, Math.min(y, FIXED_HEIGHT - h)) - 60;
-          w = Math.min(w, FIXED_WIDTH - x);
-          h = Math.min(h, FIXED_HEIGHT - y);
-
-          // Update box history for stability check
-          setBoxHistory((prev) => {
-            const newHistory = [
-              ...prev,
-              { x, y, w, h, timestamp: Date.now() },
-            ].slice(-10); // Keep last 10 boxes
-            return newHistory;
-          });
-
-          // Draw bounding box
-          ctx.strokeStyle = "lime";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(x, y, w, h);
-        }
-      };
-
-      // Send frames every 200ms (5 fps)
-      fpsTimer = setInterval(() => {
-        if (
-          !sendCanvasRef.current ||
-          !videoRef.current ||
-          socket.readyState !== WebSocket.OPEN
-        ) {
-          return;
-        }
-
-        const c = sendCanvasRef.current;
-        c.width = FIXED_WIDTH;
-        c.height = FIXED_HEIGHT;
-        c.getContext("2d").drawImage(videoRef.current, 0, 0, c.width, c.height);
-
-        c.toBlob((blob) => blob && socket.send(blob), "image/jpeg", 0.9);
-      }, 200);
-
-      socket.onerror = () => {
-        console.error("WebSocket error in FaceCamera");
-      };
-    };
-
-    // Wait for video metadata to ensure dimensions are available
-    const handleLoadedMetadata = () => {
-      console.log(
-        `FaceCamera video dimensions: ${video.videoWidth}x${video.videoHeight}`
-      );
-      initializeWebSocket();
-    };
-
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
-
     return () => {
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      if (fpsTimer) clearInterval(fpsTimer);
-      if (socket) socket.close();
+      stopDetection();
+      const stream = videoRef.current?.srcObject;
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        videoRef.current.srcObject = null;
+      }
     };
   }, [videoRef]);
 
