@@ -72,7 +72,6 @@ const Notification = ({
       <div className={`${styles.container} ${styles.revenue}`}>
         <div className={styles.title}>Tổng tiền</div>
         <div className={styles.content}>
-          <p className={styles.revenue}>{revenue || "500.000"} đ</p>
           <p className={styles["revenue-num"]}>{revenue || "500.000"} đ</p>
         </div>
       </div>

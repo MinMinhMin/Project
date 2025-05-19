@@ -4,7 +4,11 @@ import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/CustomerTopBar.module.css";
 
 const CustomerTopBar = () => {
-    return (<TopBarLeft />)
+  return (
+    <div className={styles["topbar"]}>
+      <TopBarLeft />
+    </div>
+  );
 };
 
 export default CustomerTopBar;

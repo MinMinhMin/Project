@@ -1,7 +1,6 @@
 .container {
   display: flex;
   width: 1470px;
-  padding: 27px 15px;
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
@@ -23,7 +22,7 @@
 
 .cam-and-info {
   display: flex;
-  gap: 25.5px;
+  gap: 38px;
 }
 
 .front-side,
@@ -51,7 +50,7 @@
 
 .container-id-scan {
   display: flex;
-  width: 453px;
+  width: 430px;
   justify-content: space-between;
   align-items: center;
 }
@@ -160,15 +159,11 @@
 .container-video-cam,
 .container-picture {
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 30px;
   align-self: stretch;
-}
-
-.container-video-cam p {
-  color: #000;
-  font-size: 18px;
 }
 
 .content-cam {
@@ -179,14 +174,23 @@
 }
 
 .cam {
-  display: flex;
-  width: 343.464px;
-  height: 268px;
-  padding: 18px 21px;
-  align-items: flex-start;
+  position: relative;
+  width: 346px;
+  height: 260px;
   gap: 10px;
   flex-shrink: 0;
+  border-radius: 10px;
+  background-color: #edd8d8;
   border: 1px solid #000;
+}
+
+.cam p {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  font-size: 15px;
+  z-index: 1;
+  color: white;
 }
 
 .container-info {
@@ -287,7 +291,25 @@
 }
 
 .container-button {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display: flex;
+  width: 600px;
+  position: relative;
+  align-items: center;
+}
+
+.container-button button {
+  position: absolute;
+  left: 50%;
+  font-size: 15px;
+  background-color: #ddd;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-color: white;
+}
+
+.container-button .cam-message {
+  position: absolute;
+  right: 10px;
 }

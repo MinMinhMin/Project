@@ -24,7 +24,7 @@ function App() {
 
           <Route element={<Layout />}>
             <Route
-              path="/my-parking"
+              path="/observe"
               element={
                 <ProtectedRoute role="user">
                   <UserPage />

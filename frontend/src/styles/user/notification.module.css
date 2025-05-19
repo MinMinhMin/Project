@@ -2,9 +2,7 @@
 
 .notification {
   display: flex;
-  width: 1470px;
   height: 145px;
-  padding: 0px 37px;
   justify-content: space-between;
   align-items: flex-start;
   align-items: center;
