@@ -14,6 +14,7 @@ import ProtectedRoute from "../routes/ProtectedRoute";
 import { getUserName } from "../controllers/App_Controller";
 
 import "../index.css";
+import AdminTopBar from "../layout/adminTopBar";
 
 function App() {
   const { username, setUsername } = getUserName();
@@ -21,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <LoginPage />
+        <AdminTopBar />
         
         {/* <Routes>
           <Route

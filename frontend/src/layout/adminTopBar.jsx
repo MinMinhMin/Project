@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "../../styles/admin/admintopbar.module.css";
+import TopBarLeft from "../components/topbarLeft";
+import styles from "../styles/admin/admintopbar.module.css";
 
 const AdminTopBar = () => {
   const handleLogout = () => {
@@ -9,10 +10,17 @@ const AdminTopBar = () => {
 
   return (
     <div className={styles.topbar}>
-      <div className={styles["role"]}>Admin</div>
+      <div className={styles["topbar-left"]}>
+        <TopBarLeft />
+      </div>
 
       <div className={styles["topbar-right"]}>
-        <div className={`${styles["nav-link"]} ${styles["logout-btn"]}`} onClick={handleLogout}>
+        <div className={styles["role"]}>Admin</div>
+        
+        <div
+          className={`${styles["nav-link"]} ${styles["logout-btn"]}`}
+          onClick={handleLogout}
+        >
           Đăng xuất
         </div>
       </div>
