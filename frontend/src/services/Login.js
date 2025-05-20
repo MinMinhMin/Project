@@ -20,7 +20,7 @@ export default async function Login({ data, navigate, setErrorMessage }) {
     }
     if (role === "user") {
       localStorage.setItem("role", role);
-      navigate("/my-parking");
+      navigate("/observe");
     }
   } catch (error) {
     if (error.response) {

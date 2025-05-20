@@ -96,7 +96,7 @@
   display: flex;
   width: 397px;
   height: 59px;
-  padding: 16.5px 0px 17.5px 30px;
+  padding: 16.5px 0px 17.5px 20px;
   align-items: center;
   border-radius: 5px;
   border: 1px solid;
@@ -117,7 +117,7 @@
 
 .submitBtn {
   display: flex;
-  width: 152px;
+  width: 200px;
   height: 58px;
   padding: 22px 0px;
   justify-content: center;

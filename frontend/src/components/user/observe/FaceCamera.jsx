@@ -9,7 +9,7 @@ import React, {
 const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 
 // Fixed dimensions for consistency
-const FIXED_WIDTH = 640;
+const FIXED_WIDTH = 650;
 const FIXED_HEIGHT = 480;
 
 const FaceCamera = forwardRef(({ videoRef /* DOM ref from parent */ }, ref) => {

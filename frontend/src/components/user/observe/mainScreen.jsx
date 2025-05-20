@@ -45,7 +45,7 @@ const MainScreen = ({
     "000020",
   ];
   //In gate
-  const [InId, setInId] = useState("Choose ID");
+  const [InId, setInId] = useState("None");
   const [DateIn, setDateIn] = useState(null);
   const [TimeIn, setTimeIn] = useState(null);
   const [plateNumberIn, setPlateNumberIn] = useState(null);
@@ -60,7 +60,7 @@ const MainScreen = ({
   const plateCameraRef_In = useRef(null); // component handle (takeSnapshot)
 
   //Out gate
-  const [OutId, setOutId] = useState("Choose ID");
+  const [OutId, setOutId] = useState("None");
   const [DateOut, setDateOut] = useState(null);
   const [TimeOut, setTimeOut] = useState(null);
   const [plateNumberOut, setPlateNumberOut] = useState(null);
@@ -317,21 +317,22 @@ const MainScreen = ({
               >
                 Turn on/off
               </button>
+
+              {/* add css */}
+              <div className={styles["cam-message"]}>{cameraMessageIn}</div>
+              {/* add css */}
             </div>
 
-            {/* add css */}
-            <div className={styles["cam-message-in"]}>{cameraMessageIn}</div>
-            {/* add css */}
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-video-back"]} ${styles["cam"]}`}>
-                Mặt sau
+                <p>Mặt sau</p>
                 <PlateCamera
                   videoRef={plateVideoRef_In}
                   ref={plateCameraRef_In}
                 />
               </div>
               <div className={`${styles["in-video-front"]} ${styles["cam"]}`}>
-                Mặt trước
+                <p>Mặt trước</p>
                 <FaceCamera videoRef={faceVideoRef_In} ref={faceCameraRef_In} />
               </div>
             </div>
@@ -341,38 +342,28 @@ const MainScreen = ({
             <p>Ảnh chụp</p>
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-picture-back"]} ${styles["cam"]}`}>
-                Mặt sau
-                {in_plate_img ? (
-                  <img
-                    src={in_plate_img}
-                    alt="Mặt sau"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ) : (
-                  "No image"
-                )}
+                <p>Mặt sau</p>
+                <img
+                  src={in_plate_img}
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                  }}
+                />
               </div>
               <div className={`${styles["in-picture-front"]} ${styles["cam"]}`}>
-                Mặt trước
-                {in_face_img ? (
-                  <img
-                    src={in_face_img}
-                    alt="Mặt trước"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ) : (
-                  "No image"
-                )}
+                <p>Mặt trước</p>
+                <img
+                  src={in_face_img}
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -382,53 +373,43 @@ const MainScreen = ({
             <div className={styles["text-info"]}>
               <div className={styles["day-in"]}>
                 <span>Ngày vào</span>
-                {DateIn || "No Info"}
+                {DateIn || "00/00/00"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["time-in"]}>
                 <span>Giờ vào</span>
-                {TimeIn || "No Info"}
+                {TimeIn || "00:00:00"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["plate"]}>
                 <span>Biển số xe vào</span>
-                <p>{plateNumberIn}</p>
+                <p>{plateNumberIn || "***********"}</p>
               </div>
             </div>
             <div className={styles["img-info"]}>
               <div className={styles["img-face"]}>
                 Ảnh chụp khuôn mặt
-                {in_face_img ? (
-                  <img
-                    src={in_face_img}
-                    alt="Mặt sau"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ) : (
-                  "No image"
-                )}
+                <img
+                  src={in_face_img}
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                  }}
+                />
               </div>
               <div className={styles["img-plate"]}>
                 Ảnh chụp biển số
-                {in_plate_img ? (
-                  <img
-                    src={in_plate_img}
-                    alt="Mặt sau"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ) : (
-                  "No image"
-                )}
+                <img
+                  src={in_plate_img}
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -481,20 +462,21 @@ const MainScreen = ({
               >
                 Turn on/off
               </button>
+              {/* add css */}
+              <div className={styles["cam-message"]}>{cameraMessageOut}</div>
+              {/* add css */}
             </div>
-            {/* add css */}
-            <div className={styles["cam-message-out"]}>{cameraMessageOut}</div>
-            {/* add css */}
+
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-video-back"]} ${styles["cam"]}`}>
-                Mặt sau
+                <p>Mặt sau</p>
                 <PlateCamera
                   videoRef={plateVideoRef_Out}
                   ref={plateCameraRef_Out}
                 />
               </div>
               <div className={`${styles["in-video-front"]} ${styles["cam"]}`}>
-                Mặt trước
+                <p>Mặt trước</p>
                 <FaceCamera
                   videoRef={faceVideoRef_Out}
                   ref={faceCameraRef_Out}
@@ -507,11 +489,10 @@ const MainScreen = ({
             <p>Ảnh chụp</p>
             <div className={styles["content-cam"]}>
               <div className={`${styles["in-picture-back"]} ${styles["cam"]}`}>
-                Mặt sau
-                {out_plate_img ? (
+                <p>Mặt sau</p>
+                <div className={styles["content"]}>
                   <img
                     src={out_plate_img}
-                    alt="Mặt sau"
                     style={{
                       maxWidth: "200px",
                       maxHeight: "200px",
@@ -519,26 +500,19 @@ const MainScreen = ({
                       borderRadius: "8px",
                     }}
                   />
-                ) : (
-                  "No image"
-                )}
+                </div>
               </div>
               <div className={`${styles["in-picture-front"]} ${styles["cam"]}`}>
-                Mặt trước Mặt trước
-                {out_face_img ? (
-                  <img
-                    src={in_face_img}
-                    alt="Mặt trước"
-                    style={{
-                      maxWidth: "200px",
-                      maxHeight: "200px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ) : (
-                  "No image"
-                )}
+                <p>Mặt trước</p>
+                <img
+                  src={in_face_img}
+                  style={{
+                    maxWidth: "200px",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -547,17 +521,17 @@ const MainScreen = ({
             <div className={styles["text-info"]}>
               <div className={styles["day-in"]}>
                 <span>Ngày ra</span>
-                {DateOut || "No Info"}
+                {DateOut || "00/00/00"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["time-in"]}>
                 <span>Giờ ra</span>
-                {TimeOut || "No Info"}
+                {TimeOut || "00:00:00"}
               </div>
               <div className={styles["hori-line"]}></div>
               <div className={styles["plate"]}>
                 <span>Biển số xe ra</span>
-                <p>{plateNumberOut}</p>
+                <p>{plateNumberOut || "***********"}</p>
               </div>
             </div>
             <div className={styles["img-info"]}>
@@ -575,7 +549,7 @@ const MainScreen = ({
                     }}
                   />
                 ) : (
-                  "No image"
+                  ""
                 )}
               </div>
               <div className={styles["img-plate"]}>
@@ -592,7 +566,7 @@ const MainScreen = ({
                     }}
                   />
                 ) : (
-                  "No image"
+                  ""
                 )}
               </div>
             </div>

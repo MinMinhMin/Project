@@ -18,9 +18,10 @@
 }
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 1470px;
-  border: 1px solid;
-  border-color: #d9d9d9;
+  border-color: #000000;
   margin: auto;
-  padding: auto;
 }
