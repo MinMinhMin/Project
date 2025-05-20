@@ -1,23 +1,42 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "../../../styles/user/Menu_bar.module.css";
 
 const Menu_bar = () => {
   const handleLogout = () => {
     console.log("Logging out...");
+    // Add your logout logic here, e.g., clearing tokens, redirecting, etc.
   };
 
   return (
     <div className={styles.menuBar}>
       <div className={styles["menu-bar-right"]}>
-        <Link to="/my-parking" className={`${styles["nav-link"]} ${styles["active"]}`}>Bãi đỗ của tôi</Link>
-        <Link to="/renue" className={styles["nav-link"]}>Xem doanh thu</Link>
-        <Link to="/my-profile" className={styles["nav-link"]}>Thông tin cá nhân</Link>
-        
-          
-        </div>
+        <NavLink
+          to="/my-parking"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} ${isActive ? styles.active : ""}`
+          }
+        >
+          Bãi đỗ của tôi
+        </NavLink>
+        <NavLink
+          to="/renue"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} ${isActive ? styles.active : ""}`
+          }
+        >
+          Xem doanh thu
+        </NavLink>
+        <NavLink
+          to="/my-profile"
+          className={({ isActive }) =>
+            `${styles["nav-link"]} ${isActive ? styles.active : ""}`
+          }
+        >
+          Thông tin cá nhân
+        </NavLink>
       </div>
-    
+    </div>
   );
 };
 

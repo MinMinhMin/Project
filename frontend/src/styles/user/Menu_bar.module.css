@@ -18,12 +18,13 @@
   line-height: 77px; /* 350% */
   text-decoration: none; /* Bỏ gạch chân liên kết */
    margin-right: 40px;
+   transition: color 0.3s ease;
 }
 
-.nav-link:not(.active) {
-  background: #ffffff; /* Nền màu trắng cho các liên kết không active, bao gồm "Bãi đỗ của tôi" */
-}
 
+.nav-link:hover {
+  color: #007bff; /* Màu xanh khi di chuột */
+}
 .nav-link.active {
 display: inline-flex;
 height: 49px;
