@@ -1,0 +1,40 @@
+.menu-bar-right {
+  height: 87px;
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start; /* Tách đều các mục */
+  align-items: center;
+  padding: 0px 30px; /* Thêm padding để không sát mép */
+  border: 1px solid #E9ECEF;
+}
+
+
+.nav-link {
+  color: #000; /* Chữ màu đen */
+  font-family: "Be Vietnam Pro";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 77px; /* 350% */
+  text-decoration: none; /* Bỏ gạch chân liên kết */
+   margin-right: 40px;
+}
+
+.nav-link:not(.active) {
+  background: #ffffff; /* Nền màu trắng cho các liên kết không active, bao gồm "Bãi đỗ của tôi" */
+}
+
+.nav-link.active {
+display: inline-flex;
+height: 49px;
+padding: 0px 58px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+flex-shrink: 0;
+border-radius: 20px;
+border: 2px solid #FF9500;
+
+background: #FF9500;
+  color: #ffffff; 
+}

@@ -1,0 +1,316 @@
+/* ParkingLot_Info.module.css */
+
+/* Main container styles */
+.parking-management {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* User Topbar Styles */
+.user-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.parking-logo {
+  width: 40px;
+  height: 40px;
+  background-color: #ff8a00;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.parking-text {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.sub-text {
+  font-size: 12px;
+  color: #666;
+  font-weight: normal;
+}
+
+.topbar-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.topbar-buttons button {
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.parking-lot-btn.active {
+  background-color: #ff8a00;
+  color: white;
+}
+
+.follow-btn, .history-btn {
+  color: #333;
+}
+
+.follow-btn:hover, .history-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.logout-btn {
+  border: 1px solid #ddd !important;
+  border-radius: 4px;
+}
+
+.logout-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Menu Bar Styles */
+.menu-bar {
+  display: flex;
+  background-color: white;
+  padding: 10px 20px;
+  border-bottom: 2px solid #2196f3;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.menu-btn.active {
+  border-bottom: 3px solid #ff8a00;
+  color: #ff8a00;
+}
+
+.menu-btn:hover:not(.active) {
+  color: #666;
+}
+
+/* Parking Info Section */
+.parking-info-section {
+  background-color: white;
+  margin: 0 20px 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ff69b4;
+}
+
+.header-icon {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.car-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.create-btn {
+  background-color: #ff8a00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #e67e00;
+}
+
+.plus-icon {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.section-subheader {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Table styles */
+.parking-table-container {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.parking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.parking-table th, 
+.parking-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.parking-table th {
+  background-color: #f9f9f9;
+  font-weight: normal;
+  color: #666;
+  font-size: 14px;
+}
+
+.parking-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.parking-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Status badges */
+.status-badge {
+  font-size: 14px;
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.status-available {
+  color: #4CAF50;
+}
+
+.status-almost-full {
+  color: #FF9800;
+}
+
+.status-full {
+  color: #F44336;
+}
+
+/* Action buttons */
+.edit-btn, 
+.view-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.edit-btn:hover,
+.view-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.edit-icon {
+  color: #2196F3;
+}
+
+.view-icon {
+  color: #4CAF50;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+
+.page-btn {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.page-btn:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+.page-btn.active {
+  background-color: #ff8a00;
+  color: white;
+  border-color: #ff8a00;
+}
+
+
+.form-overlay {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+}
+.form-overlay {
+  position: fixed;        /* Cố định trên màn hình */
+  top: 0;
+  left: 0;
+  width: 100vw;           /* Chiếm toàn bộ chiều ngang */
+  height: 100vh;          /* Chiếm toàn bộ chiều dọc */
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen mờ 50% */
+  display: flex;          /* Dùng flex để căn giữa con bên trong */
+  justify-content: center; /* Căn giữa ngang */
+  align-items: center;     /* Căn giữa dọc */
+  z-index: 9999;          /* Đảm bảo lớp này nằm trên cùng */
+}
+.parking-form {
+  background-color: white;   /* Nền trắng */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  max-width: 500px;          /* Giới hạn chiều ngang */
+  width: 90%;                /* Chiếm tối đa 90% màn hình trên thiết bị nhỏ */
+}
+
+
