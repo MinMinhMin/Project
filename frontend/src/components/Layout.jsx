@@ -3,9 +3,10 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styles from "../styles/Layout.module.css"; // Adjust path as needed
 
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
     <div className={styles.layoutWrapper}>
+      {children}
       <Outlet />
     </div>
   );
