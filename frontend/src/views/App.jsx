@@ -10,6 +10,7 @@ import Notification from "../components/user/observe/notification";
 import MainScreen from "../components/user/observe/mainScreen";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
+import ParkingLot_Info from "../components/user/ParkingLot_Info/ParkingLot_Info";
 
 import { getUserName } from "../controllers/App_Controller";
 
@@ -22,7 +23,13 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
-          <Route element={<Layout />}>
+          <Route
+            element={
+              <Layout>
+                <UserTopBar />
+              </Layout>
+            }
+          >
             <Route
               path="/observe"
               element={
@@ -31,7 +38,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/my-parking"
+              element={
+                <ProtectedRoute role="user">
+                  <ParkingLot_Info />
+                </ProtectedRoute>
+              }
+            />
           </Route>
+
           <Route
             path="/admin"
             element={
