@@ -3,6 +3,8 @@ import styles from '../../../styles/User_Info.module.css';
 
 const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
+    fullName: 'Nguyễn Văn A',
+    contact: "0985123456",
     username: 'Quang Anh',
     userId: 'APT-1234',
     role: 'Users',
@@ -31,16 +33,38 @@ const UserInfo = () => {
           {isEditing ? 'Cancel' : 'Edit'}
         </button>
       </div>
-
       <div className={styles.formGroup}>
-        <label className={styles.label}>User Name</label>
+        <label className={styles.label}>Tên người dùng</label>
         <input
           type="text"
-          name="username"
-          value={userInfo.username}
+          name="Tên người dùng"
+          value={userInfo.fullName}
           onChange={handleChange}
           className={styles.input + (!isEditing ? ' ' + styles.readOnly : '')}
-          readOnly={!isEditing}
+          readOnly ={!isEditing}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Thông tin liên hệ</label>
+        <input
+          type="text"
+          name="Thông tin liên hệ"
+          value={userInfo.contact}
+          onChange={handleChange}
+          className={styles.input + (!isEditing ? ' ' + styles.readOnly : '')}
+          readOnly ={!isEditing}
+        />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Tên tài khoản</label>
+        <input
+          type="text"
+          name="Tên tài khoản"
+          value={userInfo.username}
+          onChange={handleChange}
+          className={styles.input + ' ' + styles.readOnly  }
+          readOnly 
         />
       </div>
 
@@ -57,10 +81,10 @@ const UserInfo = () => {
       </div>
 
       <div className={styles.formGroup}>
-        <label className={styles.label}>Role</label>
+        <label className={styles.label}>Quyền hạn người dùng</label>
         <input
           type="text"
-          name="role"
+          name="Quyền hạn người dùng"
           value={userInfo.role}
           onChange={handleChange}
           className={styles.input + ' ' + styles.readOnly}
@@ -69,15 +93,15 @@ const UserInfo = () => {
       </div>
 
       <div className={styles.formGroup}>
-        <label className={styles.label}>Password</label>
+        <label className={styles.label}>Mật khẩu</label>
         <div className={styles.passwordWrapper}>
           <input
             type={showPassword ? 'text' : 'password'}
-            name="password"
+            name="Mật khẩu"
             value={userInfo.password}
             onChange={handleChange}
-            className={styles.input + (!isEditing ? ' ' + styles.readOnly : '')}
-            readOnly={!isEditing}
+            className={styles.input + ' ' + styles.readOnly}
+            readOnly
           />
           <button
             type="button"
