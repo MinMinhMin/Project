@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/user/usertopbar.module.css";
 import { useNavigate } from "react-router-dom";
 
 const UserTopBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const handleLogout = () => {
     // Xử lý đăng xuất, ví dụ: xóa token, chuyển hướng...
     localStorage.removeItem("token");
@@ -20,16 +21,22 @@ const UserTopBar = () => {
       </div>
 
       <div className={styles["topbar-right"]}>
-        <Link to="/my-parking" className={styles["nav-link"]}>
+        <Link
+          to="/my-parking"
+          className={`${styles["nav-link"]} ${location.pathname === "/my-parking" ? styles["active"] : ""}`}
+        >
           Bãi đỗ của tôi
         </Link>
         <Link
           to="/observe"
-          className={`${styles["nav-link"]} ${styles["active"]}`}
+          className={`${styles["nav-link"]} ${location.pathname === "/observe" ? styles["active"] : ""}`}
         >
           Theo dõi ra vào
         </Link>
-        <Link to="/history" className={styles["nav-link"]}>
+        <Link
+          to="/history"
+          className={`${styles["nav-link"]} ${location.pathname === "/history" ? styles["active"] : ""}`}
+        >
           Tra cứu lịch sử
         </Link>
         <div
