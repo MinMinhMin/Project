@@ -11,6 +11,8 @@ import MainScreen from "../components/user/observe/mainScreen";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import ParkingLot_Info from "../components/user/ParkingLot_Info/ParkingLot_Info";
+import UserInfo from "../components/user/ParkingLot_Info/user_Info";
+import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
 
 import { getUserName } from "../controllers/App_Controller";
 
@@ -20,6 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+        
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
@@ -56,7 +59,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-        </Routes>
+        </Routes> 
         {/* <Routes>
           <Route
             element={<Layout username={username} setUsername={setUsername} />}
