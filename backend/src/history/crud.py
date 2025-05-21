@@ -7,10 +7,14 @@ from db import models
 
 def create_history(db: Session, history: schemas.HistoryCreate, user_id: int):
     db_history = models.History(
-        face_image_path=history.face_image_path,
-        license_plate_image_path=history.license_plate_image_path,
-        face_embedding=json.dumps(history.face_embedding),
-        license_plate=history.license_plate,
+        face_image_path_IN=history.face_image_path_IN,
+        license_plate_image_path_IN=history.license_plate_image_path_IN,
+        face_embedding_IN=json.dumps(history.face_embedding_IN),
+        license_plate_IN=history.license_plate_IN,
+        face_image_path_OUT=history.face_image_path_OUT,
+        license_plate_image_path_OUT=history.license_plate_image_path_OUT,
+        face_embedding_OUT=json.dumps(history.face_embedding_OUT),
+        license_plate_OUT=history.license_plate_OUT,
         date_in=history.date_in,
         date_out=history.date_out,
         time_in=history.time_in,
@@ -27,7 +31,8 @@ def create_history(db: Session, history: schemas.HistoryCreate, user_id: int):
     db.refresh(db_history)
 
     # Convert JSON string back to list for response
-    db_history.face_embedding = json.loads(db_history.face_embedding)
+    db_history.face_embedding_IN = json.loads(db_history.face_embedding_IN)
+    db_history.face_embedding_OUT = json.loads(db_history.face_embedding_OUT)
 
     return db_history
 
@@ -53,9 +58,28 @@ def get_history(
     if date_to:
         query = query.filter(models.History.date_in <= date_to)
     if license_plate:
-        query = query.filter(models.History.license_plate.ilike(f"%{license_plate}%"))
+        query = query.filter(models.History.license_plate_IN.ilike(f"%{license_plate}%"))
 
     histories = query.all()
     for history in histories:
-        history.face_embedding = json.loads(history.face_embedding)
+        history.face_embedding_IN = json.loads(history.face_embedding_IN)
+        history.face_embedding_OUT = json.loads(history.face_embedding_OUT)
     return histories
+
+
+
+def update_history(db: Session, history_id: int, updates: schemas.HistoryUpdate) -> Optional[models.History]:
+    history = db.query(models.History).filter(models.History.id == history_id).first()
+    if not history:
+        return None
+
+    update_data = updates.dict(exclude_unset=True)
+
+    for key, value in update_data.items():
+        if key in ["face_embedding_IN", "face_embedding_OUT"] and isinstance(value, list):
+            value = json.dumps(value)
+        setattr(history, key, value)
+
+    db.commit()
+    db.refresh(history)
+    return history

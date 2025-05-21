@@ -6,11 +6,13 @@ from deepface import DeepFace
 import time
 from collections import deque
 from model.plate_recognizer.recognizer import PlateRecognizer
+from model.face_recognizer.recognizer import FaceRecognizer
 router = APIRouter()
 
 
 plate_AI=PlateRecognizer()  # Khởi tạo đối tượng PlateRecognizer
 face_AI=DeepFace  # Sử dụng DeepFace cho nhận diện khuôn mặt
+face_embedding_reconizer=FaceRecognizer(model_name="Facenet")  # Khởi tạo đối tượng FaceRecognizer
 
 @router.websocket("/streamFace")
 async def streamFace_video(websocket: WebSocket):
@@ -226,3 +228,18 @@ async def getPlateNumber(plate_image: UploadFile = File(...)):
          raise HTTPException(status_code=400, detail=f"Plate recognition error: {e}")
 
     return {"license_plate": license_plate}
+
+@router.post("/getFaceEmbedding")
+async def getFaceEmbedding(face_image: UploadFile = File(...)):
+    face_image_content = face_image.file.read()
+    base64_face_img = base64.b64encode(face_image_content).decode("utf-8")
+
+    try:
+        face_img = face_embedding_reconizer.load_image(base64_face_img)
+        embedding = face_embedding_reconizer.get_embedding(face_img)
+    except Exception as e:
+         raise HTTPException(status_code=400, detail=f"Face recognition error: {e}")
+
+    if embedding is None:
+        return {"embedding": []}
+    return {"embedding": embedding.tolist()}
