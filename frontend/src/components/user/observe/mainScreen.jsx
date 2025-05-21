@@ -41,6 +41,9 @@ const MainScreen = ({ status }) => {
     "000019",
     "000020",
   ];
+
+  const [parking_lot_id, setParking_lot_id] = useState(1);
+
   //In gate
   const [InId, setInId] = useState("None");
   const [DateIn, setDateIn] = useState(null);
@@ -51,6 +54,7 @@ const MainScreen = ({ status }) => {
   const [in_plate_img, setInPlateImg] = useState(null);
   const [cameraMessageIn, setCameraMessageIn] = useState("");
   const [cameraStatusIn, setCameraStatusIn] = useState(false);
+  const [ticketListIn, setTicketListIn] = useState([]);
 
   const faceVideoRef_In = useRef(null);
   const plateVideoRef_In = useRef(null);
@@ -69,6 +73,7 @@ const MainScreen = ({ status }) => {
   const [out_plate_img, setOutPlateImg] = useState(null);
   const [cameraMessageOut, setCameraMessageOut] = useState("");
   const [cameraStatusOut, setCameraStatusOut] = useState(false);
+  const [ticketListOut, setTicketListOut] = useState([]);
 
   const faceVideoRef_Out = useRef(null);
   const plateVideoRef_Out = useRef(null);
@@ -77,6 +82,45 @@ const MainScreen = ({ status }) => {
 
   const [faceImgOut_path, setFaceImgOut_path] = useState(null);
   const [plateImgOut_path, setPlateImgOut_path] = useState(null);
+
+  const fetchTicketListIn = async () => {
+    try {
+      const response = await axios.get(
+        `${backendUrl}/ticket/get_ticket_by_status`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { status: "Không Được Sử Dụng", parking_lot_id },
+        }
+      );
+      const tickets = response.data.tickets.map((ticket) => ticket.ticket_id);
+      setTicketListIn(tickets);
+      console.log("Ticket List In:", response.data);
+    } catch (error) {
+      console.error("Error fetching ticket list In:", error);
+    }
+  };
+
+  const fetchTicketListOut = async () => {
+    try {
+      const response = await axios.get(
+        `${backendUrl}/ticket/get_ticket_by_status`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { status: "Đang Được Sử Dụng", parking_lot_id },
+        }
+      );
+      const tickets = response.data.tickets.map((ticket) => ticket.ticket_id);
+      setTicketListOut(tickets); // <-- fix here, set the correct state
+      console.log("Ticket List Out:", response.data);
+    } catch (error) {
+      console.error("Error fetching ticket list Out:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTicketListIn();
+    fetchTicketListOut();
+  }, [parking_lot_id, token]);
 
   //get Time
   function getCurrentTime() {
@@ -261,7 +305,7 @@ const MainScreen = ({ status }) => {
     }
   };
 
-  async function getHistoryIn(ticket_id, license_plate) {
+  async function getHistoryIn(parking_lot_id, ticket_id, license_plate) {
     setCameraMessageOut("Getting history...");
     try {
       const res = await axios.get(`${backendUrl}/history/search/last`, {
@@ -269,6 +313,7 @@ const MainScreen = ({ status }) => {
           Authorization: `Bearer ${token}`,
         },
         params: {
+          parking_lot_id: parking_lot_id,
           ticket_id: ticket_id,
           license_plate: license_plate,
         },
@@ -299,6 +344,33 @@ const MainScreen = ({ status }) => {
           license_plate_OUT: license_plate_OUT,
           date_out: date_out,
           time_out: time_out,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      console.error("API Error:", err.response?.data || err.message);
+    }
+  }
+
+  async function updateTicketStatus(parking_lot_id, ticket_id, status) {
+    setCameraMessageOut("Updating ticket status...");
+    console.log("Parking lot ID:", parking_lot_id);
+    console.log("Ticket ID:", ticket_id);
+    console.log("Status:", status);
+
+    try {
+      const res = await axios.put(
+        `${backendUrl}/ticket/update_ticket_status/`,
+        {
+          parking_lot_id: parking_lot_id,
+          ticket_id: ticket_id,
+          status: status,
         },
         {
           headers: {
@@ -376,12 +448,21 @@ const MainScreen = ({ status }) => {
   }, [cameraStatusIn, cameraStatusOut]);
 
   const processInGate = async (faceImg, plateImg) => {
+    if (InId === "None") {
+      setCameraMessageIn("Please select a ticket ID");
+      return;
+    }
     const timeIn = getCurrentTime();
     const dateIn = getCurrentDateInfo();
     const faceUrl = await uploadBase64ToImgBB(faceImg, "In");
     const plateUrl = await uploadBase64ToImgBB(plateImg, "In");
     const plateNumber = await getPlateNumberFromImage(plateImg, "In");
     const faceEmbedding = await getFaceEmbedding(faceImg, "In");
+    const updateTicket = await updateTicketStatus(
+      parking_lot_id,
+      InId,
+      "Đang Được Sử Dụng"
+    );
 
     setTimeIn(timeIn);
     setDateIn(dateIn);
@@ -406,7 +487,7 @@ const MainScreen = ({ status }) => {
       InId,
       "Vé lượt",
       "Xe máy",
-      1
+      parking_lot_id
     );
 
     // console.log("Face URL:", faceImgIn_path);
@@ -417,16 +498,30 @@ const MainScreen = ({ status }) => {
     console.log("Plate URL:", plateUrl);
     console.log("Plate Number:", plateNumber);
     console.log("Face Embedding:", faceEmbedding);
+    console.log("Update Ticket:", updateTicket);
+
+    fetchTicketListIn(); // Refresh the ticket list after processing
+    setInId("None");
+
     setCameraMessageIn("Done");
   };
 
   const processOutGate = async (faceImg, plateImg) => {
+    if (OutId === "None") {
+      setCameraMessageIn("Please select a ticket ID");
+      return;
+    }
     const timeOut = getCurrentTime();
     const dateOut = getCurrentDateInfo();
     const faceUrl = await uploadBase64ToImgBB(faceImg, "Out");
     const plateUrl = await uploadBase64ToImgBB(plateImg, "Out");
     const plateNumber = await getPlateNumberFromImage(plateImg, "Out");
     const faceEmbedding = await getFaceEmbedding(faceImg, "Out");
+    const updateTicket = await updateTicketStatus(
+      parking_lot_id,
+      OutId,
+      "Không Được Sử Dụng"
+    );
 
     setTimeOut(timeOut);
     setDateOut(dateOut);
@@ -435,13 +530,14 @@ const MainScreen = ({ status }) => {
     setPlateNumberOut(plateNumber);
     setFaceEmbeddingOut(faceEmbedding);
 
-    const getRespond = await getHistoryIn(OutId, plateNumber);
+    const getRespond = await getHistoryIn(parking_lot_id, OutId, plateNumber);
 
     console.log("Face URL:", faceUrl);
     console.log("Plate URL:", plateUrl);
     console.log("Plate Number:", plateNumber);
     console.log("Face Embedding:", faceEmbedding);
     console.log("Get Respond:", getRespond);
+    console.log("Update Ticket:", updateTicket);
 
     if (getRespond) {
       const id = getRespond.id;
@@ -455,6 +551,10 @@ const MainScreen = ({ status }) => {
         timeOut
       );
       console.log("Update Respond:", updateRespond);
+
+      fetchTicketListOut(); // Refresh the ticket list after processing
+      setOutId("None");
+
       setCameraMessageOut("Done");
     } else {
       setCameraMessageOut("No history found");
@@ -542,7 +642,7 @@ const MainScreen = ({ status }) => {
                 </button>
                 {dropdownInOpen && (
                   <ul className={styles["dropdown-list"]}>
-                    {idList_IN.map((id) => (
+                    {ticketListIn.map((id) => (
                       <li
                         key={id}
                         className={styles["dropdown-item"]}
@@ -687,7 +787,7 @@ const MainScreen = ({ status }) => {
                 </button>
                 {dropdownOutOpen && (
                   <ul className={styles["dropdown-list"]}>
-                    {idList_OUT.map((id) => (
+                    {ticketListOut.map((id) => (
                       <li
                         key={id}
                         className={styles["dropdown-item"]}
@@ -762,7 +862,7 @@ const MainScreen = ({ status }) => {
               <div className={`${styles["in-picture-front"]} ${styles["cam"]}`}>
                 <p>Mặt trước</p>
                 <img
-                  src={in_face_img}
+                  src={out_face_img}
                   style={{
                     maxWidth: "200px",
                     maxHeight: "200px",

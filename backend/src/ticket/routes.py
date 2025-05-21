@@ -64,3 +64,20 @@ def get_ticket_by_status(
         "tickets": tickets,
         "user_id": current_user.id
     }
+
+@router.put("/update_ticket_status/")
+def update_ticket_status(
+    ticket_update: schemas.TicketStatusUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    ticket = crud.get_ticket_by_id(db, ticket_update.ticket_id, ticket_update.parking_lot_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+    updated_ticket = crud.update_ticket_status(db, ticket_update.ticket_id, ticket_update.status, ticket_update.parking_lot_id)
+    return {
+        "message": "Ticket status updated successfully",
+        "ticket": updated_ticket,
+        "user_id": current_user.id
+    }

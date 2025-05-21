@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from typing import Optional
 
 class TicketCreate(BaseModel):
-    ticket_id:int
-    status: Optional[str] = "Không Được Sử Dụng"  # Default value
+    ticket_id: int
+    status: Optional[str] = "Không Được Sử Dụng"
     parking_lot_id: int
 
 class Ticket(TicketCreate):
@@ -12,3 +12,9 @@ class Ticket(TicketCreate):
 
     class Config:
         orm_mode = True
+
+# New model for update request
+class TicketStatusUpdate(BaseModel):
+    ticket_id: int
+    status: str
+    parking_lot_id: int
