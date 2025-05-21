@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import styles from "../../../styles/ParkingLot_Info.module.css"; // Import styles as a module
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import ParkingForm from "./ParkingForm"; 
-import EditForm from "./EditForm"; // Import EditForm component
+import styles from "../../../styles/ParkingLot_Info.module.css";
+import { useNavigate, Link } from "react-router-dom";
+import ParkingForm from "./ParkingForm";
+import EditForm from "./EditForm";
+import DeleteConfirmForm from "./DeleteConfirmForm"; // Form xác nhận xóa
 
 const ParkingLot_Info = () => {
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedLotId, setSelectedLotId] = useState(null);
+  const [showDeleteForm, setShowDeleteForm] = useState(false);
+  const [deleteLotId, setDeleteLotId] = useState(null);
 
-  const [parkingLots] = useState([
+  const [parkingLots, setParkingLots] = useState([
     { id: 1, code: '0001', name: 'VNU - UEB', location: 'Toà A1', capacity: 500, remaining: 200, status: 'Trống nhiều' },
     { id: 2, code: '00002', name: 'VNU - UL', location: 'Toà A2', capacity: 300, remaining: 100, status: 'Trống nhiều' },
     { id: 3, code: '0003', name: 'VNU - KTX', location: 'KT túc xá', capacity: 200, remaining: 0, status: 'Hết chỗ' },
@@ -24,22 +26,30 @@ const ParkingLot_Info = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const lotsPerPage = 5;
 
-  const handleCreateParkingLot = () => {
-    setShowForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false);
-  };
+  const handleCreateParkingLot = () => setShowForm(true);
+  const handleCloseForm = () => setShowForm(false);
 
   const handleEdit = (id) => {
     setSelectedLotId(id);
     setShowEditForm(true);
   };
-
   const handleCloseEditForm = () => {
     setShowEditForm(false);
     setSelectedLotId(null);
+  };
+
+  const handleDelete = (id) => {
+    setDeleteLotId(id);
+    setShowDeleteForm(true);
+  };
+  const handleCloseDeleteForm = () => {
+    setDeleteLotId(null);
+    setShowDeleteForm(false);
+  };
+  const handleConfirmDelete = () => {
+    setParkingLots(parkingLots.filter((lot) => lot.id !== deleteLotId));
+    setDeleteLotId(null);
+    setShowDeleteForm(false);
   };
 
   const indexOfLastLot = currentPage * lotsPerPage;
@@ -48,9 +58,7 @@ const ParkingLot_Info = () => {
   const totalPages = Math.ceil(parkingLots.length / lotsPerPage);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   const renderStatus = (status) => {
@@ -79,6 +87,7 @@ const ParkingLot_Info = () => {
             Tạo bãi đỗ mới
           </button>
         </div>
+
         <div className={styles["section-subheader"]}>
           Danh sách thông tin cần thiết về các bãi đỗ xe của bạn
         </div>
@@ -95,7 +104,7 @@ const ParkingLot_Info = () => {
                 <th>Vị trí còn trống</th>
                 <th>Trạng thái</th>
                 <th>Edit</th>
-                <th>View</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -117,8 +126,11 @@ const ParkingLot_Info = () => {
                     </button>
                   </td>
                   <td>
-                    <button className={styles["view-btn"]}>
-                      <i className={styles["view-icon"]}>👁</i>
+                    <button
+                      className={styles["edit-btn"]}
+                      onClick={() => handleDelete(lot.id)}
+                    >
+                      <i className={styles["edit-icon"]}>🗑</i>
                     </button>
                   </td>
                 </tr>
@@ -138,7 +150,7 @@ const ParkingLot_Info = () => {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
-              className={`${styles["page-btn"]} ${currentPage === page ? styles["active"] : ''}`}
+              className={`${styles["page-btn"]} ${currentPage === page ? styles["active"] : ""}`}
               onClick={() => handlePageChange(page)}
             >
               {page}
@@ -164,6 +176,15 @@ const ParkingLot_Info = () => {
               onClose={handleCloseEditForm}
               lotId={selectedLotId}
               parkingLots={parkingLots}
+            />
+          </div>
+        )}
+        {showDeleteForm && (
+          <div className={styles["form-overlay"]}>
+            <DeleteConfirmForm
+              lotId={deleteLotId}
+              onClose={handleCloseDeleteForm}
+              onConfirm={handleConfirmDelete}
             />
           </div>
         )}
