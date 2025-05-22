@@ -11,7 +11,6 @@ const EditForm = ({ lotId, parkingLots, onClose }) => {
     name: "",
     location: "",
     capacity: "",
-    remaining: "",
   });
 
   // Điền dữ liệu ban đầu
@@ -21,7 +20,6 @@ const EditForm = ({ lotId, parkingLots, onClose }) => {
         name: lot.name || "",
         location: lot.location || "",
         capacity: lot.capacity ? lot.capacity.toString() : "",
-        remaining: lot.remaining ? lot.remaining.toString() : "",
       });
     }
   }, [lot]);
@@ -34,12 +32,34 @@ const EditForm = ({ lotId, parkingLots, onClose }) => {
     }));
   };
 
-  async function updateParkingLot(id, name, location, capacity, remaining) {
+  async function createTicket(x, y, parking_lot_id) {
+    const params = {
+      x: x,
+      y: y,
+      parking_lot_id: parking_lot_id,
+    };
+
+    try {
+      const res = await axios.post(
+        `${backendUrl}/ticket/reset_and_create`,
+        {}, // empty body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params, // this goes in the third argument
+        }
+      );
+    } catch (err) {
+      console.error("API Error:", err.response?.data || err.message);
+    }
+  }
+
+  async function updateParkingLot(id, name, location, capacity) {
     const payload = {
       name: name,
       location: location,
       capacity: capacity,
-      available_spots: remaining,
     };
     try {
       const res = await axios.put(
@@ -57,15 +77,36 @@ const EditForm = ({ lotId, parkingLots, onClose }) => {
     }
   }
 
+  async function updateSpot(id, numberSpots) {
+    try {
+      const res = await axios.put(
+        `${backendUrl}/parking_lot/update_spots/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            new_available_spots: numberSpots, // ✅ query parameter goes here
+          },
+        }
+      );
+      console.log("Update response:", res.data);
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updateParkingLot(
       lotId,
       formData.name,
       formData.location,
-      formData.capacity,
-      formData.remaining
+      formData.capacity
     );
+    await createTicket(1, Number(formData.capacity), lotId);
+    await updateSpot(lotId, Number(formData.capacity));
     onClose();
   };
 
@@ -110,17 +151,7 @@ const EditForm = ({ lotId, parkingLots, onClose }) => {
             onChange={handleChange}
           />
         </div>
-        <div className={styles["form-group"]}>
-          <label htmlFor="remaining">Số vị trí còn trống</label>
-          <input
-            type="number"
-            id="remaining"
-            className={styles["form-control"]}
-            placeholder="Vui lòng nhập số"
-            value={formData.remaining}
-            onChange={handleChange}
-          />
-        </div>
+
         <div className={styles["buttons-container"]}>
           <button
             type="button"

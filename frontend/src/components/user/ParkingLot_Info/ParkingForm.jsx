@@ -70,8 +70,8 @@ const ParkingForm = ({ onClose, id }) => {
     await createParkingLot(
       formData.name,
       formData.location,
-      formData.capacity,
-      formData.capacity
+      Number(formData.capacity),
+      Number(formData.capacity)
     );
     await createTicket(1, Number(formData.capacity), id);
     console.log("Form submitted:", formData);

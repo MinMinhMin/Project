@@ -7,6 +7,11 @@ class ParkingLotCreate(BaseModel):
     capacity: Optional[int] = None
     available_spots: Optional[int] = None
 
+class ParkingLotUpdate(BaseModel):
+    name: str
+    location: str
+    capacity: Optional[int] = None
+
 class ParkingLot(ParkingLotCreate):
     id: int
     user_id: int

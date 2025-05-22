@@ -55,6 +55,26 @@ const MainScreen = ({ ParkingLotId }) => {
   const [faceImgOut_path, setFaceImgOut_path] = useState(null);
   const [plateImgOut_path, setPlateImgOut_path] = useState(null);
 
+  async function updateSpot(id, numberSpots) {
+    try {
+      const res = await axios.put(
+        `${backendUrl}/parking_lot/update_spots/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            new_available_spots: numberSpots, // ✅ query parameter goes here
+          },
+        }
+      );
+      console.log("Update response:", res.data);
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }
+
   const fetchTicketListIn = async (id) => {
     try {
       console.log("Parking lot ID:", id);
@@ -70,6 +90,7 @@ const MainScreen = ({ ParkingLotId }) => {
       );
       const tickets = response.data.tickets.map((ticket) => ticket.ticket_id);
       setTicketListIn(tickets);
+      await updateSpot(ParkingLotId, tickets.length);
       console.log("Ticket List In:", response.data);
     } catch (error) {
       console.error("Error fetching ticket list In:", error);

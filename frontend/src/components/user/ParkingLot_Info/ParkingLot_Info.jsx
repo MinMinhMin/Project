@@ -15,80 +15,7 @@ const ParkingLot_Info = () => {
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [deleteLotId, setDeleteLotId] = useState(null);
 
-  const [parkingLots, setParkingLots] = useState([
-    {
-      id: 1,
-      code: "0001",
-      name: "VNU - UEB",
-      location: "Toà A1",
-      capacity: 500,
-      remaining: 200,
-      status: "Trống nhiều",
-    },
-    {
-      id: 2,
-      code: "00002",
-      name: "VNU - UL",
-      location: "Toà A2",
-      capacity: 300,
-      remaining: 100,
-      status: "Trống nhiều",
-    },
-    {
-      id: 3,
-      code: "0003",
-      name: "VNU - KTX",
-      location: "KT túc xá",
-      capacity: 200,
-      remaining: 0,
-      status: "Hết chỗ",
-    },
-    {
-      id: 4,
-      code: "0004",
-      name: "VNU - NN",
-      location: "Toà E1",
-      capacity: 200,
-      remaining: 190,
-      status: "Sắp đầy",
-    },
-    {
-      id: 5,
-      code: "0005",
-      name: "VNU - ULIS1",
-      location: "Hồ trường",
-      capacity: 50,
-      remaining: 40,
-      status: "Trống nhiều",
-    },
-    {
-      id: 6,
-      code: "0006",
-      name: "VNU - ULIS2",
-      location: "Sân bóng",
-      capacity: 450,
-      remaining: 250,
-      status: "Trống nhiều",
-    },
-    {
-      id: 7,
-      code: "0007",
-      name: "VNU-GIS",
-      location: "Thư viện",
-      capacity: 123,
-      remaining: 60,
-      status: "Trống nhiều",
-    },
-    {
-      id: 8,
-      code: "0008",
-      name: "VNU-UET",
-      location: "Toà G2",
-      capacity: 456,
-      remaining: 450,
-      status: "Sắp đầy",
-    },
-  ]);
+  const [parkingLots, setParkingLots] = useState([]);
 
   async function deleteParkingLot(id) {
     try {
@@ -115,7 +42,7 @@ const ParkingLot_Info = () => {
 
       // Transform API data to match the frontend shape
       const transformedData = res.data.map((lot, index) => {
-        const capacity = lot.capacity ?? 100; // fallback if null
+        const capacity = lot.capacity ?? 0; // fallback if null
         const remaining = lot.available_spots ?? 0;
 
         // Compute status based on available spots and capacity
