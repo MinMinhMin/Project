@@ -4,16 +4,23 @@ import "../styles/UserPage.css";
 import MainScreen from "../components/user/observe/mainScreen";
 import Notification from "../components/user/observe/notification";
 import CurrentParking from "../components/user/observe/currentParking";
-
+import History from "../components/user/querryHistory/History";
 const backendUrl = import.meta.env.VITE_API_URL;
 
 export default function UserPage() {
-  
+  const [ParkingLotId, setParkingLotId] = useState(
+    localStorage.getItem("ParkingLotId") || ""
+  );
+  const handleParkingLotChange = (newId) => {
+    setParkingLotId(newId);
+    localStorage.setItem("ParkingLotId", newId);
+  };
+
   return (
     <div className="user-page">
-      <CurrentParking/>
+      <CurrentParking onChangeParkingLot={handleParkingLotChange} />
       <Notification />
-      <MainScreen />
+      <MainScreen ParkingLotId={ParkingLotId} />
     </div>
   );
 }

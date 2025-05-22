@@ -17,7 +17,7 @@ class User(Base):
 class Ticket(Base):
     __tablename__ = "tickets"
     id = Column(Integer, primary_key=True, index=True)
-    ticket_id = Column(String, unique=True, index=True)
+    ticket_id = Column(String)
     status = Column(String, default="Không Được Sử Dụng")  # <-- Add this line
     parking_lot_id = Column(Integer, ForeignKey("parking_lots.id"))
 
@@ -42,10 +42,17 @@ class ParkingLot(Base):
 class History(Base):
     __tablename__ = "history"
     id = Column(Integer, primary_key=True, index=True)
-    face_image_path = Column(String)
-    license_plate_image_path = Column(String)
-    face_embedding = Column(String)
-    license_plate = Column(String)
+
+    face_image_path_IN = Column(String)
+    license_plate_image_path_IN = Column(String)
+    face_embedding_IN = Column(String)
+    license_plate_IN = Column(String)
+
+    face_image_path_OUT = Column(String)
+    license_plate_image_path_OUT = Column(String)
+    face_embedding_OUT = Column(String)
+    license_plate_OUT = Column(String)
+
     date_in = Column(Date)
     date_out = Column(Date)
     time_in = Column(Time)

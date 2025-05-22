@@ -23,19 +23,25 @@ const UserTopBar = () => {
       <div className={styles["topbar-right"]}>
         <Link
           to="/my-parking"
-          className={`${styles["nav-link"]} ${location.pathname === "/my-parking" ? styles["active"] : ""}`}
+          className={`${styles["nav-link"]} ${
+            location.pathname.startsWith("/my-parking") ? styles["active"] : ""
+          }`}
         >
           Bãi đỗ của tôi
         </Link>
         <Link
           to="/observe"
-          className={`${styles["nav-link"]} ${location.pathname === "/observe" ? styles["active"] : ""}`}
+          className={`${styles["nav-link"]} ${
+            location.pathname === "/observe" ? styles["active"] : ""
+          }`}
         >
           Theo dõi ra vào
         </Link>
         <Link
           to="/history"
-          className={`${styles["nav-link"]} ${location.pathname === "/history" ? styles["active"] : ""}`}
+          className={`${styles["nav-link"]} ${
+            location.pathname === "/history" ? styles["active"] : ""
+          }`}
         >
           Tra cứu lịch sử
         </Link>

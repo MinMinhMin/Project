@@ -30,8 +30,8 @@ def reset_and_create_tickets(
     if x > y:
         raise HTTPException(status_code=400, detail="X must be less than or equal to Y")
 
-    # Step 1: Delete all tickets
-    db.query(models.Ticket).delete()
+    # Step 1: Delete all tickets with the same parking_lot_id
+    db.query(models.Ticket).filter(models.Ticket.parking_lot_id == parking_lot_id).delete()
     db.commit()
 
     # Step 2: Create tickets with ticket_id from x to y
@@ -62,5 +62,22 @@ def get_ticket_by_status(
     tickets = crud.get_ticket_by_status(db, status, parking_lot_id)
     return {
         "tickets": tickets,
+        "user_id": current_user.id
+    }
+
+@router.put("/update_ticket_status/")
+def update_ticket_status(
+    ticket_update: schemas.TicketStatusUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    ticket = crud.get_ticket_by_id(db, ticket_update.ticket_id, ticket_update.parking_lot_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+    updated_ticket = crud.update_ticket_status(db, ticket_update.ticket_id, ticket_update.status, ticket_update.parking_lot_id)
+    return {
+        "message": "Ticket status updated successfully",
+        "ticket": updated_ticket,
         "user_id": current_user.id
     }
