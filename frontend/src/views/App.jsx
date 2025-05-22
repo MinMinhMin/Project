@@ -4,7 +4,7 @@ import UserPage from "./UserPage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import AdminPage from "./AdminPage";
-import UserTopBar from "../layout/usertobarHistory";
+import UserTopBar from "../layout/usertopbar";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import ParkingLotsPage from "./ParkingLotsPage";
