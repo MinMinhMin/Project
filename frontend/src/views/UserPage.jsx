@@ -4,7 +4,7 @@ import "../styles/UserPage.css";
 import MainScreen from "../components/user/observe/mainScreen";
 import Notification from "../components/user/observe/notification";
 import CurrentParking from "../components/user/observe/currentParking";
-
+import History from "../components/user/querryHistory/History";
 const backendUrl = import.meta.env.VITE_API_URL;
 
 export default function UserPage() {
