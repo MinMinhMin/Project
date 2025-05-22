@@ -1,11 +1,11 @@
-/* ParkingLot_Info.module.css */
-
 /* Main container styles */
 .parking-management {
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: #f8fafc;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* User Topbar Styles */
@@ -13,10 +13,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 16px 24px;
   background-color: white;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  z-index: 100;
 }
 
 .logo-section {
@@ -25,292 +27,451 @@
 }
 
 .parking-logo {
-  width: 40px;
-  height: 40px;
-  background-color: #ff8a00;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #ff8a00, #ff6b00);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 12px;
   font-size: 24px;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 12px;
+  box-shadow: 0 2px 8px rgba(255, 138, 0, 0.3);
 }
 
 .parking-text {
   display: flex;
   flex-direction: column;
-  font-weight: bold;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 .sub-text {
   font-size: 12px;
-  color: #666;
+  color: #64748b;
   font-weight: normal;
+  margin-top: 2px;
 }
 
 .topbar-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
 }
 
 .topbar-buttons button {
-  padding: 8px 15px;
+  padding: 10px 16px;
   background: none;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #475569;
 }
 
 .parking-lot-btn.active {
-  background-color: #ff8a00;
+  background: linear-gradient(135deg, #ff8a00, #ff6b00);
   color: white;
+  box-shadow: 0 2px 8px rgba(255, 138, 0, 0.3);
 }
 
-.follow-btn, .history-btn {
-  color: #333;
-}
-
-.follow-btn:hover, .history-btn:hover {
-  background-color: #f0f0f0;
+.follow-btn:hover,
+.history-btn:hover {
+  background-color: #f1f5f9;
+  color: #334155;
 }
 
 .logout-btn {
-  border: 1px solid #ddd !important;
-  border-radius: 4px;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px;
+  color: #ef4444;
 }
 
 .logout-btn:hover {
-  background-color: #f0f0f0;
+  background-color: #fef2f2;
+  border-color: #fecaca !important;
 }
 
 /* Menu Bar Styles */
 .menu-bar {
   display: flex;
   background-color: white;
-  padding: 10px 20px;
-  border-bottom: 2px solid #2196f3;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 0 24px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
 }
 
 .menu-btn {
   background: none;
   border: none;
-  padding: 10px 20px;
+  padding: 16px 24px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 500;
   position: relative;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
+  color: #64748b;
+  border-bottom: 3px solid transparent;
 }
 
 .menu-btn.active {
-  border-bottom: 3px solid #ff8a00;
+  border-bottom-color: #ff8a00;
   color: #ff8a00;
+  background-color: #fff7ed;
 }
 
 .menu-btn:hover:not(.active) {
-  color: #666;
+  color: #334155;
+  background-color: #f8fafc;
 }
 
-/* Parking Info Section */
+/* Main Content Container */
 .parking-info-section {
   background-color: white;
-  margin: 0 20px 20px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 24px;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
+/* Section Header */
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #ff69b4;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f1f5f9;
+  flex-shrink: 0;
 }
 
 .header-icon {
   display: flex;
   align-items: center;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 .car-icon {
-  font-size: 24px;
-  margin-right: 10px;
+  font-size: 28px;
+  margin-right: 12px;
+  color: #ff8a00;
 }
 
 .create-btn {
-  background-color: #ff8a00;
+  background: linear-gradient(135deg, #ff8a00, #ff6b00);
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 10px 15px;
+  border-radius: 10px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(255, 138, 0, 0.3);
 }
 
 .create-btn:hover {
-  background-color: #e67e00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 138, 0, 0.4);
 }
 
 .plus-icon {
-  margin-right: 5px;
+  margin-right: 8px;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .section-subheader {
-  color: #666;
-  margin-bottom: 20px;
+  color: #64748b;
+  margin-bottom: 24px;
   font-size: 14px;
+  flex-shrink: 0;
 }
 
-/* Table styles */
+/* Table Container - FIXED LAYOUT */
+.table-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .parking-table-container {
-  overflow-x: auto;
-  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: white;
+  overflow: hidden;
+  /* REMOVED min-height and flex properties that caused extra space */
 }
 
 .parking-table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.parking-table th, 
-.parking-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  table-layout: fixed;
+  /* Ensure table doesn't expand beyond content */
+  height: auto;
 }
 
 .parking-table th {
-  background-color: #f9f9f9;
-  font-weight: normal;
-  color: #666;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  font-weight: 600;
+  color: #475569;
   font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.parking-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
 }
 
 .parking-table tbody tr {
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .parking-table tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: #f8fafc;
+  transform: translateX(2px);
 }
 
-/* Status badges */
+/* Remove border from last row to eliminate extra line */
+.parking-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status badges with modern design */
 .status-badge {
-  font-size: 14px;
-  display: inline-block;
-  padding: 2px 0;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .status-available {
-  color: #4CAF50;
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
 }
 
 .status-almost-full {
-  color: #FF9800;
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
 }
 
 .status-full {
-  color: #F44336;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
 }
 
-/* Action buttons */
-.edit-btn, 
-.view-btn {
+/* Modern action buttons */
+.edit-btn {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.2s;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: #64748b;
 }
 
-.edit-btn:hover,
-.view-btn:hover {
-  background-color: #f0f0f0;
+.edit-btn:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+  transform: scale(1.1);
 }
 
 .edit-icon {
-  color: #2196F3;
+  font-size: 18px;
 }
 
-.view-icon {
-  color: #4CAF50;
+/* Pagination with fixed position */
+.pagination-wrapper {
+  flex-shrink: 0;
+  padding: 20px 0 0 0;
+  border-top: 1px solid #e2e8f0;
+  background-color: white;
+  margin-top: 20px;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
-  justify-content: flex-start;
-  margin: 20px 0;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .page-btn {
-  width: 30px;
-  height: 30px;
-  margin: 0 5px;
-  border: 1px solid #ddd;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e2e8f0;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 4px;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  color: #64748b;
+  font-weight: 500;
 }
 
-.page-btn:hover:not(.active) {
-  background-color: #f0f0f0;
+.page-btn:hover:not(.active):not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .page-btn.active {
-  background-color: #ff8a00;
+  background: linear-gradient(135deg, #ff8a00, #ff6b00);
   color: white;
   border-color: #ff8a00;
+  box-shadow: 0 2px 8px rgba(255, 138, 0, 0.3);
 }
 
-
+/* Modern form overlay */
 .form-overlay {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-}
-.form-overlay {
-  position: fixed;        /* Cố định trên màn hình */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;           /* Chiếm toàn bộ chiều ngang */
-  height: 100vh;          /* Chiếm toàn bộ chiều dọc */
-  background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen mờ 50% */
-  display: flex;          /* Dùng flex để căn giữa con bên trong */
-  justify-content: center; /* Căn giữa ngang */
-  align-items: center;     /* Căn giữa dọc */
-  z-index: 9999;          /* Đảm bảo lớp này nằm trên cùng */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .parking-form {
-  background-color: white;   /* Nền trắng */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  max-width: 500px;          /* Giới hạn chiều ngang */
-  width: 90%;                /* Chiếm tối đa 90% màn hình trên thiết bị nhỏ */
+  background-color: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .parking-info-section {
+    margin: 16px;
+    padding: 20px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-topbar {
+    padding: 12px 16px;
+  }
+
+  .menu-bar {
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+
+  .parking-info-section {
+    margin: 12px;
+    padding: 16px;
+  }
+
+  .parking-table th,
+  .parking-table td {
+    padding: 12px 16px;
+  }
+
+  .topbar-buttons {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .topbar-buttons button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Smooth scrollbar */
+.parking-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.parking-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.parking-table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.parking-table-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
