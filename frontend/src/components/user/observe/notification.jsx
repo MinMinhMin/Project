@@ -1,7 +1,15 @@
 import React from "react";
 import styles from "../../../styles/user/notification.module.css"; // CSS Module
 
-const Notification = ({ moto_in, car_in, moto_out, car_out, moto_not_out, car_not_out, revenue }) => {
+const Notification = ({
+  moto_in,
+  car_in,
+  moto_out,
+  car_out,
+  moto_not_out,
+  car_not_out,
+  revenue,
+}) => {
   return (
     <div className={styles.notification}>
       <div className={`${styles.container} ${styles.in}`}>
@@ -64,7 +72,7 @@ const Notification = ({ moto_in, car_in, moto_out, car_out, moto_not_out, car_no
       <div className={`${styles.container} ${styles.revenue}`}>
         <div className={styles.title}>Tổng tiền</div>
         <div className={styles.content}>
-          <p className={styles['revenue-num']}>{revenue || "500.000"} đ</p>
+          <p className={styles["revenue-num"]}>{revenue || "500.000"} đ</p>
         </div>
       </div>
     </div>

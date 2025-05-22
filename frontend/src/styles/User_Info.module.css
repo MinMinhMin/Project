@@ -1,0 +1,110 @@
+.container {
+  width: 665px;
+  height: 501px;
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+.editButton {
+  background-color: #f97316;
+  color: #ffffff;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.editButton:hover {
+  background-color: #fb923c;
+}
+
+.formGroup {
+  margin-bottom: 12px;
+}
+
+.label {
+  display: block;
+  color: #374151;
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+}
+
+.readOnly {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+  color: #666666;
+}
+
+.passwordWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggleButton {
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.toggleButton:hover {
+  background-color: #e5e7eb;
+}
+
+.saveButton {
+  background-color: #f97316;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;
+}
+
+.saveButton:hover:enabled {
+  background-color: #fb923c;
+}
+
+.saveButton:disabled {
+  background-color: #fcd34d;
+  cursor: not-allowed;
+}

@@ -8,14 +8,25 @@ This project includes:
   ```batch
    pip install -r requirements.txt
    ```
+  ```batch
+   pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
+   ```
 - Start a back-end server (the server is hosted at port 8000 by default, can be customized in main.py)
   ```batch
    cd backend/src
    
    ```
   ```batch
-   uvicorn main:app   
+   python main.py 
    ```
+- Start a back-end-AI server (the server is hosted at port 8001 by default, can be customized in main.py)
+```batch
+ cd backend-AI
+ 
+ ```
+```batch
+ python main.py 
+ ```
 ## Frontend Setup
 - Install Node.js at [here](https://nodejs.org/en)
 - Install front-end packages
@@ -43,4 +54,46 @@ This project includes:
 - Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
 - Details at backend/src/face_images/routes.py 
 ## Setup Docker
-Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
+- Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
+- Package backend, backend-AI, frontend into 3 docker compose
+- Docker 1 (backend):
+  - Package:Python 3.11.5
+   ```batch
+   pip install -r requirements.txt
+   ```
+  - Host:
+  ```batch
+   cd backend/src
+   ```
+  ```batch
+   python main.py 
+   ```
+- Docker 2 (backend-AI): 
+  - Package: Python 3.11.5
+  ```batch
+   pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
+   ```
+  - Host:
+    ```batch
+     cd backend-AI
+     ```
+    ```batch
+     python main.py 
+     ```
+- Docker 3 (frontend):
+  - Package: Node.js
+     ```batch
+     cd frontend
+     ```
+     ```batch
+     npm install
+      ```
+  - Host:
+     ```batch
+     cd frontend
+     ```
+     ```batch
+     npm run dev
+     ```
+
+  

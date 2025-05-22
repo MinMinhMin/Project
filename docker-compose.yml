@@ -1,0 +1,68 @@
+services:
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      ports:
+        - "5173:5173"
+      volumes:
+        - ./frontend:/app
+        - /app/node_modules
+      environment:
+        - NODE_ENV=development
+      networks:
+        - app-network
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:5173"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/src:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend-ai:
+    platform: linux/amd64
+    build:
+      context: ./backend-AI
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend-AI/src:/app/src
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  
+networks:
+  app-network:
+    driver: bridge
