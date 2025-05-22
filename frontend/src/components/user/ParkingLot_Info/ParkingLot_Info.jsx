@@ -172,79 +172,85 @@ const ParkingLot_Info = () => {
           Danh sách thông tin cần thiết về các bãi đỗ xe của bạn
         </div>
 
-        <div className={styles["parking-table-container"]}>
-          <table className={styles["parking-table"]}>
-            <thead>
-              <tr>
-                <th>Số thứ tự</th>
-                <th>Mã bãi đỗ xe</th>
-                <th>Tên bãi đỗ</th>
-                <th>Vị trí bãi đỗ</th>
-                <th>Sức chứa</th>
-                <th>Vị trí còn trống</th>
-                <th>Trạng thái</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentLots.map((lot) => (
-                <tr key={lot.id}>
-                  <td>{lot.id}</td>
-                  <td>{lot.code}</td>
-                  <td>{lot.name}</td>
-                  <td>{lot.location}</td>
-                  <td>{lot.capacity}</td>
-                  <td>{lot.remaining}</td>
-                  <td>{renderStatus(lot.status)}</td>
-                  <td>
-                    <button
-                      className={styles["edit-btn"]}
-                      onClick={() => handleEdit(lot.id)}
-                    >
-                      <i className={styles["edit-icon"]}>✎</i>
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className={styles["edit-btn"]}
-                      onClick={() => handleDelete(lot.id)}
-                    >
-                      <i className={styles["edit-icon"]}>🗑</i>
-                    </button>
-                  </td>
+        <div className={styles["table-wrapper"]}>
+          <div className={styles["parking-table-container"]}>
+            <table className={styles["parking-table"]}>
+              <thead>
+                <tr>
+                  <th>Số thứ tự</th>
+                  <th>Mã bãi đỗ xe</th>
+                  <th>Tên bãi đỗ</th>
+                  <th>Vị trí bãi đỗ</th>
+                  <th>Sức chứa</th>
+                  <th>Vị trí còn trống</th>
+                  <th>Trạng thái</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentLots.map((lot) => (
+                  <tr key={lot.id}>
+                    <td>{lot.id}</td>
+                    <td>{lot.code}</td>
+                    <td>{lot.name}</td>
+                    <td>{lot.location}</td>
+                    <td>{lot.capacity}</td>
+                    <td>{lot.remaining}</td>
+                    <td>{renderStatus(lot.status)}</td>
+                    <td>
+                      <button
+                        className={styles["edit-btn"]}
+                        onClick={() => handleEdit(lot.id)}
+                        title="Chỉnh sửa"
+                      >
+                        <i className={styles["edit-icon"]}>✎</i>
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className={styles["edit-btn"]}
+                        onClick={() => handleDelete(lot.id)}
+                        title="Xóa"
+                      >
+                        <i className={styles["edit-icon"]}>🗑</i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div className={styles["pagination"]}>
-          <button
-            className={styles["page-btn"]}
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+        <div className={styles["pagination-wrapper"]}>
+          <div className={styles["pagination"]}>
             <button
-              key={page}
-              className={`${styles["page-btn"]} ${
-                currentPage === page ? styles["active"] : ""
-              }`}
-              onClick={() => handlePageChange(page)}
+              className={styles["page-btn"]}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
             >
-              {page}
+              {"<"}
             </button>
-          ))}
-          <button
-            className={styles["page-btn"]}
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            {">"}
-          </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`${styles["page-btn"]} ${
+                  currentPage === page ? styles["active"] : ""
+                }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              className={styles["page-btn"]}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              {">"}
+            </button>
+          </div>
         </div>
 
         {showForm && (
