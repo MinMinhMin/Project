@@ -6,7 +6,7 @@ import LogoutPage from "./LogoutPage";
 import ParkingLotsPage from "./ParkingLotsPage";
 import AdminPage from "./AdminPage";
 import UserTopBar from "../layout/usertobarHistory";
-import MainScreen from "../components/user/querryHistory/mainScreen";
+import MainScreen from "../components/Admin/UserList";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 
