@@ -3,14 +3,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import UserPage from "./UserPage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
-import ParkingLotsPage from "./ParkingLotsPage";
 import AdminPage from "./AdminPage";
 import UserTopBar from "../layout/usertopbar";
 import Notification from "../components/user/observe/notification";
 import MainScreen from "../components/user/observe/mainScreen";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
-import ParkingLot_Info from "../components/user/ParkingLot_Info/ParkingLot_Info";
+import ParkingLotsPage from "./ParkingLotsPage";
 import UserInfo from "../components/user/ParkingLot_Info/user_Info";
 import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
 
@@ -22,7 +21,6 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
@@ -42,10 +40,10 @@ function App() {
               }
             />
             <Route
-              path="/my-parking"
+              path="/my-parking/*"
               element={
                 <ProtectedRoute role="user">
-                  <ParkingLot_Info />
+                  <ParkingLotsPage />
                 </ProtectedRoute>
               }
             />
@@ -59,7 +57,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-        </Routes> 
+        </Routes>
         {/* <Routes>
           <Route
             element={<Layout username={username} setUsername={setUsername} />}
