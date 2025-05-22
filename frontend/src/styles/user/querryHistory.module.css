@@ -260,12 +260,13 @@ font-style: normal;
 font-weight: 600;
 line-height: 20px;
 height: 40px;
-padding: 0px 30px 0px 15px;
+padding: 8px 10px 8px 10px;
 align-items: center;
 gap: 8px;
 align-self: stretch;
 border-right: 1px solid var(--Neutral-200, #E9ECEF);
 border-bottom: 1px solid var(--Neutral-200, #E9ECEF);
+text-align: left;
 }
 
 /* Căn trái hoặc phải cho các ô nếu muốn */
@@ -471,4 +472,10 @@ align-items: center;
 gap: 10px;
 background: #FF4343;
 z-index: 10;
+}
+.odd:hover,
+.even:hover {
+  background-color: #FFF4E5;
+  color: #FF9500;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
