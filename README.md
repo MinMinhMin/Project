@@ -47,8 +47,38 @@ This project includes:
    npm run dev
    
    ```
+## Camera Setup
+
+### Hardware Requirements:
+
+- *2 webcams*:
+  - For *desktop PCs*: 2 external webcams are required.
+  - For *laptops*: 1 built-in webcam + 1 external webcam is sufficient.
+
+### If don't have enough webcams:
+
+   Use Android phone as a webcam by following these steps:
+
+ *Install the required apps:*
+   - On Android phone: install *DroidCam* from the Google Play Store.
+   - On computer: download and install *DroidCam Client* from the official website: [https://www.dev47apps.com/](https://www.dev47apps.com/)
+
+ *Connect both devices:*
+   - Make sure your *phone and computer are connected to the same Wi-Fi network*.
+   - Open the *DroidCam app on your phone* and note the IP(Wifi) address displayed.
+   - Open the *DroidCam Client on your computer*, enter the IP(Wifi) address and port from your phone, then click *Start*.
+
+ *Verify the connection:*
+   If successful, your phone will act as a webcam and can be used as a substitute for a physical webcam.
+
+
+
+
 ## Admin
 - Username: admin
+- Password: 123
+## User
+- Username: minmin
 - Password: 123
 ## Database
 - Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
