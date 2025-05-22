@@ -47,24 +47,35 @@ def get_history(
 ) -> List[models.History]:
     query = db.query(models.History)
 
-    if ticket_id:
+    def is_valid(s):
+        return s is not None and s.strip().lower() != "null" and s.strip() != ""
+
+    if is_valid(ticket_id):
         query = query.filter(models.History.ticket_id == ticket_id)
-    if ticket_type:
+    if is_valid(ticket_type):
         query = query.filter(models.History.ticket_type == ticket_type)
-    if vehicle_type:
+    if is_valid(vehicle_type):
         query = query.filter(models.History.vehicle_type == vehicle_type)
     if date_from:
         query = query.filter(models.History.date_in >= date_from)
     if date_to:
         query = query.filter(models.History.date_in <= date_to)
-    if license_plate:
+    if is_valid(license_plate):
         query = query.filter(models.History.license_plate_IN.ilike(f"%{license_plate}%"))
 
     histories = query.all()
     for history in histories:
         history.face_embedding_IN = json.loads(history.face_embedding_IN)
         history.face_embedding_OUT = json.loads(history.face_embedding_OUT)
+    print("ticket_id =", ticket_id)
+    print("ticket_type =", ticket_type)
+    print("vehicle_type =", vehicle_type)
+    print("date_from =", date_from)
+    print("date_to =", date_to)
+    print("license_plate =", license_plate)
+    print("Total records fetched:", len(histories))
     return histories
+
 
 
 
