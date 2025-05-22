@@ -17,7 +17,7 @@ class User(Base):
 class Ticket(Base):
     __tablename__ = "tickets"
     id = Column(Integer, primary_key=True, index=True)
-    ticket_id = Column(String, unique=True, index=True)
+    ticket_id = Column(String)
     status = Column(String, default="Không Được Sử Dụng")  # <-- Add this line
     parking_lot_id = Column(Integer, ForeignKey("parking_lots.id"))
 

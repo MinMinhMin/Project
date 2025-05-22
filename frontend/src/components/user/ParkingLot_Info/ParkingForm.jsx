@@ -48,19 +48,20 @@ const ParkingForm = ({ onClose, id }) => {
       y: y,
       parking_lot_id: parking_lot_id,
     };
+
     try {
       const res = await axios.post(
         `${backendUrl}/ticket/reset_and_create`,
-
+        {}, // empty body
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          params,
+          params, // this goes in the third argument
         }
-      ); // Change URL if needed
+      );
     } catch (err) {
-      console.error("API Error:", err);
+      console.error("API Error:", err.response?.data || err.message);
     }
   }
 
