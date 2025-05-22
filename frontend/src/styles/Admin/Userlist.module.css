@@ -1,0 +1,248 @@
+.mainContainer {
+background-color: #FFF;
+display: flex;
+width: 1470px;
+flex-direction: column;
+align-items: flex-start;
+}
+.titleContainer {
+width: 1470px;;
+display: flex;
+padding: 21px 28px;
+align-items: center;
+gap: 42px;
+
+}
+.mainTitle {
+color: #374151;
+font-family: "Be Vietnam Pro";
+font-size: 36px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+.addAndNumber {
+width: 1470px;
+    display: flex;
+height: 73px;
+padding: 12px 28px;
+justify-content: space-between;
+align-items: center;
+flex-shrink: 0;
+}
+
+.NumblePeople {
+display: flex;
+height: 73px;
+align-items: center;
+gap: 20px;
+}
+
+.People {
+color: #374151;
+leading-trim: both;
+text-edge: cap;
+font-family: "Be Vietnam Pro";
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: 77px; /* 350% */   
+}
+
+.numberContainer {
+    display: flex;
+height: 40px;
+width: 40px;
+padding: 12px 4px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 8px;
+background: #D9D9D9;
+}
+
+.Number {
+    color: #374151;
+leading-trim: both;
+text-edge: cap;
+font-family: "Be Vietnam Pro";
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: 77px; /* 385% */
+}
+
+.addContainer {
+cursor: pointer;
+    display: flex;
+width: 279px;
+height: 46px;
+padding: 0px 8px 0px 13px;
+align-items: center;
+gap: 12px;
+border-radius: 20px;
+border: 2px solid #FF9500;
+}
+
+.addUser {
+color: #FF9500;
+font-family: "Be Vietnam Pro";
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: 77px; /* 350% */
+}
+
+.listContainer {
+padding: 0px 28px;
+
+display: flex;
+align-items: flex-start;
+gap: 10px;
+flex: 1 0 0;
+align-self: stretch;
+}
+
+.listUser {
+    border-top: 0.5px solid #545F71;
+    border-left: 1px solid var(--Neutral-200, #E9ECEF);
+color: #374151;
+font-family: "Be Vietnam Pro";
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 200% */
+align-items: flex-start;
+flex-shrink: 0;
+align-self: stretch;
+display: block; /* Chuyển từ flex sang block để scroll dễ dàng */
+max-height: 656px; /* Giới hạn chiều cao của bảng */
+overflow-y: auto;
+}
+
+/* Căn giữa tiêu đề */
+thead th {
+color: var(--Text-Secondary, #6C757D);
+font-family: "Be Vietnam Pro";
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px;
+height: 40px;
+padding: 8px 10px 8px 10px;
+align-items: center;
+gap: 8px;
+align-self: stretch;
+border-right: 1px solid var(--Neutral-200, #E9ECEF);
+border-bottom: 1px solid var(--Neutral-200, #E9ECEF);
+text-align: left;
+}
+
+/* Căn trái hoặc phải cho các ô nếu muốn */
+tbody td {
+    
+padding: 8px 12px;
+border-right: 1px solid var(--Neutral-200, #E9ECEF);
+border-bottom: 1px solid var(--Neutral-200, #E9ECEF);
+color: #374151;
+font-family: "Be Vietnam Pro";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; 
+}
+
+
+/* Ví dụ đổi font cho các hàng chẵn lẻ */
+.odd{
+cursor: pointer;
+min-height: 56px;
+padding: var(--Space-Extra-Small, 8px) 48px var(--Space-Extra-Small, 8px) 15px;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+gap: 8px;
+align-self: stretch;
+color: #374151;
+font-family: "Be Vietnam Pro";
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 200% */
+}
+
+.even{
+cursor: pointer;
+min-height: 56px;
+padding: var(--Space-Extra-Small, 8px) 48px var(--Space-Extra-Small, 8px) 24px;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+gap: 8px;
+align-self: stretch;
+background: var(--Neutral-100, #F8F9FA);
+color: #374151;
+font-family: "Be Vietnam Pro";
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 200% */
+}
+/* Cột cụ thể */
+.colIndex {
+  width: 46px;
+}
+
+.colName {
+width: 240px;
+}
+
+.colId {
+width: 160px;
+}
+
+.colUsername {
+width:210px ;
+}
+
+.colRole {
+width: 184px;
+}
+
+.colContact {
+width:294px ;
+}
+
+.colAction{
+    display: flex;
+    width: 120px;
+    gap: 15px;
+}
+.colDetail {
+width: 100px;
+}
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconButton img {
+  filter: grayscale(100%) brightness(0.6); /* màu xám */
+  transition: filter 0.2s;
+}
+
+.iconButton:hover img {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(95%) saturate(548%) hue-rotate(184deg) brightness(97%) contrast(101%);
+}
+.odd:hover,
+.even:hover {
+  background-color: #FFF4E5;
+  color: #FF9500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

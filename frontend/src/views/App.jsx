@@ -4,9 +4,8 @@ import UserPage from "./UserPage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import AdminPage from "./AdminPage";
-import UserTopBar from "../layout/usertopbar";
-import Notification from "../components/user/observe/notification";
-import MainScreen from "../components/user/observe/mainScreen";
+import UserTopBar from "../layout/usertobarHistory";
+import MainScreen from "../components/user/querryHistory/mainScreen";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import ParkingLotsPage from "./ParkingLotsPage";
@@ -21,6 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
