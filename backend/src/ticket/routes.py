@@ -30,8 +30,8 @@ def reset_and_create_tickets(
     if x > y:
         raise HTTPException(status_code=400, detail="X must be less than or equal to Y")
 
-    # Step 1: Delete all tickets
-    db.query(models.Ticket).delete()
+    # Step 1: Delete all tickets with the same parking_lot_id
+    db.query(models.Ticket).filter(models.Ticket.parking_lot_id == parking_lot_id).delete()
     db.commit()
 
     # Step 2: Create tickets with ticket_id from x to y

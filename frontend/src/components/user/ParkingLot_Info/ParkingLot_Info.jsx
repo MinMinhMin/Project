@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import styles from "../../../styles/ParkingLot_Info.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import ParkingForm from "./ParkingForm";
 import EditForm from "./EditForm";
 import DeleteConfirmForm from "./DeleteConfirmForm"; // Form xác nhận xóa
 
+import axios from "axios";
+const backendUrl = import.meta.env.VITE_API_URL;
+const token = localStorage.getItem("token");
 const ParkingLot_Info = () => {
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -13,29 +16,159 @@ const ParkingLot_Info = () => {
   const [deleteLotId, setDeleteLotId] = useState(null);
 
   const [parkingLots, setParkingLots] = useState([
-    { id: 1, code: '0001', name: 'VNU - UEB', location: 'Toà A1', capacity: 500, remaining: 200, status: 'Trống nhiều' },
-    { id: 2, code: '00002', name: 'VNU - UL', location: 'Toà A2', capacity: 300, remaining: 100, status: 'Trống nhiều' },
-    { id: 3, code: '0003', name: 'VNU - KTX', location: 'KT túc xá', capacity: 200, remaining: 0, status: 'Hết chỗ' },
-    { id: 4, code: '0004', name: 'VNU - NN', location: 'Toà E1', capacity: 200, remaining: 190, status: 'Sắp đầy' },
-    { id: 5, code: '0005', name: 'VNU - ULIS1', location: 'Hồ trường', capacity: 50, remaining: 40, status: 'Trống nhiều' },
-    { id: 6, code: '0006', name: 'VNU - ULIS2', location: 'Sân bóng', capacity: 450, remaining: 250, status: 'Trống nhiều' },
-    { id: 7, code: '0007', name: 'VNU-GIS', location: 'Thư viện', capacity: 123, remaining: 60, status: 'Trống nhiều' },
-    { id: 8, code: '0008', name: 'VNU-UET', location: 'Toà G2', capacity: 456, remaining: 450, status: 'Sắp đầy' },
+    {
+      id: 1,
+      code: "0001",
+      name: "VNU - UEB",
+      location: "Toà A1",
+      capacity: 500,
+      remaining: 200,
+      status: "Trống nhiều",
+    },
+    {
+      id: 2,
+      code: "00002",
+      name: "VNU - UL",
+      location: "Toà A2",
+      capacity: 300,
+      remaining: 100,
+      status: "Trống nhiều",
+    },
+    {
+      id: 3,
+      code: "0003",
+      name: "VNU - KTX",
+      location: "KT túc xá",
+      capacity: 200,
+      remaining: 0,
+      status: "Hết chỗ",
+    },
+    {
+      id: 4,
+      code: "0004",
+      name: "VNU - NN",
+      location: "Toà E1",
+      capacity: 200,
+      remaining: 190,
+      status: "Sắp đầy",
+    },
+    {
+      id: 5,
+      code: "0005",
+      name: "VNU - ULIS1",
+      location: "Hồ trường",
+      capacity: 50,
+      remaining: 40,
+      status: "Trống nhiều",
+    },
+    {
+      id: 6,
+      code: "0006",
+      name: "VNU - ULIS2",
+      location: "Sân bóng",
+      capacity: 450,
+      remaining: 250,
+      status: "Trống nhiều",
+    },
+    {
+      id: 7,
+      code: "0007",
+      name: "VNU-GIS",
+      location: "Thư viện",
+      capacity: 123,
+      remaining: 60,
+      status: "Trống nhiều",
+    },
+    {
+      id: 8,
+      code: "0008",
+      name: "VNU-UET",
+      location: "Toà G2",
+      capacity: 456,
+      remaining: 450,
+      status: "Sắp đầy",
+    },
   ]);
+
+  async function deleteParkingLot(id) {
+    try {
+      const res = await axios.delete(`${backendUrl}/parking_lot/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Delete response:", res.data);
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }
+
+  async function fetchParkinglot() {
+    try {
+      const res = await axios.get(`${backendUrl}/parking_lot/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("API Response:", res.data);
+
+      // Transform API data to match the frontend shape
+      const transformedData = res.data.map((lot, index) => {
+        const capacity = lot.capacity ?? 100; // fallback if null
+        const remaining = lot.available_spots ?? 0;
+
+        // Compute status based on available spots and capacity
+        let status = "Không xác định";
+        const ratio = remaining / capacity;
+
+        if (capacity === 0) {
+          status = "Không có sức chứa";
+        } else if (ratio === 0) {
+          status = "Hết chỗ";
+        } else if (ratio < 0.1) {
+          status = "Sắp đầy";
+        } else {
+          status = "Trống nhiều";
+        }
+
+        return {
+          id: lot.id,
+          code: lot.code ?? String(index + 1).padStart(4, "0"), // fallback code
+          name: lot.name ?? "Chưa có tên",
+          location: lot.location ?? "Không rõ",
+          capacity: capacity,
+          remaining: remaining,
+          status: status,
+        };
+      });
+
+      setParkingLots(transformedData);
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }
+  useEffect(() => {
+    fetchParkinglot();
+  }, [token]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const lotsPerPage = 5;
 
   const handleCreateParkingLot = () => setShowForm(true);
-  const handleCloseForm = () => setShowForm(false);
+  const handleCloseForm = async () => {
+    setShowForm(false);
+    await fetchParkinglot();
+  };
 
   const handleEdit = (id) => {
     setSelectedLotId(id);
     setShowEditForm(true);
   };
-  const handleCloseEditForm = () => {
-    setShowEditForm(false);
+  const handleCloseEditForm = async () => {
     setSelectedLotId(null);
+    setShowEditForm(false);
+    await fetchParkinglot();
   };
 
   const handleDelete = (id) => {
@@ -47,6 +180,7 @@ const ParkingLot_Info = () => {
     setShowDeleteForm(false);
   };
   const handleConfirmDelete = () => {
+    deleteParkingLot(deleteLotId);
     setParkingLots(parkingLots.filter((lot) => lot.id !== deleteLotId));
     setDeleteLotId(null);
     setShowDeleteForm(false);
@@ -63,12 +197,28 @@ const ParkingLot_Info = () => {
 
   const renderStatus = (status) => {
     switch (status) {
-      case 'Trống nhiều':
-        return <div className={`${styles["status-badge"]} ${styles["status-available"]}`}>• Trống nhiều</div>;
-      case 'Sắp đầy':
-        return <div className={`${styles["status-badge"]} ${styles["status-almost-full"]}`}>• Sắp đầy</div>;
-      case 'Hết chỗ':
-        return <div className={`${styles["status-badge"]} ${styles["status-full"]}`}>• Hết chỗ</div>;
+      case "Trống nhiều":
+        return (
+          <div
+            className={`${styles["status-badge"]} ${styles["status-available"]}`}
+          >
+            • Trống nhiều
+          </div>
+        );
+      case "Sắp đầy":
+        return (
+          <div
+            className={`${styles["status-badge"]} ${styles["status-almost-full"]}`}
+          >
+            • Sắp đầy
+          </div>
+        );
+      case "Hết chỗ":
+        return (
+          <div className={`${styles["status-badge"]} ${styles["status-full"]}`}>
+            • Hết chỗ
+          </div>
+        );
       default:
         return <div className={styles["status-badge"]}>{status}</div>;
     }
@@ -82,7 +232,10 @@ const ParkingLot_Info = () => {
             <i className={styles["car-icon"]}>⌂</i>
             <span>Thông tin về bãi đỗ</span>
           </div>
-          <button className={styles["create-btn"]} onClick={handleCreateParkingLot}>
+          <button
+            className={styles["create-btn"]}
+            onClick={handleCreateParkingLot}
+          >
             <span className={styles["plus-icon"]}>+</span>
             Tạo bãi đỗ mới
           </button>
@@ -150,7 +303,9 @@ const ParkingLot_Info = () => {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
-              className={`${styles["page-btn"]} ${currentPage === page ? styles["active"] : ""}`}
+              className={`${styles["page-btn"]} ${
+                currentPage === page ? styles["active"] : ""
+              }`}
               onClick={() => handlePageChange(page)}
             >
               {page}
@@ -167,7 +322,10 @@ const ParkingLot_Info = () => {
 
         {showForm && (
           <div className={styles["form-overlay"]}>
-            <ParkingForm onClose={handleCloseForm} />
+            <ParkingForm
+              onClose={handleCloseForm}
+              id={parkingLots.length + 1}
+            />
           </div>
         )}
         {showEditForm && (

@@ -1,20 +1,54 @@
-import React, { useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import styles from "../../../styles/user/currentParking.module.css"; // CSS Module
-
-const CurrentParking = () => {
-  const [currentParking, setCurrentParking] = useState("UET-G2");
+const backendUrl = import.meta.env.VITE_API_URL;
+import axios from "axios";
+const token = localStorage.getItem("token");
+const CurrentParking = ({ onChangeParkingLot }) => {
+  const [currentParking, setCurrentParking] = useState("None");
 
   const [dropdown, setDropdown] = useState(false);
   const [rotate, setRotate] = useState(0);
+  const [parkings, setParkings] = useState([]);
 
-  const parkings = [
-    "UET-G2",
-    "UET-GD2",
-    "UET-G2",
-    "UET-GD2",
-    "UET-G2",
-    "UET-GD2",
-  ];
+  async function fetchParkinglot() {
+    try {
+      const res = await axios.get(`${backendUrl}/parking_lot/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("API Response:", res.data);
+
+      // Transform API data to match the frontend shape
+      const transformedData = res.data.map((lot, index) => {
+        return {
+          id: lot.id,
+          name: lot.name ?? "Chưa có tên",
+        };
+      });
+
+      setParkings(transformedData);
+      const id = Number(localStorage.getItem("ParkingLotId"));
+
+      if (id) {
+        const parking = transformedData.find((item) => item.id === id);
+        console.log("Parking:", parking);
+        if (parking) {
+          setCurrentParking(parking.name);
+        }
+      } else {
+        setCurrentParking(transformedData[0]?.name ?? "None");
+      }
+    } catch (err) {
+      console.error("API Error:", err);
+    }
+  }
+
+  useEffect(() => {
+    fetchParkinglot();
+  }, [token]);
+
   return (
     <div className={styles.container}>
       <div className={styles["current-parking-container"]}>
@@ -41,9 +75,11 @@ const CurrentParking = () => {
             <li
               key={index}
               className={styles["dropdown-item"]}
-              onClick={() => setCurrentParking(parking)}
+              onClick={() => {
+                setCurrentParking(parking.name), onChangeParkingLot(parking.id);
+              }}
             >
-              Bãi đỗ: <strong>{parking}</strong>
+              Bãi đỗ: <strong>{parking.name}</strong>
             </li>
           ))}
         </ul>

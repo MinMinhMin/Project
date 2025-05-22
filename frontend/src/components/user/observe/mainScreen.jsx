@@ -9,40 +9,12 @@ import PlateCamera from "./PlateCamera";
 const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 const backendUrl = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
-const MainScreen = ({ status }) => {
+const MainScreen = ({ ParkingLotId }) => {
+  const status = "test";
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
   const [dropdownOutOpen, setDropdownOutOpen] = useState(false);
   const [rotateIn, setRotateIn] = useState(0); // Góc quay cho làn vào
   const [rotateOut, setRotateOut] = useState(0); // Góc quay cho làn ra
-
-  // Danh sách ID giả lập
-  const idList_IN = [
-    "000001",
-    "000002",
-    "000003",
-    "000004",
-    "000005",
-    "000006",
-    "000007",
-    "000008",
-    "000009",
-    "000010",
-  ];
-
-  const idList_OUT = [
-    "000001",
-    "000012",
-    "000013",
-    "000014",
-    "000015",
-    "000016",
-    "000017",
-    "000018",
-    "000019",
-    "000020",
-  ];
-
-  const [parking_lot_id, setParking_lot_id] = useState(1);
 
   //In gate
   const [InId, setInId] = useState("None");
@@ -83,13 +55,17 @@ const MainScreen = ({ status }) => {
   const [faceImgOut_path, setFaceImgOut_path] = useState(null);
   const [plateImgOut_path, setPlateImgOut_path] = useState(null);
 
-  const fetchTicketListIn = async () => {
+  const fetchTicketListIn = async (id) => {
     try {
+      console.log("Parking lot ID:", id);
       const response = await axios.get(
         `${backendUrl}/ticket/get_ticket_by_status`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          params: { status: "Không Được Sử Dụng", parking_lot_id },
+          params: {
+            status: "Không Được Sử Dụng",
+            parking_lot_id: id,
+          },
         }
       );
       const tickets = response.data.tickets.map((ticket) => ticket.ticket_id);
@@ -100,13 +76,14 @@ const MainScreen = ({ status }) => {
     }
   };
 
-  const fetchTicketListOut = async () => {
+  const fetchTicketListOut = async (id) => {
     try {
+      console.log("Parking lot ID:", id);
       const response = await axios.get(
         `${backendUrl}/ticket/get_ticket_by_status`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          params: { status: "Đang Được Sử Dụng", parking_lot_id },
+          params: { status: "Đang Được Sử Dụng", parking_lot_id: id },
         }
       );
       const tickets = response.data.tickets.map((ticket) => ticket.ticket_id);
@@ -118,9 +95,12 @@ const MainScreen = ({ status }) => {
   };
 
   useEffect(() => {
-    fetchTicketListIn();
-    fetchTicketListOut();
-  }, [parking_lot_id, token]);
+    if (ParkingLotId) {
+      console.log("Parking lot ID:", ParkingLotId);
+      fetchTicketListIn(ParkingLotId);
+      fetchTicketListOut(ParkingLotId);
+    }
+  }, [ParkingLotId, token]);
 
   //get Time
   function getCurrentTime() {
@@ -459,7 +439,7 @@ const MainScreen = ({ status }) => {
     const plateNumber = await getPlateNumberFromImage(plateImg, "In");
     const faceEmbedding = await getFaceEmbedding(faceImg, "In");
     const updateTicket = await updateTicketStatus(
-      parking_lot_id,
+      ParkingLotId,
       InId,
       "Đang Được Sử Dụng"
     );
@@ -487,7 +467,7 @@ const MainScreen = ({ status }) => {
       InId,
       "Vé lượt",
       "Xe máy",
-      parking_lot_id
+      ParkingLotId
     );
 
     // console.log("Face URL:", faceImgIn_path);
@@ -518,7 +498,7 @@ const MainScreen = ({ status }) => {
     const plateNumber = await getPlateNumberFromImage(plateImg, "Out");
     const faceEmbedding = await getFaceEmbedding(faceImg, "Out");
     const updateTicket = await updateTicketStatus(
-      parking_lot_id,
+      ParkingLotId,
       OutId,
       "Không Được Sử Dụng"
     );
@@ -530,7 +510,7 @@ const MainScreen = ({ status }) => {
     setPlateNumberOut(plateNumber);
     setFaceEmbeddingOut(faceEmbedding);
 
-    const getRespond = await getHistoryIn(parking_lot_id, OutId, plateNumber);
+    const getRespond = await getHistoryIn(ParkingLotId, OutId, plateNumber);
 
     console.log("Face URL:", faceUrl);
     console.log("Plate URL:", plateUrl);
