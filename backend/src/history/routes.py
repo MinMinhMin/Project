@@ -115,6 +115,7 @@ import logging
 
 IMGBB_API_KEY = "4bb819ea5a73a6d7a5a4d146e2dc635d"
 
+
 class ImageUploadRequest(BaseModel):
     image: str  # Base64-encoded image (no data:image/jpeg;base64,... prefix)
 

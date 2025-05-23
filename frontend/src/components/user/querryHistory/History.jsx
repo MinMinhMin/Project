@@ -26,7 +26,7 @@ const History = () => {
 
   const [historyData, setHistoryData] = useState([]);
 
-  const test = (id) => {
+  const recordClick = (id) => {
     setInPictureFace(historyData[id].anhMatVao);
     setOutPictureFace(historyData[id].anhMatRa);
     setInPicturePlate(historyData[id].anhBienSoVao);
@@ -69,7 +69,10 @@ const History = () => {
       const transformedData = res.data.map((record) => ({
         maThe: record.ticket_id,
         bienSo: record.license_plate_IN,
-        thoiGianRa: `${record.date_out} ${record.time_out}`,
+        thoiGianRa:
+          record.date_out && record.time_out
+            ? `${record.date_out} ${record.time_out}`
+            : "Chưa có thông tin",
         thoiGianVao: `${record.date_in} ${record.time_in}`,
         loaiXe: record.vehicle_type,
         anhMatVao: record.face_image_path_IN,
@@ -77,6 +80,7 @@ const History = () => {
         anhBienSoVao: record.license_plate_image_path_IN,
         anhBienSoRa: record.license_plate_image_path_OUT,
       }));
+
       setHistoryData(transformedData);
     } catch (err) {
       console.log(err);
@@ -414,8 +418,8 @@ const History = () => {
               <tr>
                 <th>Mã thẻ</th>
                 <th>Biển số</th>
-                <th>Thời gian ra</th>
                 <th>Thời gian vào</th>
+                <th>Thời gian ra</th>
                 <th>Loại xe</th>
               </tr>
             </thead>
@@ -424,12 +428,12 @@ const History = () => {
                 <tr
                   key={index}
                   className={index % 2 === 0 ? styles.odd : styles.even}
-                  onClick={() => test(index)}
+                  onClick={() => recordClick(index)}
                 >
                   <td>{record.maThe}</td>
                   <td>{record.bienSo}</td>
-                  <td>{record.thoiGianRa}</td>
                   <td>{record.thoiGianVao}</td>
+                  <td>{record.thoiGianRa}</td>
                   <td>{record.loaiXe}</td>
                 </tr>
               ))}
