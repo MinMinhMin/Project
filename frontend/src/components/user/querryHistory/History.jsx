@@ -6,20 +6,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 const token = localStorage.getItem("token");
 const backendUrl = import.meta.env.VITE_API_URL;
 
-const parkingLotId = localStorage.getItem("ParkingLotId");
 
-const History = ({}) => {
-  console.log("Parking Lot Id ", parkingLotId);
 
-  const [queries, setQueries] = useState({
-    ticket_id: null,
-    ticket_type: null,
-    vehicle_type: null,
-    date_from: null,
-    date_to: null,
-    status_type: null
-  });
 
+
+const id = localStorage.getItem("ParkingLotId");
+const History = () => {
   const not_use_here = "Thừa";
 
   const [fromDate, setFromDate] = useState(null);
@@ -74,6 +66,9 @@ const History = ({}) => {
     }
     if (plateNumber) {
       params.license_plate = plateNumber;
+    }
+    if (id) {
+      params.parking_lot_id = id;
     }
     console.log("API Params:", params);
     try {
@@ -233,6 +228,9 @@ const History = ({}) => {
               </span>
               <button className={styles.idQuerry} onClick={toggleDropdownStatus}>
                 <span className={styles.text}>{status || "*Chọn*"}</span>
+
+            
+
                 <img
                   src="/assets/DropDown2.svg"
                   alt="dropdown"
@@ -426,7 +424,7 @@ const History = ({}) => {
               <img src="/assets/Car.svg" alt="Car" />
             </div>
             <div className={styles.CarNumber}>
-              <span className={styles.NumberVehicles}>{queries.NumberCar}</span>
+              <span className={styles.NumberVehicles}>{NumberCar}</span>
             </div>
           </div>
           <div className={styles.Car}>
@@ -435,9 +433,7 @@ const History = ({}) => {
               <img src="/assets/Motor.png" alt="Motor" />
             </div>
             <div className={styles.CarNumber}>
-              <span className={styles.NumberVehicles}>
-                {queries.NumberMotor}
-              </span>
+              <span className={styles.NumberVehicles}>{NumberMotor}</span>
             </div>
           </div>
         </div>

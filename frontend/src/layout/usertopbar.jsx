@@ -1,17 +1,23 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/user/usertopbar.module.css";
-import { useNavigate } from "react-router-dom";
 
 const UserTopBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const handleLogout = () => {
-    // Xử lý đăng xuất, ví dụ: xóa token, chuyển hướng...
     localStorage.removeItem("token");
     console.log("Logging out...");
-    navigate("/"); // Chuyển hướng về trang đăng nhập
+    navigate("/"); // redirect to login
+  };
+
+  const handleNavigateToHistory = () => {
+    if (location.pathname !== "/history") {
+      navigate("/history");
+      window.location.reload(); // Force reload after navigating
+    }
   };
 
   return (
@@ -29,6 +35,7 @@ const UserTopBar = () => {
         >
           Bãi đỗ của tôi
         </Link>
+
         <Link
           to="/observe"
           className={`${styles["nav-link"]} ${
@@ -37,14 +44,17 @@ const UserTopBar = () => {
         >
           Theo dõi ra vào
         </Link>
-        <Link
-          to="/history"
+
+        <div
+          onClick={handleNavigateToHistory}
           className={`${styles["nav-link"]} ${
             location.pathname === "/history" ? styles["active"] : ""
           }`}
+          style={{ cursor: "pointer" }}
         >
           Tra cứu lịch sử
-        </Link>
+        </div>
+
         <div
           className={`${styles["nav-link"]} ${styles["logout-btn"]}`}
           onClick={handleLogout}
