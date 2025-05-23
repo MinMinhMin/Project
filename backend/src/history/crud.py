@@ -43,7 +43,8 @@ def get_history(
     vehicle_type: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
-    license_plate: Optional[str] = None
+    license_plate: Optional[str] = None,
+    parking_lot_id: Optional[int] = None,
 ) -> List[models.History]:
     query = db.query(models.History)
 
@@ -62,6 +63,8 @@ def get_history(
         query = query.filter(models.History.date_in <= date_to)
     if is_valid(license_plate):
         query = query.filter(models.History.license_plate_IN.ilike(f"%{license_plate}%"))
+    if parking_lot_id:
+        query = query.filter(models.History.parking_lot_id == parking_lot_id)
 
     histories = query.all()
     for history in histories:

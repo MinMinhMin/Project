@@ -34,6 +34,7 @@ def search_history(
     date_from: Optional[date] = Query(None),
     date_to: Optional[date] = Query(None),
     license_plate: Optional[str] = Query(None),
+    parking_lot_id: Optional[int] = Query(None),
     db: Session = Depends(get_db)
 ):
     return crud.get_history(
@@ -43,7 +44,8 @@ def search_history(
         vehicle_type=vehicle_type,
         date_from=date_from,
         date_to=date_to,
-        license_plate=license_plate
+        license_plate=license_plate,
+        parking_lot_id=parking_lot_id
     )
 
 

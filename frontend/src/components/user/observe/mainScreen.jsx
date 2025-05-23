@@ -509,7 +509,7 @@ const MainScreen = ({ ParkingLotId }) => {
 
   const processOutGate = async (faceImg, plateImg) => {
     if (OutId === "None") {
-      setCameraMessageIn("Please select a ticket ID");
+      setCameraMessageOut("Please select a ticket ID");
       return;
     }
     const timeOut = getCurrentTime();
