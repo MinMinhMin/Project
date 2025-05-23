@@ -10,6 +10,8 @@
   font-family: "Segoe UI", sans-serif;
   position: relative;
   z-index: 1000; /* Ensure box is above blurred background */
+  max-height: 80vh; /* Constrain height to 80% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
 }
 
 .box-title {
@@ -29,8 +31,9 @@
 }
 
 .check-image {
-  max-width: 45%;
-  height: auto;
+  width: 250px; /* Fixed width to match reference image */
+  height: 250px; /* Fixed height to match reference image */
+  object-fit: contain; /* Scale image to fit within dimensions while preserving aspect ratio */
   border-radius: 10px;
   border: 2px solid #ccc;
 }
@@ -60,6 +63,7 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
+  padding-bottom: 1rem; /* Ensure padding at the bottom for better visibility */
 }
 
 .cancel-button,

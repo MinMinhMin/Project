@@ -292,7 +292,7 @@
   align-self: stretch;
 }
 
-.status {
+.status-good {
   display: flex;
   width: 314px;
   height: 110px;
@@ -301,6 +301,19 @@
   gap: 10px;
   border-radius: 5px;
   background: #0ad200;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+}
+.status-bad {
+  display: flex;
+  width: 314px;
+  height: 110px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  background: #d20000;
   color: #fff;
   font-size: 30px;
   font-weight: 600;

@@ -45,12 +45,14 @@ def get_history(
     date_to: Optional[date] = None,
     license_plate: Optional[str] = None,
     parking_lot_id: Optional[int] = None,
+    user_id: Optional[int] = None,
 ) -> List[models.History]:
     query = db.query(models.History)
 
     def is_valid(s):
         return s is not None and s.strip().lower() != "null" and s.strip() != ""
-
+    if user_id:
+        query = query.filter(models.History.user_id == user_id)
     if is_valid(ticket_id):
         query = query.filter(models.History.ticket_id == ticket_id)
     if is_valid(ticket_type):
@@ -82,8 +84,8 @@ def get_history(
 
 
 
-def update_history(db: Session, history_id: int, updates: schemas.HistoryUpdate) -> Optional[models.History]:
-    history = db.query(models.History).filter(models.History.id == history_id).first()
+def update_history(db: Session, history_id: int, updates: schemas.HistoryUpdate,user_id:int) -> Optional[models.History]:
+    history = db.query(models.History).filter(models.History.user_id==user_id).filter(models.History.id == history_id).first()
     if not history:
         return None
 

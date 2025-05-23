@@ -8,7 +8,8 @@ const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 const backendUrl = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
 const MainScreen = ({ ParkingLotId }) => {
-  const status = "test";
+  const [alert, setAlert] = useState(true);
+
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
   const [dropdownOutOpen, setDropdownOutOpen] = useState(false);
   const [rotateIn, setRotateIn] = useState(0);
@@ -18,7 +19,7 @@ const MainScreen = ({ ParkingLotId }) => {
   const [DateIn, setDateIn] = useState(null);
   const [TimeIn, setTimeIn] = useState(null);
   const [plateNumberIn, setPlateNumberIn] = useState(null);
-  const [faceEmbebdingIn, setFaceEmbeddingIn] = useState(null);
+  const [faceEmbeddingIn, setFaceEmbeddingIn] = useState(null);
   const [in_face_img, setInFaceImg] = useState(null);
   const [in_plate_img, setInPlateImg] = useState(null);
   const [cameraMessageIn, setCameraMessageIn] = useState("");
@@ -48,6 +49,8 @@ const MainScreen = ({ ParkingLotId }) => {
   const [faceImgOut_path, setFaceImgOut_path] = useState(null);
   const [plateImgOut_path, setPlateImgOut_path] = useState(null);
   const [errorMessageOut, setErrorMessageOut] = useState(null);
+
+  const [id, setId] = useState(null);
   function getVehicleTypeFromAIOutput(plate) {
     plate = plate.trim().toUpperCase();
     const parts = plate.split("-");
@@ -166,12 +169,22 @@ const MainScreen = ({ ParkingLotId }) => {
         }
       );
       if (!response.data) {
-        setCameraMessageIn("Plate -> number failed, try again");
+        if (gate === "In") {
+          setCameraMessageIn("Plate -> number failed, try again");
+        } else {
+          setCameraMessageOut("Plate -> number failed, try again");
+        }
+
         throw new Error("Empty response");
       }
       return response.data.license_plate;
     } catch (error) {
-      setCameraMessageIn("Plate -> number failed, try again");
+      if (gate === "In") {
+        setCameraMessageIn("Plate -> number failed, try again");
+      } else {
+        setCameraMessageOut("Plate -> number failed, try again");
+      }
+
       console.error("Error recognizing plate:", error);
       throw error;
     }
@@ -185,7 +198,7 @@ const MainScreen = ({ ParkingLotId }) => {
     const formData = new FormData();
     const byteString = atob(base64String.split(",")[1]);
     const mimeString = base64String.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byte彼此.byteString.length);
+    const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
@@ -203,12 +216,26 @@ const MainScreen = ({ ParkingLotId }) => {
         }
       );
       if (response.data.embedding.length === 0) {
-        setCameraMessageIn("Face -> embedding failed, try again");
+        if (gate === "In") {
+          setCameraMessageIn("Face -> embedding failed, try again");
+        } else {
+          setCameraMessageOut("Face -> embedding failed, try again");
+        }
         throw new Error("Empty embedding");
       }
+      if (gate === "In") {
+        console.log("Face embedding In:", response.data.embedding);
+      } else {
+        console.log("Face embedding Out:", response.data.embedding);
+      }
+
       return response.data.embedding;
     } catch (error) {
-      setCameraMessageIn("Face -> embedding failed, try again");
+      if (gate === "In") {
+        setCameraMessageIn("Face -> embedding failed, try again");
+      } else {
+        setCameraMessageOut("Face -> embedding failed, try again");
+      }
       console.error("Error recognizing face:", error);
       throw error;
     }
@@ -230,7 +257,12 @@ const MainScreen = ({ ParkingLotId }) => {
       console.log("Imgbb response:", response.data);
       return response.data.link;
     } catch (error) {
-      setCameraMessageIn("Upload to Imgbb failed, try again");
+      if (gate === "In") {
+        setCameraMessageIn("Upload to Imgbb failed, try again");
+      } else {
+        setCameraMessageOut("Upload to Imgbb failed, try again");
+      }
+
       console.error("Error when uploading to Imgbb:", error);
       throw error;
     }
@@ -312,6 +344,7 @@ const MainScreen = ({ ParkingLotId }) => {
           license_plate: license_plate,
         },
       });
+      console.log("Get history response:", res.data);
       return res.data;
     } catch (err) {
       setCameraMessageOut("No history found, try again");
@@ -428,6 +461,31 @@ const MainScreen = ({ ParkingLotId }) => {
       ].forEach((ref) => stopCamera(ref));
     };
   }, [cameraStatusIn, cameraStatusOut]);
+
+  async function compareFaceEmbedding(embedding1, embedding2) {
+    try {
+      const response = await axios.post(
+        `${backendUrl_AI}/AI/compareFace`,
+        {
+          embedding1: embedding1,
+          embedding2: embedding2,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data.is_match;
+    } catch (error) {
+      console.error("Error comparing face embeddings:", error);
+      return false;
+    }
+  }
+
+  const [isMatchFace, setIsMatchFace] = useState(false);
+  const [isMatchPlate, setIsMatchPlate] = useState(false);
+
   const processInGate = async (faceImg, plateImg) => {
     if (InId === "None") {
       setCameraMessageIn("Please select a ticket ID");
@@ -473,7 +531,7 @@ const MainScreen = ({ ParkingLotId }) => {
     console.log("Plate Number:", plateNumber);
     console.log("Face Embedding:", faceEmbedding);
     console.log("Update Ticket:", updateTicket);
-    fetchTicketListIn();
+    fetchTicketListIn(ParkingLotId);
     setInId("None");
     setCameraMessageIn("Done");
   };
@@ -488,11 +546,7 @@ const MainScreen = ({ ParkingLotId }) => {
     const plateUrl = await uploadBase64ToImgBB(plateImg, "Out");
     const plateNumber = await getPlateNumberFromImage(plateImg, "Out");
     const faceEmbedding = await getFaceEmbedding(faceImg, "Out");
-    const updateTicket = await updateTicketStatus(
-      ParkingLotId,
-      OutId,
-      "Không Được Sử Dụng"
-    );
+
     setTimeOut(timeOut);
     setDateOut(dateOut);
     setFaceImgOut_path(faceUrl);
@@ -500,27 +554,33 @@ const MainScreen = ({ ParkingLotId }) => {
     setPlateNumberOut(plateNumber);
     setFaceEmbeddingOut(faceEmbedding);
     const getRespond = await getHistoryIn(ParkingLotId, OutId, plateNumber);
+    const faceEmbeddingDB_IN = getRespond.face_embedding_IN;
+    const plateNumberDB_IN = getRespond.license_plate_IN;
+    setFaceImgIn_path(getRespond.face_image_path_IN);
+    setPlateImgIn_path(getRespond.license_plate_image_path_IN);
+
     console.log("Face URL:", faceUrl);
     console.log("Plate URL:", plateUrl);
     console.log("Plate Number:", plateNumber);
     console.log("Face Embedding:", faceEmbedding);
     console.log("Get Respond:", getRespond);
-    console.log("Update Ticket:", updateTicket);
     if (getRespond) {
-      const id = getRespond.id;
-      const updateRespond = await updateHistoryOut(
-        id,
-        faceUrl,
-        plateUrl,
-        faceEmbedding,
-        plateNumber,
-        dateOut,
-        timeOut
+      console.log("Face Embedding In:", faceEmbeddingDB_IN);
+      console.log("Face Embedding Out:", faceEmbedding);
+      console.log("Plate Number In:", plateNumberDB_IN);
+      console.log("Plate Number Out:", plateNumber);
+
+      const check = await compareFaceEmbedding(
+        faceEmbeddingDB_IN,
+        faceEmbedding
       );
-      console.log("Update Respond:", updateRespond);
-      fetchTicketListOut();
-      setOutId("None");
-      setCameraMessageOut("Done");
+      console.log("Face check:", check);
+      console.log("Plate check:", plateNumberDB_IN === plateNumber);
+      setIsMatchFace(check);
+      setIsMatchPlate(plateNumberDB_IN === plateNumber);
+
+      const id = getRespond.id;
+      setId(id);
     } else {
       setCameraMessageOut("No history found, try again");
     }
@@ -550,7 +610,6 @@ const MainScreen = ({ ParkingLotId }) => {
     }, 2000);
   };
   const out_button_handle = async () => {
-    setShowBox(true);
     setCameraMessageOut("Capturing...");
     setTimeout(async () => {
       if (faceVideoRef_Out.current && plateVideoRef_Out.current) {
@@ -561,11 +620,14 @@ const MainScreen = ({ ParkingLotId }) => {
           setOutPlateImg(plateImg);
           try {
             await processOutGate(faceImg, plateImg);
+            setShowBox(true);
             console.log("Captured face and plate images");
           } catch (err) {
+            setAlert(true);
             console.error("Error during processOutGate:", err);
           }
         } else {
+          setAlert(true);
           setCameraMessageOut("Vehicle moving, try again");
           console.log("Failed to capture images");
         }
@@ -578,7 +640,40 @@ const MainScreen = ({ ParkingLotId }) => {
   const cameraOutHandle = () => {
     setCameraStatusOut(!cameraStatusOut);
   };
-  const handleCloseBox = () => {
+  const handleCloseBox_Regret = () => {
+    setAlert(true);
+    setShowBox(false);
+  };
+  const handleCloseBox_Accept = async () => {
+    console.log("id:", id);
+    console.log("faceImgOut_path:", faceImgOut_path);
+    console.log("plateImgOut_path:", plateImgOut_path);
+    console.log("faceEmbeddingOut:", faceEmbeddingOut);
+    console.log("plateNumberOut:", plateNumberOut);
+    console.log("DateOut:", DateOut);
+    console.log("TimeOut:", TimeOut);
+
+    const updateRespond = await updateHistoryOut(
+      id,
+      faceImgOut_path,
+      plateImgOut_path,
+      faceEmbeddingOut,
+      plateNumberOut,
+      DateOut,
+      TimeOut
+    );
+    console.log("Update Respond:", updateRespond);
+    fetchTicketListOut(ParkingLotId);
+    setOutId("None");
+    setCameraMessageOut("Done");
+
+    const updateTicket = await updateTicketStatus(
+      ParkingLotId,
+      OutId,
+      "Không Được Sử Dụng"
+    );
+    console.log("Update Ticket:", updateTicket);
+    setAlert(false);
     setShowBox(false);
   };
   return (
@@ -902,19 +997,24 @@ const MainScreen = ({ ParkingLotId }) => {
               </div>
             </div>
           </div>
-          <div className={styles["status"]}>{"Mời xe ra" || status}</div>
+          {alert ? (
+            <div className={styles["status-bad"]}>{"Chưa xác thực"}</div>
+          ) : (
+            <div className={styles["status-good"]}>{"Mời xe ra"}</div>
+          )}
         </div>
       </div>
       {showBox && (
         <div className={styles.boxOverlay}>
           <BoxChecking
-            imgFace1Path={"https://i.ibb.co/dJGh0KBW/9d76b23550d5.jpg"}
-            imgFace2Path={"https://i.ibb.co/dJGh0KBW/9d76b23550d5.jpg"}
-            imgPlate1Path={"https://i.ibb.co/dJGh0KBW/9d76b23550d5.jpg"}
-            imgPlate2Path={"https://i.ibb.co/dJGh0KBW/9d76b23550d5.jpg"}
-            isFace={true}
-            isPlate={false}
-            onClose={handleCloseBox}
+            imgFace1Path={faceImgIn_path}
+            imgFace2Path={faceImgOut_path}
+            imgPlate1Path={plateImgIn_path}
+            imgPlate2Path={plateImgOut_path}
+            isFace={isMatchFace}
+            isPlate={isMatchPlate}
+            onRegret={handleCloseBox_Regret}
+            onAccept={handleCloseBox_Accept} // New prop to handle closing
           />
         </div>
       )}
