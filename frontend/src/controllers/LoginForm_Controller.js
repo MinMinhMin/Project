@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Login from "../services/Login";
 
-export default function LoginForm_Controller({ setUsername }) {
+export default function LoginForm_Controller() {
   const [formUsername, setFormUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,7 +17,7 @@ export default function LoginForm_Controller({ setUsername }) {
     data.append("username", formUsername);
     data.append("password", password);
     try {
-      await Login({ data, setUsername, navigate, setErrorMessage });
+      await Login({ data, navigate, setErrorMessage });
     } finally {
       setLoading(false);
     }

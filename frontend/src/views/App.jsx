@@ -3,25 +3,61 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import UserPage from "./UserPage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
-import ParkingLotsPage from "./ParkingLotsPage";
 import AdminPage from "./AdminPage";
 import UserTopBar from "../layout/usertobarHistory";
 import MainScreen from "../components/Admin/UserList";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
+import ParkingLotsPage from "./ParkingLotsPage";
+import UserInfo from "../components/user/ParkingLot_Info/user_Info";
+import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
 
 import { getUserName } from "../controllers/App_Controller";
 
-import "../index.css";
+import "../styles/App.css";
 
 function App() {
-  const { username, setUsername } = getUserName();
-
   return (
     <BrowserRouter>
       <div>
-        <UserTopBar />
-        <MainScreen />
+
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+
+          <Route
+            element={
+              <Layout>
+                <UserTopBar />
+              </Layout>
+            }
+          >
+            <Route
+              path="/observe"
+              element={
+                <ProtectedRoute role="user">
+                  <UserPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-parking/*"
+              element={
+                <ProtectedRoute role="user">
+                  <ParkingLotsPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
         {/* <Routes>
           <Route
             element={<Layout username={username} setUsername={setUsername} />}
