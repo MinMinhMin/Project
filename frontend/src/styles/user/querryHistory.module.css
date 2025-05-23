@@ -15,9 +15,9 @@
 }
 .mainContainer {
     background-color: #FFF;
+    padding: 27px 15px;
     display: flex;
     width: 1470px;
-    height: 930px;
     align-items: center;
     flex: 1 0 0;
     align-self: stretch;
