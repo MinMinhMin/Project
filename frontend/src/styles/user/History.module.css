@@ -56,164 +56,178 @@
 }
 .idQuerry {
   cursor: pointer;
-  display: flex;
-  width: 369px;
-  height: 36px;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background: #eef1f4;
+display: flex;
+width: 371px;
+padding: 10px;
+justify-content: space-between;
+align-items: flex-end;
+border-radius: 5px;
+border: 1px solid #9BA5B7;
+background: #EEF1F4;
 }
 .ChosseQuerry {
-  display: flex;
-  padding: 5px 0px 5px 4px;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 18px;
-  align-self: stretch;
-  position: relative;
+display: flex;
+padding: 5px 0px;
+align-items: center;
+gap: 9px;
+align-self: stretch;
+position: relative;
 }
-.dropdownList {
+
+.dropdownListStatus {
   position: absolute;
-  top: 100%;
-  width: 369px;
+  top: 100%; /* Hiển thị ngay dưới nút */
+  left: 17.5%;
   margin-top: 5px;
+  width: 371px;
+  background-color: #ffffff;
+  border: 1px solid #9BA5B7;
   border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background-color: #eef1f4;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.dropdownItem {
-  color: #374151;
-  font-family: "Be Vietnam Pro";
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+
+.dropdownItemStatus {
   padding: 10px;
-  border-bottom: 1px solid #d1d5db;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #EEF1F4;
 }
-.dropdownItem:hover {
-  background-color: #f3f4f6;
-}
-.dropdownItem:last-child {
+
+.dropdownItemStatus:last-child {
   border-bottom: none;
 }
+
+.dropdownItemStatus:hover {
+  background-color: #EEF1F4;
+}
+
 .Vehicles_Ticket {
   position: relative;
-  display: flex;
-  height: 46px;
-  align-items: center;
-  align-self: stretch;
+display: flex;
+padding: 5px 0px;
+align-items: center;
+gap: 28px;
+align-self: stretch;
 }
 .TicketType {
   cursor: pointer;
-  display: flex;
-  width: 151px;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background: #eef1f4;
-  margin-left: 22px;
+display: flex;
+width: 130px;
+padding: 10px;
+justify-content: space-between;
+align-items: flex-end;
+border-radius: 5px;
+border: 1px solid #9BA5B7;
+background: #EEF1F4;
 }
-.dropdownListTicket {
+.ListTicket {
+  position: absolute; /* để dropdown xuất hiện dưới button */
+  z-index: 10;
+  margin-top: 5px;
   top: 100%;
-  left: 58px;
-  position: absolute;
-  width: 136px;
-  margin-top: 4px;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
+  left: 17%;
+  width: 130px;
   background-color: #ffffff;
+  border: 1px solid #9BA5B7;
+  border-radius: 5px;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 22px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
-.dropdownItemTicket {
-  padding: 8px 12px;
-  border-bottom: 1px solid #e5e7eb;
+
+.ItemTicket {
+  padding: 10px;
   cursor: pointer;
-  color: #333;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #EEF1F4;
 }
-.dropdownItemTicket:hover {
-  background-color: #f3f4f6;
-}
-.dropdownItemTicket:last-child {
+
+.ItemTicket:last-child {
   border-bottom: none;
+}
+
+.ItemTicket:hover {
+   background-color: #EEF1F4;
 }
 .VehiclesType {
   cursor: pointer;
-  display: flex;
-  width: 160px;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background: #eef1f4;
-  margin-left: 22px;
+display: flex;
+width: 134px;
+padding: 10px;
+justify-content: space-between;
+align-items: flex-end;
+border-radius: 5px;
+border: 1px solid #9BA5B7;
+background: #EEF1F4;
 }
-.dropdownListVehicles {
+.ListVehicles {
+  position: absolute; /* để dropdown xuất hiện dưới button */
+  z-index: 10;
+  margin-top: 5px;
   top: 100%;
-  right: 0px;
-  position: absolute;
-  width: 144px;
-  margin-top: 4px;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
+  right: 0%;
+  width: 134px;
   background-color: #ffffff;
+  border: 1px solid #9BA5B7;
+  border-radius: 5px;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 22px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.ItemVehicles {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #EEF1F4;
+}
+
+.ItemVehicles:last-child {
+  border-bottom: none;
+}
+
+.ItemVehicles:hover {
+  background-color: #EEF1F4;
+}
+
+.DateContainer {
+display: flex;
+padding: 5px 0px;
+align-items: center;
+gap: 25px;
+align-self: stretch;
+position: relative;
+}
+
 .Plate_Card {
-  position: relative;
-  display: flex;
-  height: 46px;
-  align-items: center;
-  align-self: stretch;
+display: flex;
+padding: 5px 0px;
+align-items: center;
+gap: 28px;
+align-self: stretch;
 }
 .Plate {
-  display: flex;
-  width: 135px;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background: #eef1f4;
-  margin-left: 7px;
+display: flex;
+width: 130px;
+padding: 10px;
+justify-content: space-between;
+align-items: flex-end;
+border-radius: 5px;
+border: 1px solid #9BA5B7;
+background: #EEF1F4;
 }
 .Card {
-  display: flex;
-  width: 140px;
-  padding: 10px;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-radius: 5px;
-  border: 1px solid #9ba5b7;
-  background: #eef1f4;
-  margin-left: 12px;
+display: flex;
+width: 137px;
+padding: 10px;
+justify-content: space-between;
+align-items: flex-end;
+border-radius: 5px;
+border: 1px solid #9BA5B7;
+background: #EEF1F4;
 }
 .listHistory {
   display: flex;
@@ -482,4 +496,48 @@ tbody td {
   object-fit: cover;
   border-radius: 5px;
   display: block;
+}
+
+.titleQuerry {
+  color: #374151;
+font-family: "Be Vietnam Pro";
+font-size: 13px;
+font-style: normal;
+font-weight: 500;
+line-height: 22px;
+white-space: nowrap; /* 169.231% */
+}
+
+/* styles.module.css */
+.customInput {
+  width: 146px;
+  padding: 10px;
+  border: 1px solid #9BA5B7;
+  border-radius: 5px;
+  background: #EEF1F4;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.customCalendar {
+  border: 1px solid #9BA5B7 !important;
+  border-radius: 5px;
+ 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  z-index: 10;
+}
+.DatePickerGroup {
+  display: flex;
+align-items: center;
+width: 225px;
+gap: 25px;
+}
+.DateContainer {
+display: flex;
+padding: 5px 0px;
+align-items: center;
+gap: 25px;
+align-self: stretch;
+
 }
