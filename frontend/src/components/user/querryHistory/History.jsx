@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../../styles/user/History.module.css";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
 const token = localStorage.getItem("token");
 const backendUrl = import.meta.env.VITE_API_URL;
+
+
+
+
+
 const id = localStorage.getItem("ParkingLotId");
 const History = () => {
   const not_use_here = "Thừa";
+
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
   const [showFromPicker, setShowFromPicker] = useState(false);
   const [showToPicker, setShowToPicker] = useState(false);
@@ -16,6 +26,7 @@ const History = () => {
   const [ticket_type, setTicketType] = useState();
   const [vehicle_type, setVehicleType] = useState();
   const [plateNumber, setPlateNumber] = useState("");
+  const [status, setStatus] = useState();
 
   const [NumberCar, setNumberCar] = useState(23);
   const [NumberMotor, setNumberMotor] = useState(123);
@@ -35,6 +46,9 @@ const History = () => {
 
   async function fetchHistoryData() {
     const params = {};
+    if (status!== "Tất cả" && status) {
+      params.status = status;
+    }
     if (ticket_id) {
       params.ticket_id = ticket_id;
     }
@@ -95,20 +109,36 @@ const History = () => {
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
   const [dropdownTicketOpen, setDropdownTicketOpen] = useState(false);
   const [dropdownVehiclesOpen, setDropdownVehiclesOpen] = useState(false);
+  const [dropdownStatusOpen, setDropdownStatusOpen] = useState(false);
+ // status hiện tại được chọn
+
 
   // State quản lý xoay icon
   const [rotateIn, setRotateIn] = useState(0);
   const [rotateTicket, setRotateTicket] = useState(0);
   const [rotateVehiclesType, setRotateVehicles] = useState(0);
+  const [rotateStatus, setRotateStatus] = useState(0);
 
   // Danh sách ID
-  const idList_Querry = ["Tất cả các xe", "Xe máy", "Ô tô"];
+  const idList_Status = ["Tất cả", "Trạng thái 1", "Trạng thái 2"];
   const idList_typeTicket = ["Vé lượt"];
   const idList_typeVehicles = ["Tất cả", "Xe máy", "Ô tô"];
 
   /**
    * Toggle từng dropdown riêng lẻ, đóng các dropdown còn lại
    */
+    const toggleDropdownStatus = () => {
+    setDropdownStatusOpen(!dropdownStatusOpen);
+    setDropdownInOpen(false);
+    setDropdownTicketOpen(false);
+    setDropdownVehiclesOpen(false);
+
+    setRotateIn(0);
+    setRotateTicket(0);
+    setRotateVehicles(0);
+    setRotateStatus(dropdownStatusOpen ? 0 : 180);
+  };
+
   const toggleDropdownVehicles = () => {
     setDropdownVehiclesOpen(!dropdownVehiclesOpen);
     setDropdownInOpen(false);
@@ -142,6 +172,22 @@ const History = () => {
   /**
    * Hàm chọn ID trong dropdown, đóng tất cả dropdown khác
    */
+  const selectStatus = (id) => {
+    console.log("Selected status ID:", id);
+    setDropdownStatusOpen(false);
+    setDropdownInOpen(false);
+    setDropdownTicketOpen(false);
+    setDropdownVehiclesOpen(false);
+
+    setStatus(id);
+
+    setRotateVehicles(0);
+    setRotateIn(0);
+    setRotateTicket(0);
+    setRotateStatus(0);
+  };
+
+
   const selectTicketType = (id) => {
     console.log("Selected in ID:", id);
     setDropdownInOpen(false);
@@ -173,38 +219,47 @@ const History = () => {
       <div className={styles.QuerryandlistHistory}>
         <div className={styles.Querry}>
           <div className={styles.Querrylist}>
-            {/*Chọn đối tượng truy vấn */}
+            {/*Chọn đối trạng thái */}
             <div className={styles.ChosseQuerry}>
               <span
-                className={styles.text_title}
-                style={{ fontSize: "13px", width: "59px", height: "22px" }}
+                className={styles.titleQuerry}
               >
-                Truy vấn:
+                Trạng thái:
               </span>
-              <button className={styles.idQuerry} onClick={toggleDropdownIn}>
-                <span className={styles.text}>{not_use_here}</span>
+              <button className={styles.idQuerry} onClick={toggleDropdownStatus}>
+                <span className={styles.text}>{status || "*Chọn*"}</span>
+
+            
+
                 <img
                   src="/assets/DropDown2.svg"
                   alt="dropdown"
                   style={{
-                    transform: `rotate(${rotateIn}deg)`,
+                    transform: `rotate(${rotateStatus}deg)`,
                     transition: "transform 0.3s ease",
                   }}
                 />
               </button>
+              {dropdownStatusOpen && (
+                <ul className={styles.dropdownListStatus}>
+                  {idList_Status.map((id) => (
+                    <li
+                      key={id}
+                      className={`${styles.dropdownItemStatus} ${styles.text}`}
+                      onClick={() => selectStatus(id)}
+                    >
+                      {id}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             {/*Chọn loại vé và loại xe */}
             <div className={styles.Vehicles_Ticket}>
               <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "62px",
-                  height: "22px",
-                  marginLeft: "4px",
-                }}
+                className={styles.titleQuerry}
               >
-                Loại vé:
+              Loại vé:
               </span>
               <button
                 className={styles.TicketType}
@@ -221,11 +276,11 @@ const History = () => {
                 />
               </button>
               {dropdownTicketOpen && (
-                <ul className={styles.dropdownListTicket}>
+                <ul className={styles.ListTicket}>
                   {idList_typeTicket.map((id) => (
                     <li
                       key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
+                      className={`${styles.ItemTicket} ${styles.text}`}
                       onClick={() => selectTicketType(id)}
                     >
                       {id}
@@ -235,13 +290,7 @@ const History = () => {
               )}
 
               <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "59px",
-                  height: "22px",
-                  marginLeft: "20px",
-                }}
+                className={styles.titleQuerry}
               >
                 Loại xe:
               </span>
@@ -260,11 +309,11 @@ const History = () => {
                 />
               </button>
               {dropdownVehiclesOpen && (
-                <ul className={styles.dropdownListVehicles}>
+                <ul className={styles.ListVehicles}>
                   {idList_typeVehicles.map((id) => (
                     <li
                       key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
+                      className={`${styles.ItemTicket} ${styles.text}`}
                       onClick={() => selectVehicleType(id)}
                     >
                       {id}
@@ -274,103 +323,39 @@ const History = () => {
               )}
             </div>
             {/*Chọn ngày */}
-            <div className={styles.Vehicles_Ticket}>
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "64px",
-                  height: "22px",
-                  marginLeft: "4px",
-                }}
-              >
-                Từ ngày:
-              </span>
-              <div className={styles.datePickerContainer}>
-                <button
-                  className={styles.TicketType}
-                  onClick={() => {
-                    setShowFromPicker(!showFromPicker);
-                    setShowToPicker(false);
-                  }}
-                >
-                  <span className={styles.text}>
-                    {dateFrom || "*Chọn ngày*"}
-                  </span>
-                  <img
-                    src="/assets/DropDown2.svg"
-                    alt="dropdown"
-                    style={{
-                      transform: `rotate(${showFromPicker ? 180 : 0}deg)`,
-                      transition: "transform 0.3s ease",
-                    }}
-                  />
-                </button>
-                {showFromPicker && (
-                  <div className={styles.datePickerDropdown}>
-                    <input
-                      type="date"
-                      value={dateFrom}
-                      onChange={(e) => setDateFrom(e.target.value)}
-                      className={`${styles.Plate} ${styles.text}`}
-                      style={{ width: "100%", boxSizing: "border-box" }}
-                    />
-                  </div>
-                )}
+            <div className={styles.DateContainer}>
+              <div className={styles.DatePickerGroup}>
+                <span className={styles.titleQuerry}>Từ ngày:</span>
+                <DatePicker
+                  selected={fromDate}
+                  onChange={(date) => setFromDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  className={styles.customInput}
+                  placeholderText="Chọn ngày"
+                  calendarClassName={styles.customCalendar}
+                  popperPlacement="bottom-start"
+                  
+                />
               </div>
 
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "59px",
-                  height: "22px",
-                  marginLeft: "20px",
-                }}
-              >
-                Đến:
-              </span>
-              <div className={styles.datePickerContainer}>
-                <button
-                  className={styles.TicketType}
-                  onClick={() => {
-                    setShowToPicker(!showToPicker);
-                    setShowFromPicker(false);
-                  }}
-                >
-                  <span className={styles.text}>{dateTo || "*Chọn ngày*"}</span>
-                  <img
-                    src="/assets/DropDown2.svg"
-                    alt="dropdown"
-                    style={{
-                      transform: `rotate(${showToPicker ? 180 : 0}deg)`,
-                      transition: "transform 0.3s ease",
-                    }}
-                  />
-                </button>
-                {showToPicker && (
-                  <div className={styles.datePickerDropdown}>
-                    <input
-                      type="date"
-                      value={dateTo}
-                      onChange={(e) => setDateTo(e.target.value)}
-                      className={`${styles.Plate} ${styles.text}`}
-                      style={{ width: "100%", boxSizing: "border-box" }}
-                    />
-                  </div>
-                )}
+              <div className={styles.DatePickerGroup}>
+                <span className={styles.titleQuerry}>Đến:</span>
+                <DatePicker
+                  selected={toDate}
+                  onChange={(date) => setToDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  className={styles.customInput}
+                  placeholderText="Chọn ngày"
+                  calendarClassName={styles.customCalendar}
+                  popperPlacement="bottom-start"
+                  minDate={fromDate} // Không cho chọn ngày trước "Từ ngày"
+                />
               </div>
             </div>
             {/*Điền biển số và điền Mã thẻ */}
             <div className={styles.Plate_Card}>
               <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "69px",
-                  height: "22px",
-                  marginLeft: "5px",
-                }}
+                className={styles.titleQuerry}
               >
                 Biển số:
               </span>
@@ -382,13 +367,7 @@ const History = () => {
               />
 
               <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "64px",
-                  height: "22px",
-                  marginLeft: "18px",
-                }}
+                className={styles.titleQuerry}
               >
                 Mã thẻ:
               </span>
