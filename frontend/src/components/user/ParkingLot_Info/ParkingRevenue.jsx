@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { Calendar, Car, Bike, DollarSign, Users, Clock } from "lucide-react";
 import styles from "../../../styles/ParkingRevenue.module.css";
 
 export default function ParkingRevenue() {
-  const [startDate, setStartDate] = useState("25/05/2025");
-  const [endDate, setEndDate] = useState("26/05/2025");
+  const [startDate, setStartDate] = useState("2025-05-25");
+  const [endDate, setEndDate] = useState("2025-05-26");
   const [location, setLocation] = useState("VNU-UEB");
-  const [vehicleType, setVehicleType] = useState("Tất cả");
 
   const [data, setData] = useState({
     motorcycles: {
@@ -24,129 +24,264 @@ export default function ParkingRevenue() {
 
   const totalRevenue = data.motorcycles.revenue + data.cars.revenue;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
+  };
+
+  const handleQuery = () => {
+    console.log("Querying data from", startDate, "to", endDate, "at", location);
+  };
+
   return (
-    <div className={styles["parking-container"]}>
-      {/* Phía dưới menu bar */}
-      <div className={styles["filter-section"]}>
-        <div className={styles["filter-item"]}>
-          <span className={styles["filter-label"]}>Chọn ngày:</span>
-          <input
-            type="text"
-            className={styles["text-input"]}
-            placeholder="dd/mm/yyyy"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
+    <div className={styles.container}>
+      <div className={styles.maxWidth}>
+        {/* Header */}
+        <div className={styles.header}>
+          <h1 className={styles.title}>Thống kê doanh thu bãi đỗ xe</h1>
+          <p className={styles.subtitle}>Quản lý và theo dõi doanh thu hệ thống đỗ xe thông minh</p>
         </div>
 
-        <div className={styles["filter-item"]}>
-          <span className={styles["filter-label"]}>Đến:</span>
-          <input
-            type="text"
-            className={styles["text-input"]}
-            placeholder="dd/mm/yyyy"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-
-        <div className={styles["filter-item"]}>
-          <span className={styles["filter-label"]}>Bãi đỗ:</span>
-          <select
-            className={styles["select-input"]}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="VNU-UEB">VNU-UEB</option>
-          </select>
-        </div>
-
-        
-
-        <button className={styles["query-button"]}>Truy vấn</button>
-      </div>
-
-      <div className={styles["content-section"]}>
-        <div className={styles["stats-container"]}>
-          <h3 className={styles["stats-title"]}>Thống kê doanh thu</h3>
-          <div className={styles["stats-grid"]}>
-            <div className={`${styles["stats-card"]} ${styles["motorcycle"]}`}>
-              <h4 className={`${styles["card-title"]} ${styles["motorcycle-title"]}`}>
-                Doanh thu xe máy
-              </h4>
-              <div className={styles["stats-row"]}>
-                <span>Số lượng gửi:</span>
-                <span>{data.motorcycles.sent}</span>
-              </div>
-              <div className={styles["stats-row"]}>
-                <span>Số lượng đã lấy:</span>
-                <span>{data.motorcycles.received}</span>
-              </div>
-              <div className={styles["stats-row"]}>
-                <span>Giá vé:</span>
-                <span>{data.motorcycles.price} VNĐ</span>
-              </div>
-              <div className={`${styles["stats-row"]} ${styles["revenue"]} ${styles["motorcycle-revenue"]}`}>
-                <span>Doanh thu:</span>
-                <span>{data.motorcycles.revenue.toLocaleString()} VNĐ</span>
-              </div>
+        {/* Filter Section */}
+        <div className={styles.filterSection}>
+          <div className={styles.filterGrid}>
+            <div className={styles.filterItem}>
+              <label className={styles.label}>
+                <Calendar style={{display: 'inline', width: '16px', height: '16px', marginRight: '4px'}} />
+                Từ ngày
+              </label>
+              <input
+                type="date"
+                className={styles.input}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                onFocus={(e) => e.target.classList.add(styles.inputFocus)}
+                onBlur={(e) => e.target.classList.remove(styles.inputFocus)}
+              />
             </div>
 
-            <div className={`${styles["stats-card"]} ${styles["car"]}`}>
-              <h4 className={`${styles["card-title"]} ${styles["car-title"]}`}>
-                Doanh thu ô tô
-              </h4>
-              <div className={styles["stats-row"]}>
-                <span>Số lượng gửi:</span>
-                <span>{data.cars.sent}</span>
+            <div className={styles.filterItem}>
+              <label className={styles.label}>
+                <Calendar style={{display: 'inline', width: '16px', height: '16px', marginRight: '4px'}} />
+                Đến ngày
+              </label>
+              <input
+                type="date"
+                className={styles.input}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                onFocus={(e) => e.target.classList.add(styles.inputFocus)}
+                onBlur={(e) => e.target.classList.remove(styles.inputFocus)}
+              />
+            </div>
+
+            <div className={styles.filterItem}>
+              <label className={styles.label}>Bãi đỗ xe</label>
+              <select
+                className={styles.select}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              >
+                <option value="VNU-UEB">VNU-UEB</option>
+                <option value="VNU-HUS">VNU-HUS</option>
+                <option value="VNU-UET">VNU-UET</option>
+              </select>
+            </div>
+
+            <div className={styles.filterItem}>
+              <button
+                onClick={handleQuery}
+                className={styles.button}
+                onMouseOver={(e) => e.target.classList.add(styles.buttonHover)}
+                onMouseOut={(e) => e.target.classList.remove(styles.buttonHover)}
+              >
+                <Clock style={{width: '16px', height: '16px', marginRight: '8px'}} />
+                Truy vấn
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.dateInfo}>
+            Thời gian: {formatDate(startDate)} - {formatDate(endDate)} | Địa điểm: {location}
+          </div>
+        </div>
+
+        {/* Quick Stats Cards */}
+        <div className={styles.statsGrid}>
+          <div className={styles.statCard}>
+            <div className={styles.statCardContent}>
+              <div className={`${styles.iconContainer} ${styles.iconOrange}`}>
+                <Bike style={{width: '24px', height: '24px'}} />
               </div>
-              <div className={styles["stats-row"]}>
-                <span>Số lượng đã lấy:</span>
-                <span>{data.cars.received}</span>
-              </div>
-              <div className={styles["stats-row"]}>
-                <span>Giá vé:</span>
-                <span>{data.cars.price} VNĐ</span>
-              </div>
-              <div className={`${styles["stats-row"]} ${styles["revenue"]} ${styles["car-revenue"]}`}>
-                <span>Doanh thu:</span>
-                <span>{data.cars.revenue.toLocaleString()} VNĐ</span>
+              <div>
+                <p className={styles.statText}>Xe máy gửi</p>
+                <p className={styles.statNumber}>{data.motorcycles.sent}</p>
               </div>
             </div>
           </div>
 
-          <div className={styles["total-revenue"]}>
-            <div className={`${styles["stats-row"]} ${styles["total"]}`}>
-              <span>Tổng doanh thu:</span>
-              <span className={styles["total-amount"]}>
-                {totalRevenue.toLocaleString()} VNĐ
-              </span>
+          <div className={styles.statCard}>
+            <div className={styles.statCardContent}>
+              <div className={`${styles.iconContainer} ${styles.iconBlue}`}>
+                <Car style={{width: '24px', height: '24px'}} />
+              </div>
+              <div>
+                <p className={styles.statText}>Ô tô gửi</p>
+                <p className={styles.statNumber}>{data.cars.sent}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.statCard}>
+            <div className={styles.statCardContent}>
+              <div className={`${styles.iconContainer} ${styles.iconGreen}`}>
+                <Users style={{width: '24px', height: '24px'}} />
+              </div>
+              <div>
+                <p className={styles.statText}>Tổng xe đã lấy</p>
+                <p className={styles.statNumber}>{data.motorcycles.received + data.cars.received}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.statCard}>
+            <div className={styles.statCardContent}>
+              <div className={`${styles.iconContainer} ${styles.iconPurple}`}>
+                <DollarSign style={{width: '24px', height: '24px'}} />
+              </div>
+              <div>
+                <p className={styles.statText}>Tổng doanh thu</p>
+                <p className={styles.statNumberGreen}>{totalRevenue.toLocaleString()} VNĐ</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <table className={styles["data-table"]}>
-          <thead>
-            <tr>
-              <th>Số lượng xe máy gửi</th>
-              <th>Số lượng xe ô tô gửi</th>
-              <th>Số xe máy đã lấy</th>
-              <th>Số xe ô tô đã lấy</th>
-              <th>Giá vé xe máy</th>
-              <th>Giá vé xe ô tô</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{data.motorcycles.sent}</td>
-              <td>{data.cars.sent}</td>
-              <td>{data.motorcycles.received}</td>
-              <td>{data.cars.received}</td>
-              <td>{data.motorcycles.price}</td>
-              <td>{data.cars.price}</td>
-            </tr>
-          </tbody>
-        </table>
+        {/* Revenue Details */}
+        <div className={styles.revenueGrid}>
+          {/* Motorcycle Revenue */}
+          <div className={styles.revenueCard}>
+            <div className={styles.cardHeader}>
+              <Bike style={{width: '20px', height: '20px', color: '#ea580c'}} />
+              <h3 className={styles.cardTitle}>Doanh thu xe máy</h3>
+            </div>
+            <div className={styles.cardBody}>
+              <div className={styles.cardRowsContainer}>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Số lượng gửi:</span>
+                  <span className={styles.cardRowValue}>{data.motorcycles.sent}</span>
+                </div>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Số lượng đã lấy:</span>
+                  <span className={styles.cardRowValue}>{data.motorcycles.received}</span>
+                </div>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Giá vé:</span>
+                  <span className={styles.cardRowValue}>{data.motorcycles.price.toLocaleString()} VNĐ</span>
+                </div>
+                <div className={`${styles.cardRow} ${styles.cardRowTotal}`}>
+                  <span className={styles.cardRowTotalLabel}>Doanh thu:</span>
+                  <span className={styles.cardRowTotalValueOrange}>{data.motorcycles.revenue.toLocaleString()} VNĐ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Car Revenue */}
+          <div className={styles.revenueCard}>
+            <div className={styles.cardHeader}>
+              <Car style={{width: '20px', height: '20px', color: '#2563eb'}} />
+              <h3 className={styles.cardTitle}>Doanh thu ô tô</h3>
+            </div>
+            <div className={styles.cardBody}>
+              <div className={styles.cardRowsContainer}>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Số lượng gửi:</span>
+                  <span className={styles.cardRowValue}>{data.cars.sent}</span>
+                </div>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Số lượng đã lấy:</span>
+                  <span className={styles.cardRowValue}>{data.cars.received}</span>
+                </div>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardRowLabel}>Giá vé:</span>
+                  <span className={styles.cardRowValue}>{data.cars.price.toLocaleString()} VNĐ</span>
+                </div>
+                <div className={`${styles.cardRow} ${styles.cardRowTotal}`}>
+                  <span className={styles.cardRowTotalLabel}>Doanh thu:</span>
+                  <span className={styles.cardRowTotalValueBlue}>{data.cars.revenue.toLocaleString()} VNĐ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Summary Table */}
+        <div className={styles.tableContainer}>
+          <div className={styles.tableHeader}>
+            <h3 className={styles.tableTitle}>Bảng tổng hợp chi tiết</h3>
+          </div>
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th}>Loại xe</th>
+                  <th className={styles.th}>Số lượng gửi</th>
+                  <th className={styles.th}>Số lượng đã lấy</th>
+                  <th className={styles.th}>Giá vé (VNĐ)</th>
+                  <th className={styles.th}>Doanh thu (VNĐ)</th>
+                  <th className={styles.th}>Tỷ lệ lấy xe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={styles.tdWithIcon}>
+                    <Bike style={{width: '20px', height: '20px', color: '#ea580c', marginRight: '8px'}} />
+                    <span className={styles.tdBold}>Xe máy</span>
+                  </td>
+                  <td className={styles.td}>{data.motorcycles.sent}</td>
+                  <td className={styles.td}>{data.motorcycles.received}</td>
+                  <td className={styles.td}>{data.motorcycles.price.toLocaleString()}</td>
+                  <td className={styles.tdOrange}>{data.motorcycles.revenue.toLocaleString()}</td>
+                  <td className={styles.td}>
+                    <span className={`${styles.badge} ${styles.badgeOrange}`}>
+                      {Math.round((data.motorcycles.received / data.motorcycles.sent) * 100)}%
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={styles.tdWithIcon}>
+                    <Car style={{width: '20px', height: '20px', color: '#2563eb', marginRight: '8px'}} />
+                    <span className={styles.tdBold}>Ô tô</span>
+                  </td>
+                  <td className={styles.td}>{data.cars.sent}</td>
+                  <td className={styles.td}>{data.cars.received}</td>
+                  <td className={styles.td}>{data.cars.price.toLocaleString()}</td>
+                  <td className={styles.tdBlue}>{data.cars.revenue.toLocaleString()}</td>
+                  <td className={styles.td}>
+                    <span className={`${styles.badge} ${styles.badgeBlue}`}>
+                      {Math.round((data.cars.received / data.cars.sent) * 100)}%
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot className={styles.tfootBg}>
+                <tr>
+                  <td className={styles.tfootBold}>Tổng cộng</td>
+                  <td className={styles.tfootBold}>{data.motorcycles.sent + data.cars.sent}</td>
+                  <td className={styles.tfootBold}>{data.motorcycles.received + data.cars.received}</td>
+                  <td className={styles.td}>-</td>
+                  <td className={styles.tfootGreen}>{totalRevenue.toLocaleString()}</td>
+                  <td className={styles.td}>
+                    <span className={`${styles.badge} ${styles.badgeGreen}`}>
+                      {Math.round(((data.motorcycles.received + data.cars.received) / (data.motorcycles.sent + data.cars.sent)) * 100)}%
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
