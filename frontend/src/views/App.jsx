@@ -13,6 +13,7 @@ import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
 
 import { getUserName } from "../controllers/App_Controller";
 import History from "../components/user/querryHistory/History";
+import UserList from "../components/Admin/UserList";
 import "../styles/App.css";
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
             path="/admin"
             element={
               <ProtectedRoute role="admin">
-                <AdminPage />
+                <UserList />
               </ProtectedRoute>
             }
           />
