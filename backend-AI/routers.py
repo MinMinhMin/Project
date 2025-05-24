@@ -1,10 +1,13 @@
 import base64
+from typing import List
 from fastapi import APIRouter, File, HTTPException, UploadFile, WebSocket
 import cv2
 import numpy as np
 from deepface import DeepFace
 import time
 from collections import deque
+
+from pydantic import BaseModel
 from model.plate_recognizer.recognizer import PlateRecognizer
 from model.face_recognizer.recognizer import FaceRecognizer
 router = APIRouter()
@@ -243,3 +246,17 @@ async def getFaceEmbedding(face_image: UploadFile = File(...)):
     if embedding is None:
         return {"embedding": []}
     return {"embedding": embedding.tolist()}
+
+class FaceEmbeddingRequest(BaseModel):
+    embedding1: List[float]
+    embedding2: List[float]
+
+@router.post("/compareFace")
+async def compareFace(request: FaceEmbeddingRequest):
+    embedding1 = np.array(request.embedding1)
+    embedding2 = np.array(request.embedding2)
+
+    if embedding1.size == 0 or embedding2.size == 0:
+        raise HTTPException(status_code=400, detail="Invalid face embeddings")
+
+    return {"is_match":  bool(face_embedding_reconizer.is_match(embedding1, embedding2))}

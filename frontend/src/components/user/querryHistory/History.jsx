@@ -1,201 +1,165 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../../styles/user/History.module.css";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+const token = localStorage.getItem("token");
+const backendUrl = import.meta.env.VITE_API_URL;
 
-const History = ({
-  in_id = "Tất cả các xe",
-  in_Ticket = "Vé lượt",
-  in_VehiclesType = "Tất cả",
-  in_fromDate = "25/05/2025",
-  in_toDate = "26/05/2025",
-  NumberCar = 23,
-  NumberMotor = 125,
-  in_picture_plate,
-  in_picture_Face,
-  out_picture_plate,
-  out_picture_Face,
-}) => {
-  const data = [
-    {
-      maThe: "T001",
-      bienSo: "29A-12345",
-      thoiGianRa: "2025-05-19 08:30",
-      thoiGianVao: "2025-05-19 07:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T002",
-      bienSo: "30B-67890",
-      thoiGianRa: "2025-05-19 12:15",
-      thoiGianVao: "2025-05-19 10:00",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T003",
-      bienSo: "51C-54321",
-      thoiGianRa: "2025-05-19 15:45",
-      thoiGianVao: "2025-05-19 13:30",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T004",
-      bienSo: "18A-98765",
-      thoiGianRa: "2025-05-19 17:20",
-      thoiGianVao: "2025-05-19 16:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T005",
-      bienSo: "99B-24680",
-      thoiGianRa: "2025-05-19 19:10",
-      thoiGianVao: "2025-05-19 18:00",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T006",
-      bienSo: "36A-13579",
-      thoiGianRa: "2025-05-19 21:00",
-      thoiGianVao: "2025-05-19 20:15",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T007",
-      bienSo: "43C-11223",
-      thoiGianRa: "2025-05-19 23:30",
-      thoiGianVao: "2025-05-19 22:00",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T008",
-      bienSo: "29B-33445",
-      thoiGianRa: "2025-05-19 09:00",
-      thoiGianVao: "2025-05-19 08:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T009",
-      bienSo: "50C-66778",
-      thoiGianRa: "2025-05-19 11:30",
-      thoiGianVao: "2025-05-19 10:45",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T010",
-      bienSo: "15A-88990",
-      thoiGianRa: "2025-05-19 14:20",
-      thoiGianVao: "2025-05-19 13:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T011",
-      bienSo: "80B-22334",
-      thoiGianRa: "2025-05-19 16:50",
-      thoiGianVao: "2025-05-19 15:30",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T012",
-      bienSo: "34A-44556",
-      thoiGianRa: "2025-05-19 18:40",
-      thoiGianVao: "2025-05-19 17:20",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T007",
-      bienSo: "43C-11223",
-      thoiGianRa: "2025-05-19 23:30",
-      thoiGianVao: "2025-05-19 22:00",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T008",
-      bienSo: "29B-33445",
-      thoiGianRa: "2025-05-19 09:00",
-      thoiGianVao: "2025-05-19 08:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T009",
-      bienSo: "50C-66778",
-      thoiGianRa: "2025-05-19 11:30",
-      thoiGianVao: "2025-05-19 10:45",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T010",
-      bienSo: "15A-88990",
-      thoiGianRa: "2025-05-19 14:20",
-      thoiGianVao: "2025-05-19 13:00",
-      loaiXe: "Xe máy",
-    },
-    {
-      maThe: "T011",
-      bienSo: "80B-22334",
-      thoiGianRa: "2025-05-19 16:50",
-      thoiGianVao: "2025-05-19 15:30",
-      loaiXe: "Ô tô",
-    },
-    {
-      maThe: "T012",
-      bienSo: "34A-44556",
-      thoiGianRa: "2025-05-19 18:40",
-      thoiGianVao: "2025-05-19 17:20",
-      loaiXe: "Xe máy",
-    },
-  ];
+const id = localStorage.getItem("ParkingLotId");
+const History = () => {
+  const not_use_here = "Thừa";
+
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+
+  const [showFromPicker, setShowFromPicker] = useState(false);
+  const [showToPicker, setShowToPicker] = useState(false);
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+
+  const [ticket_id, setTicketId] = useState();
+  const [ticket_type, setTicketType] = useState();
+  const [vehicle_type, setVehicleType] = useState();
   const [plateNumber, setPlateNumber] = useState("");
-  const [CardNumber, setCardNumber] = useState("");
+  const [status, setStatus] = useState();
+
+  const [NumberCar, setNumberCar] = useState(23);
+  const [NumberMotor, setNumberMotor] = useState(123);
+  const [in_picture_plate, setInPicturePlate] = useState();
+  const [in_picture_Face, setInPictureFace] = useState();
+  const [out_picture_plate, setOutPicturePlate] = useState();
+  const [out_picture_Face, setOutPictureFace] = useState();
+
+  const [historyData, setHistoryData] = useState([]);
+
+  const recordClick = (id) => {
+    setInPictureFace(historyData[id].anhMatVao);
+    setOutPictureFace(historyData[id].anhMatRa);
+    setInPicturePlate(historyData[id].anhBienSoVao);
+    setOutPicturePlate(historyData[id].anhBienSoRa);
+  };
+
+  async function fetchHistoryData(isGetVehicleNumber) {
+    const params = {};
+    if (status !== "Tất cả" && status) {
+      params.status = status;
+    }
+    if (ticket_id) {
+      params.ticket_id = ticket_id;
+    }
+    if (vehicle_type !== "Tất cả" && vehicle_type) {
+      params.vehicle_type = vehicle_type;
+    }
+    if (ticket_type) {
+      params.ticket_type = ticket_type;
+    }
+    if (dateFrom) {
+      params.date_from = dateFrom;
+    }
+    if (dateTo) {
+      params.date_to = dateTo;
+    }
+    if (plateNumber) {
+      params.license_plate = plateNumber;
+    }
+    if (id) {
+      params.parking_lot_id = id;
+    }
+    console.log("API Params:", params);
+    try {
+      const res = await axios.get(`${backendUrl}/history/search`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: params,
+      });
+      console.log("API Response:", res.data);
+
+      const transformedData = res.data.map((record) => ({
+        maThe: record.ticket_id,
+        bienSo: record.license_plate_IN,
+        thoiGianRa:
+          record.date_out && record.time_out
+            ? `${record.date_out} ${record.time_out}`
+            : "Chưa có thông tin",
+        thoiGianVao: `${record.date_in} ${record.time_in}`,
+        loaiXe: record.vehicle_type,
+        anhMatVao: record.face_image_path_IN,
+        anhMatRa: record.face_image_path_OUT,
+        anhBienSoVao: record.license_plate_image_path_IN,
+        anhBienSoRa: record.license_plate_image_path_OUT,
+      }));
+
+      if (isGetVehicleNumber) {
+        const cars = res.data.filter(
+          (record) => record.vehicle_type === "Ô tô" && !record.date_out
+        );
+        const motorcycles = res.data.filter(
+          (record) => record.vehicle_type === "Xe máy" && !record.date_out
+        );
+
+        setNumberCar(cars.length);
+        setNumberMotor(motorcycles.length);
+
+        console.log("Number of cars:", cars.length);
+        console.log("Number of motorcycles:", motorcycles.length);
+      }
+
+      setHistoryData(transformedData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchHistoryData(true);
+  }, [token]);
+
+  const searchHandle = async () => {
+    fetchHistoryData(false);
+  };
 
   // State quản lý mở/đóng dropdown
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
   const [dropdownTicketOpen, setDropdownTicketOpen] = useState(false);
   const [dropdownVehiclesOpen, setDropdownVehiclesOpen] = useState(false);
-  const [dropdownDateFromOpen, setDropdownDateFromOpen] = useState(false);
-  const [dropdownDateToOpen, setDropdownDateToOpen] = useState(false);
+  const [dropdownStatusOpen, setDropdownStatusOpen] = useState(false);
+  // status hiện tại được chọn
 
   // State quản lý xoay icon
   const [rotateIn, setRotateIn] = useState(0);
   const [rotateTicket, setRotateTicket] = useState(0);
   const [rotateVehiclesType, setRotateVehicles] = useState(0);
-  const [rotateDateFrom, setRotateDateFrom] = useState(0);
-  const [rotateDateTo, setRotateDateTo] = useState(0);
+  const [rotateStatus, setRotateStatus] = useState(0);
 
   // Danh sách ID
-  const idList_Querry = ["Tất cả các xe", "Xe máy", "Ô tô"];
+  const idList_Status = ["Tất cả", "Trạng thái 1", "Trạng thái 2"];
   const idList_typeTicket = ["Vé lượt"];
   const idList_typeVehicles = ["Tất cả", "Xe máy", "Ô tô"];
-  const idList_Date = [
-    "25/05/2025",
-    "26/05/2025",
-    "27/05/2025",
-    "28/05/2025",
-    "29/05/2025",
-    "30/05/2025",
-    "31/05/2025",
-    "01/06/2025",
-    "02/06/2025",
-    "03/06/2025",
-    "04/06/2025",
-    "05/06/2025",
-    "06/06/2025",
-    "07/06/2025",
-    "08/06/2025",
-    "09/06/2025",
-    "10/06/2025",
-  ];
+
   /**
    * Toggle từng dropdown riêng lẻ, đóng các dropdown còn lại
    */
+  const toggleDropdownStatus = () => {
+    setDropdownStatusOpen(!dropdownStatusOpen);
+    setDropdownInOpen(false);
+    setDropdownTicketOpen(false);
+    setDropdownVehiclesOpen(false);
+
+    setRotateIn(0);
+    setRotateTicket(0);
+    setRotateVehicles(0);
+    setRotateStatus(dropdownStatusOpen ? 0 : 180);
+  };
+
   const toggleDropdownVehicles = () => {
     setDropdownVehiclesOpen(!dropdownVehiclesOpen);
     setDropdownInOpen(false);
     setDropdownTicketOpen(false);
-    setDropdownDateFromOpen(false);
-    setDropdownDateToOpen(false);
 
     setRotateIn(0);
     setRotateTicket(0);
-    setRotateDateFrom(0);
-    setRotateDateTo(0);
     setRotateVehicles(dropdownVehiclesOpen ? 0 : 180);
   };
 
@@ -203,13 +167,9 @@ const History = ({
     setDropdownInOpen(!dropdownInOpen);
     setDropdownVehiclesOpen(false);
     setDropdownTicketOpen(false);
-    setDropdownDateFromOpen(false);
-    setDropdownDateToOpen(false);
 
     setRotateVehicles(0);
     setRotateTicket(0);
-    setRotateDateFrom(0);
-    setRotateDateTo(0);
     setRotateIn(dropdownInOpen ? 0 : 180);
   };
 
@@ -217,60 +177,54 @@ const History = ({
     setDropdownTicketOpen(!dropdownTicketOpen);
     setDropdownInOpen(false);
     setDropdownVehiclesOpen(false);
-    setDropdownDateFromOpen(false);
-    setDropdownDateToOpen(false);
 
     setRotateIn(0);
     setRotateVehicles(0);
-    setRotateDateFrom(0);
-    setRotateDateTo(0);
     setRotateTicket(dropdownTicketOpen ? 0 : 180);
-  };
-
-  const toggleDropdownDateFrom = () => {
-    setDropdownDateFromOpen(!dropdownDateFromOpen);
-    setDropdownInOpen(false);
-    setDropdownVehiclesOpen(false);
-    setDropdownTicketOpen(false);
-    setDropdownDateToOpen(false);
-
-    setRotateIn(0);
-    setRotateVehicles(0);
-    setRotateTicket(0);
-    setRotateDateTo(0);
-    setRotateDateFrom(dropdownDateFromOpen ? 0 : 180);
-  };
-
-  const toggleDropdownDateTo = () => {
-    setDropdownDateToOpen(!dropdownDateToOpen);
-    setDropdownInOpen(false);
-    setDropdownVehiclesOpen(false);
-    setDropdownTicketOpen(false);
-    setDropdownDateFromOpen(false);
-
-    setRotateIn(0);
-    setRotateVehicles(0);
-    setRotateTicket(0);
-    setRotateDateFrom(0);
-    setRotateDateTo(dropdownDateToOpen ? 0 : 180);
   };
 
   /**
    * Hàm chọn ID trong dropdown, đóng tất cả dropdown khác
    */
-  const selectInId = (id) => {
-    console.log("Selected in ID:", id);
+  const selectStatus = (id) => {
+    console.log("Selected status ID:", id);
+    setDropdownStatusOpen(false);
     setDropdownInOpen(false);
     setDropdownTicketOpen(false);
     setDropdownVehiclesOpen(false);
-    setDropdownDateFromOpen(false);
-    setDropdownDateToOpen(false);
+
+    setStatus(id);
 
     setRotateVehicles(0);
     setRotateIn(0);
     setRotateTicket(0);
-    setRotateDateFrom(0);
-    setRotateDateTo(0);
+    setRotateStatus(0);
+  };
+
+  const selectTicketType = (id) => {
+    console.log("Selected in ID:", id);
+    setDropdownInOpen(false);
+    setDropdownTicketOpen(false);
+    setDropdownVehiclesOpen(false);
+
+    setTicketType(id);
+
+    setRotateVehicles(0);
+    setRotateIn(0);
+    setRotateTicket(0);
+  };
+
+  const selectVehicleType = (id) => {
+    console.log("Selected in ID:", id);
+    setDropdownInOpen(false);
+    setDropdownTicketOpen(false);
+    setDropdownVehiclesOpen(false);
+
+    setVehicleType(id);
+
+    setRotateVehicles(0);
+    setRotateIn(0);
+    setRotateTicket(0);
   };
 
   return (
@@ -278,35 +232,31 @@ const History = ({
       <div className={styles.QuerryandlistHistory}>
         <div className={styles.Querry}>
           <div className={styles.Querrylist}>
-            {/*Chọn đối tượng truy vấn */}
+            {/*Chọn đối trạng thái */}
             <div className={styles.ChosseQuerry}>
-              <span
-                className={styles.text_title}
-                style={{ fontSize: "13px", width: "59px", height: "22px" }}
-              >
-                Truy vấn:
-              </span>
+              <span className={styles.titleQuerry}>Trạng thái:</span>
               <button
                 className={styles.idQuerry}
-                onClick={toggleDropdownIn} // Sử dụng toggleDropdownIn
+                onClick={toggleDropdownStatus}
               >
-                <span className={styles.text}>{in_id}</span>
+                <span className={styles.text}>{status || "*Chọn*"}</span>
+
                 <img
                   src="/assets/DropDown2.svg"
                   alt="dropdown"
                   style={{
-                    transform: `rotate(${rotateIn}deg)`,
+                    transform: `rotate(${rotateStatus}deg)`,
                     transition: "transform 0.3s ease",
                   }}
                 />
               </button>
-              {dropdownInOpen && (
-                <ul className={styles.dropdownList}>
-                  {idList_Querry.map((id) => (
+              {dropdownStatusOpen && (
+                <ul className={styles.dropdownListStatus}>
+                  {idList_Status.map((id) => (
                     <li
                       key={id}
-                      className={styles.dropdownItem}
-                      onClick={() => selectInId(id)}
+                      className={`${styles.dropdownItemStatus} ${styles.text}`}
+                      onClick={() => selectStatus(id)}
                     >
                       {id}
                     </li>
@@ -316,22 +266,12 @@ const History = ({
             </div>
             {/*Chọn loại vé và loại xe */}
             <div className={styles.Vehicles_Ticket}>
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "62px",
-                  height: "22px",
-                  marginLeft: "4px",
-                }}
-              >
-                Loại vé:
-              </span>
+              <span className={styles.titleQuerry}>Loại vé:</span>
               <button
                 className={styles.TicketType}
-                onClick={toggleDropdownTicket} // Sử dụng toggleDropdownIn
+                onClick={toggleDropdownTicket}
               >
-                <span className={styles.text}>{in_Ticket}</span>
+                <span className={styles.text}>{ticket_type || "*Chọn*"}</span>
                 <img
                   src="/assets/DropDown2.svg"
                   alt="dropdown"
@@ -342,12 +282,12 @@ const History = ({
                 />
               </button>
               {dropdownTicketOpen && (
-                <ul className={styles.dropdownListTicket}>
+                <ul className={styles.ListTicket}>
                   {idList_typeTicket.map((id) => (
                     <li
                       key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
-                      onClick={() => selectInId(id)}
+                      className={`${styles.ItemTicket} ${styles.text}`}
+                      onClick={() => selectTicketType(id)}
                     >
                       {id}
                     </li>
@@ -355,22 +295,12 @@ const History = ({
                 </ul>
               )}
 
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "59px",
-                  height: "22px",
-                  marginLeft: "20px",
-                }}
-              >
-                Loại xe:
-              </span>
+              <span className={styles.titleQuerry}>Loại xe:</span>
               <button
                 className={styles.VehiclesType}
-                onClick={toggleDropdownVehicles} // Sử dụng toggleDropdownIn
+                onClick={toggleDropdownVehicles}
               >
-                <span className={styles.text}>{in_VehiclesType}</span>
+                <span className={styles.text}>{vehicle_type || "*Chọn*"}</span>
                 <img
                   src="/assets/DropDown2.svg"
                   alt="dropdown"
@@ -381,12 +311,12 @@ const History = ({
                 />
               </button>
               {dropdownVehiclesOpen && (
-                <ul className={styles.dropdownListVehicles}>
+                <ul className={styles.ListVehicles}>
                   {idList_typeVehicles.map((id) => (
                     <li
                       key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
-                      onClick={() => selectInId(id)}
+                      className={`${styles.ItemTicket} ${styles.text}`}
+                      onClick={() => selectVehicleType(id)}
                     >
                       {id}
                     </li>
@@ -395,98 +325,37 @@ const History = ({
               )}
             </div>
             {/*Chọn ngày */}
-            <div className={styles.Vehicles_Ticket}>
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "64px",
-                  height: "22px",
-                  marginLeft: "4px",
-                }}
-              >
-                Từ ngày:
-              </span>
-              <button
-                className={styles.TicketType}
-                onClick={toggleDropdownDateFrom} // Sử dụng toggleDropdownIn
-              >
-                <span className={styles.text}>{in_fromDate}</span>
-                <img
-                  src="/assets/DropDown2.svg"
-                  alt="dropdown"
-                  style={{
-                    transform: `rotate(${rotateDateFrom}deg)`,
-                    transition: "transform 0.3s ease",
-                  }}
+            <div className={styles.DateContainer}>
+              <div className={styles.DatePickerGroup}>
+                <span className={styles.titleQuerry}>Từ ngày:</span>
+                <DatePicker
+                  selected={fromDate}
+                  onChange={(date) => setFromDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  className={styles.customInput}
+                  placeholderText="Chọn ngày"
+                  calendarClassName={styles.customCalendar}
+                  popperPlacement="bottom-start"
                 />
-              </button>
-              {dropdownDateFromOpen && (
-                <ul className={styles.dropdownListTicket}>
-                  {idList_Date.map((id) => (
-                    <li
-                      key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
-                      onClick={() => selectInId(id)}
-                    >
-                      {id}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              </div>
 
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "59px",
-                  height: "22px",
-                  marginLeft: "20px",
-                }}
-              >
-                Đến:
-              </span>
-              <button
-                className={styles.VehiclesType}
-                onClick={toggleDropdownDateTo} // Sử dụng toggleDropdownIn
-              >
-                <span className={styles.text}>{in_toDate}</span>
-                <img
-                  src="/assets/DropDown2.svg"
-                  alt="dropdown"
-                  style={{
-                    transform: `rotate(${rotateDateTo}deg)`,
-                    transition: "transform 0.3s ease",
-                  }}
+              <div className={styles.DatePickerGroup}>
+                <span className={styles.titleQuerry}>Đến:</span>
+                <DatePicker
+                  selected={toDate}
+                  onChange={(date) => setToDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  className={styles.customInput}
+                  placeholderText="Chọn ngày"
+                  calendarClassName={styles.customCalendar}
+                  popperPlacement="bottom-start"
+                  minDate={fromDate} // Không cho chọn ngày trước "Từ ngày"
                 />
-              </button>
-              {dropdownDateToOpen && (
-                <ul className={styles.dropdownListVehicles}>
-                  {idList_Date.map((id) => (
-                    <li
-                      key={id}
-                      className={`${styles.dropdownItemTicket} ${styles.text}`}
-                      onClick={() => selectInId(id)}
-                    >
-                      {id}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              </div>
             </div>
             {/*Điền biển số và điền Mã thẻ */}
             <div className={styles.Plate_Card}>
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "69px",
-                  height: "22px",
-                  marginLeft: "5px",
-                }}
-              >
-                Biển số:
-              </span>
+              <span className={styles.titleQuerry}>Biển số:</span>
               <input
                 placeholder="Nhập biển số xe"
                 value={plateNumber}
@@ -494,28 +363,18 @@ const History = ({
                 className={styles.Plate}
               />
 
-              <span
-                className={styles.text_title}
-                style={{
-                  fontSize: "13px",
-                  width: "64px",
-                  height: "22px",
-                  marginLeft: "18px",
-                }}
-              >
-                Mã thẻ:
-              </span>
+              <span className={styles.titleQuerry}>Mã thẻ:</span>
               <input
                 placeholder="Nhập mã số thẻ"
-                value={CardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
+                value={ticket_id}
+                onChange={(e) => setTicketId(e.target.value)}
                 className={styles.Card}
               />
             </div>
           </div>
           {/*Nút tìm kiếm */}
           <div className={styles.SearchContainer}>
-            <button className={styles.Search}>
+            <button className={styles.Search} onClick={searchHandle}>
               <span className={styles.text}>Tìm kiếm</span>
             </button>
           </div>
@@ -527,21 +386,22 @@ const History = ({
               <tr>
                 <th>Mã thẻ</th>
                 <th>Biển số</th>
-                <th>Thời gian ra</th>
                 <th>Thời gian vào</th>
+                <th>Thời gian ra</th>
                 <th>Loại xe</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((record, index) => (
+              {historyData.map((record, index) => (
                 <tr
                   key={index}
                   className={index % 2 === 0 ? styles.odd : styles.even}
+                  onClick={() => recordClick(index)}
                 >
                   <td>{record.maThe}</td>
                   <td>{record.bienSo}</td>
-                  <td>{record.thoiGianRa}</td>
                   <td>{record.thoiGianVao}</td>
+                  <td>{record.thoiGianRa}</td>
                   <td>{record.loaiXe}</td>
                 </tr>
               ))}

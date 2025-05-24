@@ -1,0 +1,97 @@
+.box-checking {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  position: relative;
+  z-index: 1000; /* Ensure box is above blurred background */
+  max-height: 80vh; /* Constrain height to 80% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+}
+
+.box-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.comparison-section {
+  margin-bottom: 2rem;
+}
+
+.image-pair {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+}
+
+.check-image {
+  width: 250px; /* Fixed width to match reference image */
+  height: 250px; /* Fixed height to match reference image */
+  object-fit: contain; /* Scale image to fit within dimensions while preserving aspect ratio */
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
+.match-status {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.matched {
+  color: #22c55e;
+}
+
+.not-matched {
+  color: #ef4444;
+}
+
+.no-data {
+  font-size: 1rem;
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-bottom: 1rem; /* Ensure padding at the bottom for better visibility */
+}
+
+.cancel-button,
+.accept-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+}
+
+.cancel-button:hover {
+  background-color: #dc2626;
+}
+
+.accept-button {
+  background-color: #22c55e;
+  color: #fff;
+  border: none;
+}
+
+.accept-button:hover {
+  background-color: #16a34a;
+}

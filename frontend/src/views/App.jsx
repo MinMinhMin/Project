@@ -5,12 +5,13 @@ import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import AdminPage from "./AdminPage";
 import UserTopBar from "../layout/usertopbar";
+import AdminTopBar from "../layout/adminTopBar";
 import Layout from "../components/Layout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import ParkingLotsPage from "./ParkingLotsPage";
 import UserInfo from "../components/user/ParkingLot_Info/user_Info";
 import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
-
+import UserList from "../components/Admin/UserList";
 import { getUserName } from "../controllers/App_Controller";
 import History from "../components/user/querryHistory/History";
 import "../styles/App.css";
@@ -54,15 +55,23 @@ function App() {
               }
             />
           </Route>
-
           <Route
-            path="/admin"
             element={
-              <ProtectedRoute role="admin">
-                <AdminPage />
-              </ProtectedRoute>
+              <Layout>
+                <AdminTopBar />
+              </Layout>
             }
-          />
+          >
+            {" "}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute role="admin">
+                  <UserList />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
         {/* <Routes>
           <Route

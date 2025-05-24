@@ -34,7 +34,9 @@ def search_history(
     date_from: Optional[date] = Query(None),
     date_to: Optional[date] = Query(None),
     license_plate: Optional[str] = Query(None),
-    db: Session = Depends(get_db)
+    parking_lot_id: Optional[int] = Query(None),
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
 ):
     return crud.get_history(
         db=db,
@@ -43,7 +45,9 @@ def search_history(
         vehicle_type=vehicle_type,
         date_from=date_from,
         date_to=date_to,
-        license_plate=license_plate
+        license_plate=license_plate,
+        parking_lot_id=parking_lot_id,
+        user_id=current_user.id
     )
 
 
@@ -55,10 +59,14 @@ def get_last_history_record(
     date_from: Optional[date] = Query(None),
     date_to: Optional[date] = Query(None),
     license_plate: Optional[str] = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+
 ):
     query = db.query(models.History)
 
+    if current_user.id:
+        query = query.filter(models.History.user_id == current_user.id)
     if ticket_id:
         query = query.filter(models.History.ticket_id == ticket_id)
     if ticket_type:
@@ -89,7 +97,8 @@ def get_last_history_record(
 def update_history_record(
     history_id: int = Path(..., description="The ID of the history record to update"),
     updates: schemas.HistoryUpdate = ...,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
 ):
     # Convert lists to JSON strings before saving
     if updates.face_embedding_IN is not None:
@@ -97,7 +106,7 @@ def update_history_record(
     if updates.face_embedding_OUT is not None:
         updates.face_embedding_OUT = json.dumps(updates.face_embedding_OUT)
 
-    updated_history = crud.update_history(db=db, history_id=history_id, updates=updates)
+    updated_history = crud.update_history(db=db, history_id=history_id, updates=updates, user_id=current_user.id)
 
     if not updated_history:
         raise HTTPException(status_code=404, detail="History record not found.")
@@ -112,6 +121,7 @@ def update_history_record(
 import logging
 
 IMGBB_API_KEY = "4bb819ea5a73a6d7a5a4d146e2dc635d"
+
 
 class ImageUploadRequest(BaseModel):
     image: str  # Base64-encoded image (no data:image/jpeg;base64,... prefix)
