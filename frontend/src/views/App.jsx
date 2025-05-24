@@ -12,6 +12,7 @@ import ParkingLotsPage from "./ParkingLotsPage";
 import UserInfo from "../components/user/ParkingLot_Info/user_Info";
 import MenuBar from "../components/user/ParkingLot_Info/Menu_bar";
 import UserList from "../components/Admin/UserList";
+import ParkingList from "../components/Admin/ParkingList";
 import { getUserName } from "../controllers/App_Controller";
 import History from "../components/user/querryHistory/History";
 import "../styles/App.css";
@@ -20,6 +21,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+       
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
