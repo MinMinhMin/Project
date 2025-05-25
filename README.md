@@ -70,7 +70,7 @@ Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe th
 - Tên đăng nhập: minmin
 - Mật khẩu: 123
 
-# Thiết lập Docker
+# Thiết lập Docker, hướng dẫn chạy
 - Liên kết kho Docker Hub https://hub.docker.com/u/xyzhuy
 
 - Chạy lệnh các lệnh sau để pull images
@@ -84,3 +84,5 @@ Chạy lệnh sau để khởi động hệ thống
 ```bash
 docker-compose up -d
 ```
+
+Truy cập http://localhost:5173/ để truy cập frontend
