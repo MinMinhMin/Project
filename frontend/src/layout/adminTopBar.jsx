@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/admin/admintopbar.module.css";
-import { useNavigate } from "react-router-dom";
 const AdminTopBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
