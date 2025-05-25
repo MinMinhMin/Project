@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../../styles/Admin/Userlist.module.css";
+import styles from "../../styles/admin/Userlist.module.css";
 import axios from "axios";
 
 const backendURL = import.meta.env.VITE_API_URL;
