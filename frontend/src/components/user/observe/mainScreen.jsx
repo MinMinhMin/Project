@@ -885,14 +885,14 @@ const MainScreen = ({ ParkingLotId }) => {
                   >
                     <p>Mặt sau</p>
                     <div className={styles["content"]}>
-                      <img src={out_plate_img}  />
+                      <img src={out_plate_img} />
                     </div>
                   </div>
                   <div
                     className={`${styles["in-picture-front"]} ${styles["cam"]}`}
                   >
                     <p>Mặt trước</p>
-                    <img src={out_face_img}  />
+                    <img src={out_face_img} />
                   </div>
                 </div>
               </div>
@@ -915,18 +915,10 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
-                    {out_face_img ? (
-                      <img src={out_face_img} alt="Ảnh chụp khuôn mặt" />
-                    ) : (
-                      ""
-                    )}
+                    {out_face_img ? <img src={out_face_img} /> : ""}
                   </div>
                   <div className={styles["img-plate"]}>
-                    {out_plate_img ? (
-                      <img src={out_plate_img} alt="Ảnh chụp biển số" />
-                    ) : (
-                      ""
-                    )}
+                    {out_plate_img ? <img src={out_plate_img} /> : ""}
                   </div>
                 </div>
               </div>
