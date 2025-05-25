@@ -55,22 +55,22 @@
 }
 .idQuerry {
   cursor: pointer;
-display: flex;
-width: 371px;
-padding: 10px;
-justify-content: space-between;
-align-items: flex-end;
-border-radius: 5px;
-border: 1px solid #9BA5B7;
-background: #EEF1F4;
+  display: flex;
+  width: 371px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 5px;
+  border: 1px solid #9ba5b7;
+  background: #eef1f4;
 }
 .ChosseQuerry {
-display: flex;
-padding: 5px 0px;
-align-items: center;
-gap: 9px;
-align-self: stretch;
-position: relative;
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 9px;
+  align-self: stretch;
+  position: relative;
 }
 
 .dropdownListStatus {
@@ -80,7 +80,7 @@ position: relative;
   margin-top: 5px;
   width: 371px;
   background-color: #ffffff;
-  border: 1px solid #9BA5B7;
+  border: 1px solid #9ba5b7;
   border-radius: 5px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -92,7 +92,7 @@ position: relative;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #EEF1F4;
+  border-bottom: 1px solid #eef1f4;
 }
 
 .dropdownItemStatus:last-child {
@@ -100,27 +100,27 @@ position: relative;
 }
 
 .dropdownItemStatus:hover {
-  background-color: #EEF1F4;
+  background-color: #eef1f4;
 }
 
 .Vehicles_Ticket {
   position: relative;
-display: flex;
-padding: 5px 0px;
-align-items: center;
-gap: 28px;
-align-self: stretch;
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 28px;
+  align-self: stretch;
 }
 .TicketType {
   cursor: pointer;
-display: flex;
-width: 130px;
-padding: 10px;
-justify-content: space-between;
-align-items: flex-end;
-border-radius: 5px;
-border: 1px solid #9BA5B7;
-background: #EEF1F4;
+  display: flex;
+  width: 130px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 5px;
+  border: 1px solid #9ba5b7;
+  background: #eef1f4;
 }
 .ListTicket {
   position: absolute; /* để dropdown xuất hiện dưới button */
@@ -130,7 +130,7 @@ background: #EEF1F4;
   left: 17%;
   width: 130px;
   background-color: #ffffff;
-  border: 1px solid #9BA5B7;
+  border: 1px solid #9ba5b7;
   border-radius: 5px;
   max-height: 200px;
   overflow-y: auto;
@@ -141,7 +141,7 @@ background: #EEF1F4;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #EEF1F4;
+  border-bottom: 1px solid #eef1f4;
 }
 
 .ItemTicket:last-child {
@@ -149,18 +149,18 @@ background: #EEF1F4;
 }
 
 .ItemTicket:hover {
-   background-color: #EEF1F4;
+  background-color: #eef1f4;
 }
 .VehiclesType {
   cursor: pointer;
-display: flex;
-width: 134px;
-padding: 10px;
-justify-content: space-between;
-align-items: flex-end;
-border-radius: 5px;
-border: 1px solid #9BA5B7;
-background: #EEF1F4;
+  display: flex;
+  width: 134px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 5px;
+  border: 1px solid #9ba5b7;
+  background: #eef1f4;
 }
 .ListVehicles {
   position: absolute; /* để dropdown xuất hiện dưới button */
@@ -170,7 +170,7 @@ background: #EEF1F4;
   right: 0%;
   width: 134px;
   background-color: #ffffff;
-  border: 1px solid #9BA5B7;
+  border: 1px solid #9ba5b7;
   border-radius: 5px;
   max-height: 200px;
   overflow-y: auto;
@@ -181,7 +181,7 @@ background: #EEF1F4;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #EEF1F4;
+  border-bottom: 1px solid #eef1f4;
 }
 
 .ItemVehicles:last-child {
@@ -189,44 +189,44 @@ background: #EEF1F4;
 }
 
 .ItemVehicles:hover {
-  background-color: #EEF1F4;
+  background-color: #eef1f4;
 }
 
 .DateContainer {
-display: flex;
-padding: 5px 0px;
-align-items: center;
-gap: 25px;
-align-self: stretch;
-position: relative;
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 25px;
+  align-self: stretch;
+  position: relative;
 }
 
 .Plate_Card {
-display: flex;
-padding: 5px 0px;
-align-items: center;
-gap: 28px;
-align-self: stretch;
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 28px;
+  align-self: stretch;
 }
 .Plate {
-display: flex;
-width: 130px;
-padding: 10px;
-justify-content: space-between;
-align-items: flex-end;
-border-radius: 5px;
-border: 1px solid #9BA5B7;
-background: #EEF1F4;
+  display: flex;
+  width: 130px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 5px;
+  border: 1px solid #9ba5b7;
+  background: #eef1f4;
 }
 .Card {
-display: flex;
-width: 137px;
-padding: 10px;
-justify-content: space-between;
-align-items: flex-end;
-border-radius: 5px;
-border: 1px solid #9BA5B7;
-background: #EEF1F4;
+  display: flex;
+  width: 137px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 5px;
+  border: 1px solid #9ba5b7;
+  background: #eef1f4;
 }
 
 .listHistory {
@@ -501,21 +501,21 @@ tbody td {
 
 .titleQuerry {
   color: #374151;
-font-family: "Be Vietnam Pro";
-font-size: 13px;
-font-style: normal;
-font-weight: 500;
-line-height: 22px;
-white-space: nowrap; /* 169.231% */
+  font-family: "Be Vietnam Pro";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: nowrap; /* 169.231% */
 }
 
 /* styles.module.css */
 .customInput {
-  width: 130px;
+  width: 130px; /* Ensure consistent width */
   padding: 10px;
-  border: 1px solid #9BA5B7;
+  border: 1px solid #9ba5b7;
   border-radius: 5px;
-  background: #EEF1F4;
+  background: #eef1f4;
   font-size: 14px;
   cursor: pointer;
 }
@@ -530,24 +530,27 @@ white-space: nowrap; /* 169.231% */
 }
 
 .customCalendar {
-  border: 1px solid #9BA5B7 !important;
+  border: 1px solid #9ba5b7 !important;
   border-radius: 5px;
- 
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   z-index: 10;
+  position: absolute !important; /* Force absolute positioning */
+  top: 100%; /* Position below the input */
+  left: 0; /* Align with the input */
 }
 .DatePickerGroup {
   display: flex;
-align-items: center;
-width: 225px;
-gap: 25px;
+  align-items: center;
+  width: 225px; /* Fixed width to prevent shifting */
+  gap: 25px;
+  position: relative; /* Container for absolute positioning of calendar */
 }
 .DateContainer {
-display: flex;
-padding: 5px 0px;
-align-items: center;
-gap: 25px;
-align-self: stretch;
-
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 25px;
+  align-self: stretch;
+  position: relative; /* Ensure relative positioning for absolute children */
 }
