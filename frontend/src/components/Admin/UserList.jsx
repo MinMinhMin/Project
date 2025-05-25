@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/Admin/Userlist.module.css";
 
-const MainScreen = ({ Number_User = 30 }) => {
+const UserList = ({ Number_User = 30 }) => {
   const data = [
     { tenNguoiDung: "Nguyễn Thị L", idUser: "U011", ngaySinh: "nguyenthil", vaiTro: "Người dùng", lienHe: "nguyenthil@example.com" },
     { tenNguoiDung: "Trần Văn M", idUser: "U012", ngaySinh: "tranvanm", vaiTro: "Nhân viên", lienHe: "tranvanm@example.com" },
@@ -269,4 +269,4 @@ const MainScreen = ({ Number_User = 30 }) => {
   );
 };
 
-export default MainScreen;
+export default UserList;

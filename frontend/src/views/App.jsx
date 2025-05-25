@@ -58,20 +58,35 @@ function App() {
           </Route>
           <Route
             element={
-
-            
-
               <Layout>
                 <AdminTopBar />
               </Layout>
             }
-          >
+          > 
             {" "}
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute role="admin">
+                  <UserList />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/admin"
               element={
                 <ProtectedRoute role="admin">
                   <UserList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/parking-lots"
+              element={
+                <ProtectedRoute role="admin">
+                  <ParkingList />
                 </ProtectedRoute>
               }
             />
