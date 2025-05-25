@@ -6,6 +6,7 @@ Hệ thống E-Parking được phát triển nhằm giải quyết các vấn �
 
 Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe thông minh** với khả năng:
 - **Nhận diện biển số xe** tự động qua camera.
+- **Bảo mật thông minh** thông qua nhận diện khuôn mặt.
 - **Theo dõi thời gian đỗ xe** chính xác.
 - **Tính phí tự động**.
 - **Quản lý người dùng và xe ra vào** theo thời gian thực.
@@ -17,9 +18,10 @@ Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe th
 - **Database**: SQLite.
 - **DevOps**: Docker, Docker Compose.
 - **Phần cứng**: Camera máy tính hoặc camera điện thoại.
-
+## Sơ đồ Use Case
+![Usecase diagram](./document/use-case.svg)
 ## Tính năng chính
-- 🚗 **Nhận diện biển số xe** bằng camera tự động.
+- 🚗 **Nhận diện biển số xe và khuôn mặt** bằng camera tự động.
 - 🕒 **Ghi nhận thời gian xe vào và ra** bãi đỗ.
 - 💳 **Tính phí đỗ xe tự động**.
 - 📱 **Giao diện web** cho người dùng và quản trị viên.
@@ -78,6 +80,12 @@ Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe th
 docker pull xyzhuy/frontend
 docker pull xyzhuy/backend
 docker pull xyzhuy/backend-ai
+```
+- Đối với Mac, nếu các lệnh trên không pull images về được, chạy các lệnh sau
+```bash
+docker pull --platform linux/amd64 xyzhuy/frontend
+docker pull --platform linux/amd64 xyzhuy/backend
+docker pull --platform linux/amd64 xyzhuy/backend-ai
 ```
 
 Chạy lệnh sau để khởi động hệ thống
