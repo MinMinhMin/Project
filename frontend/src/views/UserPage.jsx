@@ -37,7 +37,7 @@ export default function UserPage() {
   return (
     <div className="user-page">
       <CurrentParking onChangeParkingLot={handleParkingLotChange} />
-      <Notification />
+      <Notification ParkingLotId={ParkingLotId} />
       <MainScreen ParkingLotId={ParkingLotId} />
     </div>
   );
