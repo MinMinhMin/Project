@@ -795,10 +795,10 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
-                    <img src={in_face_img} alt="Ảnh chụp khuôn mặt" />
+                    <img src={in_face_img} />
                   </div>
                   <div className={styles["img-plate"]}>
-                    <img src={in_plate_img} alt=" Ảnh chụp biển số" />
+                    <img src={in_plate_img} />
                   </div>
                 </div>
               </div>
