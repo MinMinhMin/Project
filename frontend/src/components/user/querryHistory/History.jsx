@@ -335,7 +335,24 @@ const History = () => {
                   className={styles.customInput}
                   placeholderText="Chọn ngày"
                   calendarClassName={styles.customCalendar}
-                  popperPlacement="bottom-start"
+                  popperPlacement="bottom-start" // Start from the left
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, 5], // Small vertical offset to avoid overlap with input
+                      },
+                    },
+                    {
+                      name: "preventOverflow",
+                      options: {
+                        enabled: true,
+                        boundariesElement: "viewport", // Keep within viewport
+                      },
+                    },
+                  ]}
+                  onCalendarOpen={() => setShowFromPicker(true)}
+                  onCalendarClose={() => setShowFromPicker(false)}
                 />
               </div>
 
@@ -350,6 +367,23 @@ const History = () => {
                   calendarClassName={styles.customCalendar}
                   popperPlacement="bottom-start"
                   minDate={fromDate} // Không cho chọn ngày trước "Từ ngày"
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, 5], // Small vertical offset
+                      },
+                    },
+                    {
+                      name: "preventOverflow",
+                      options: {
+                        enabled: true,
+                        boundariesElement: "viewport", // Keep within viewport
+                      },
+                    },
+                  ]}
+                  onCalendarOpen={() => setShowToPicker(true)}
+                  onCalendarClose={() => setShowToPicker(false)}
                 />
               </div>
             </div>
