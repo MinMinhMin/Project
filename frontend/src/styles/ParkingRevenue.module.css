@@ -85,7 +85,7 @@
 
 .button {
   width: 100%;
-  background-color: #2563eb;
+  background-color: #ff9500;
   color: white;
   font-weight: 500;
   padding: 10px 16px;
@@ -99,7 +99,7 @@
 }
 
 .buttonHover {
-  background-color: #1d4ed8;
+  background-color: #ea580c;
 }
 
 .dateInfo {

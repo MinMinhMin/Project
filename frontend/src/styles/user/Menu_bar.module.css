@@ -1,28 +1,48 @@
-.menu-bar-right {
-  height: 87px;
-  align-self: stretch;
+/* Menu bar container */
+.menuBar {
   display: flex;
-  justify-content: flex-start; /* Tách đều các mục */
+  justify-content: flex-start;
   align-items: center;
-  padding: 0px 30px; /* Thêm padding để không sát mép */
-  border: 1px solid #e9ecef;
+  padding: 20px 28px;
+  gap: 20px; /* Tăng từ 10px lên 20px */
+  background-color: #fff;
+  display: flex-start;
+}
+.menu-bar-right {
+  display: flex;
+  gap: 40px; /* Tăng từ 20px lên 40px */
+  align-items: center;
 }
 
+/* Style cho nav-link bình thường */
 .nav-link {
-  color: #000; /* Chữ màu đen */
+  display: inline-flex;
+  height: 49px;
+  padding: 0px 58px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  
+  background: transparent;
+  color: #000000;
+  text-decoration: none;
   font-family: "Be Vietnam Pro";
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 77px; /* 350% */
-  text-decoration: none; /* Bỏ gạch chân liên kết */
-  margin-right: 40px;
-  transition: color 0.3s ease;
+  font-size: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
+/* Hover effect */
 .nav-link:hover {
-  color: #ff9500; /* Màu xanh khi di chuột */
+  background-color: #fff4e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
 }
+
+/* Style cho nav-link khi active */
 .nav-link.active {
   display: inline-flex;
   height: 49px;
@@ -33,7 +53,31 @@
   flex-shrink: 0;
   border-radius: 20px;
   border: 2px solid #ff9500;
-
   background: #ff9500;
   color: #ffffff;
+  text-decoration: none;
+  font-family: "Be Vietnam Pro";
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+/* Active hover effect */
+.nav-link.active:hover {
+  background: #ec8c04;
+  border-color: #ec8c04;
+  transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .menu-bar-right {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-link {
+    width: 100%;
+    min-width: 200px;
+  }
 }
