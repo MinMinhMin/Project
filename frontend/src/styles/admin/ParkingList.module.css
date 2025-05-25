@@ -1,0 +1,129 @@
+.parkingContainer {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 20px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  max-width: 300px; /* Thu nhỏ chiều rộng */
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 32px 8px 32px; /* Padding gọn hơn */
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 14px; /* Nhỏ hơn mặc định */
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.clearIcon {
+  position: absolute;
+  right: 10px;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  min-width: 900px;
+  min-height: 500px; /* Đảm bảo chiều cao cố định */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+}
+
+.tableHeader {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableRow {
+  background-color: #fff;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.tableCell {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  color: #4b5563;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noData {
+  padding: 12px 15px;
+  text-align: center;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+  min-height: 40px; /* Giữ không gian cố định cho pagination */
+}
+
+.paginationButton {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #374151;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.paginationButton.active {
+  background-color: #f97316;
+  color: #fff;
+  border-color: #f97316;
+}
+
+.paginationButton:disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}

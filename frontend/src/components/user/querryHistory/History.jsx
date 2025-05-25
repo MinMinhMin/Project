@@ -2,13 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../../../styles/user/History.module.css";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 const token = localStorage.getItem("token");
 const backendUrl = import.meta.env.VITE_API_URL;
-
-
-
-
 
 const id = localStorage.getItem("ParkingLotId");
 const History = () => {
@@ -37,16 +33,16 @@ const History = () => {
 
   const [historyData, setHistoryData] = useState([]);
 
-  const test = (id) => {
+  const recordClick = (id) => {
     setInPictureFace(historyData[id].anhMatVao);
     setOutPictureFace(historyData[id].anhMatRa);
     setInPicturePlate(historyData[id].anhBienSoVao);
     setOutPicturePlate(historyData[id].anhBienSoRa);
   };
 
-  async function fetchHistoryData() {
+  async function fetchHistoryData(isGetVehicleNumber) {
     const params = {};
-    if (status!== "Tất cả" && status) {
+    if (status !== "Tất cả" && status) {
       params.status = status;
     }
     if (ticket_id) {
@@ -83,7 +79,10 @@ const History = () => {
       const transformedData = res.data.map((record) => ({
         maThe: record.ticket_id,
         bienSo: record.license_plate_IN,
-        thoiGianRa: `${record.date_out} ${record.time_out}`,
+        thoiGianRa:
+          record.date_out && record.time_out
+            ? `${record.date_out} ${record.time_out}`
+            : "Chưa có thông tin",
         thoiGianVao: `${record.date_in} ${record.time_in}`,
         loaiXe: record.vehicle_type,
         anhMatVao: record.face_image_path_IN,
@@ -91,6 +90,22 @@ const History = () => {
         anhBienSoVao: record.license_plate_image_path_IN,
         anhBienSoRa: record.license_plate_image_path_OUT,
       }));
+
+      if (isGetVehicleNumber) {
+        const cars = res.data.filter(
+          (record) => record.vehicle_type === "Ô tô" && !record.date_out
+        );
+        const motorcycles = res.data.filter(
+          (record) => record.vehicle_type === "Xe máy" && !record.date_out
+        );
+
+        setNumberCar(cars.length);
+        setNumberMotor(motorcycles.length);
+
+        console.log("Number of cars:", cars.length);
+        console.log("Number of motorcycles:", motorcycles.length);
+      }
+
       setHistoryData(transformedData);
     } catch (err) {
       console.log(err);
@@ -98,11 +113,11 @@ const History = () => {
   }
 
   useEffect(() => {
-    fetchHistoryData();
+    fetchHistoryData(true);
   }, [token]);
 
   const searchHandle = async () => {
-    fetchHistoryData();
+    fetchHistoryData(false);
   };
 
   // State quản lý mở/đóng dropdown
@@ -110,8 +125,7 @@ const History = () => {
   const [dropdownTicketOpen, setDropdownTicketOpen] = useState(false);
   const [dropdownVehiclesOpen, setDropdownVehiclesOpen] = useState(false);
   const [dropdownStatusOpen, setDropdownStatusOpen] = useState(false);
- // status hiện tại được chọn
-
+  // status hiện tại được chọn
 
   // State quản lý xoay icon
   const [rotateIn, setRotateIn] = useState(0);
@@ -127,7 +141,7 @@ const History = () => {
   /**
    * Toggle từng dropdown riêng lẻ, đóng các dropdown còn lại
    */
-    const toggleDropdownStatus = () => {
+  const toggleDropdownStatus = () => {
     setDropdownStatusOpen(!dropdownStatusOpen);
     setDropdownInOpen(false);
     setDropdownTicketOpen(false);
@@ -187,7 +201,6 @@ const History = () => {
     setRotateStatus(0);
   };
 
-
   const selectTicketType = (id) => {
     console.log("Selected in ID:", id);
     setDropdownInOpen(false);
@@ -221,15 +234,12 @@ const History = () => {
           <div className={styles.Querrylist}>
             {/*Chọn đối trạng thái */}
             <div className={styles.ChosseQuerry}>
-              <span
-                className={styles.titleQuerry}
+              <span className={styles.titleQuerry}>Trạng thái:</span>
+              <button
+                className={styles.idQuerry}
+                onClick={toggleDropdownStatus}
               >
-                Trạng thái:
-              </span>
-              <button className={styles.idQuerry} onClick={toggleDropdownStatus}>
                 <span className={styles.text}>{status || "*Chọn*"}</span>
-
-            
 
                 <img
                   src="/assets/DropDown2.svg"
@@ -256,11 +266,7 @@ const History = () => {
             </div>
             {/*Chọn loại vé và loại xe */}
             <div className={styles.Vehicles_Ticket}>
-              <span
-                className={styles.titleQuerry}
-              >
-              Loại vé:
-              </span>
+              <span className={styles.titleQuerry}>Loại vé:</span>
               <button
                 className={styles.TicketType}
                 onClick={toggleDropdownTicket}
@@ -289,11 +295,7 @@ const History = () => {
                 </ul>
               )}
 
-              <span
-                className={styles.titleQuerry}
-              >
-                Loại xe:
-              </span>
+              <span className={styles.titleQuerry}>Loại xe:</span>
               <button
                 className={styles.VehiclesType}
                 onClick={toggleDropdownVehicles}
@@ -334,7 +336,6 @@ const History = () => {
                   placeholderText="Chọn ngày"
                   calendarClassName={styles.customCalendar}
                   popperPlacement="bottom-start"
-                  
                 />
               </div>
 
@@ -354,11 +355,7 @@ const History = () => {
             </div>
             {/*Điền biển số và điền Mã thẻ */}
             <div className={styles.Plate_Card}>
-              <span
-                className={styles.titleQuerry}
-              >
-                Biển số:
-              </span>
+              <span className={styles.titleQuerry}>Biển số:</span>
               <input
                 placeholder="Nhập biển số xe"
                 value={plateNumber}
@@ -366,11 +363,7 @@ const History = () => {
                 className={styles.Plate}
               />
 
-              <span
-                className={styles.titleQuerry}
-              >
-                Mã thẻ:
-              </span>
+              <span className={styles.titleQuerry}>Mã thẻ:</span>
               <input
                 placeholder="Nhập mã số thẻ"
                 value={ticket_id}
@@ -393,8 +386,8 @@ const History = () => {
               <tr>
                 <th>Mã thẻ</th>
                 <th>Biển số</th>
-                <th>Thời gian ra</th>
                 <th>Thời gian vào</th>
+                <th>Thời gian ra</th>
                 <th>Loại xe</th>
               </tr>
             </thead>
@@ -403,12 +396,12 @@ const History = () => {
                 <tr
                   key={index}
                   className={index % 2 === 0 ? styles.odd : styles.even}
-                  onClick={() => test(index)}
+                  onClick={() => recordClick(index)}
                 >
                   <td>{record.maThe}</td>
                   <td>{record.bienSo}</td>
-                  <td>{record.thoiGianRa}</td>
                   <td>{record.thoiGianVao}</td>
+                  <td>{record.thoiGianRa}</td>
                   <td>{record.loaiXe}</td>
                 </tr>
               ))}

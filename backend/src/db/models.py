@@ -12,6 +12,7 @@ class User(Base):
     parking_lots = relationship("ParkingLot", back_populates="owner", cascade="all, delete")
     tickets = relationship("Ticket", back_populates="user", cascade="all, delete")
     histories = relationship("History", back_populates="user", cascade="all, delete")
+    user_info = relationship("UserInfo", back_populates="user", cascade="all, delete")
 
 
 class Ticket(Base):
@@ -67,3 +68,11 @@ class History(Base):
     user = relationship("User", back_populates="histories")
     parking_lot = relationship("ParkingLot", back_populates="histories")
 
+class UserInfo(Base):
+    __tablename__ = "user_info"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    full_name = Column(String)
+    phone_number = Column(String)
+
+    user = relationship("User", back_populates="user_info")
