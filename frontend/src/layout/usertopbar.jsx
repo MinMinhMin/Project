@@ -8,7 +8,7 @@ const UserTopBar = () => {
   const location = useLocation();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear(); // Clear local storage
     console.log("Logging out...");
     navigate("/"); // redirect to login
   };

@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/admin/admintopbar.module.css";
-
+import { useNavigate } from "react-router-dom";
 const AdminTopBar = () => {
+  const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.clear(); // Clear local storage
+    navigate("/");
     console.log("Logging out...");
   };
 
@@ -16,7 +19,7 @@ const AdminTopBar = () => {
 
       <div className={styles["topbar-right"]}>
         <div className={styles["role"]}>Admin</div>
-        
+
         <div
           className={`${styles["nav-link"]} ${styles["logout-btn"]}`}
           onClick={handleLogout}

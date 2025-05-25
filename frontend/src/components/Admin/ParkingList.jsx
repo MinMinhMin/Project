@@ -1,30 +1,69 @@
-import React, { useState } from 'react';
-import styles from '../../styles/admin/ParkingList.module.css';
+// ParkingList.jsx
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import styles from "../../styles/admin/ParkingList.module.css";
+import axios from "axios";
+import { ro } from "date-fns/locale";
 
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+const backendUrl = import.meta.env.VITE_API_URL;
 
 const ParkingList = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (role !== "admin") {
+      window.location.reload();
+    }
+
+    console.log("Role:", role);
+  }, [location.pathname, role]);
+
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 11;
+  const [data, setData] = useState([]);
 
-  const parkingData = [
-    { id: 1, code: "0001", name: "VNU - UEB", location: "Tòa A1", capacity: 500, userID: "APT-123", contact: "0123456987" },
-    { id: 2, code: "0002", name: "VNU - UL", location: "Tòa A2", capacity: 300, userID: "APT-123", contact: "0123456987" },
-    { id: 3, code: "0003", name: "VNU - KTX", location: "Kí túc xá", capacity: 200, userID: "APT-123", contact: "0123456987" },
-    { id: 4, code: "0004", name: "VNU - NN", location: "Tòa E1", capacity: 200, userID: "APT-123", contact: "0123456987" },
-    { id: 5, code: "0005", name: "VNU - ULIS1", location: "Hội trường", capacity: 50, userID: "APT-123", contact: "0123456987" },
-    { id: 6, code: "0006", name: "VNU - ULIS2", location: "Sân bóng", capacity: 450, userID: "APT-123", contact: "0123456987" },
-    { id: 7, code: "0007", name: "VNU - SIS", location: "Thư viện", capacity: 123, userID: "APT-123", contact: "0123456987" },
-    { id: 8, code: "0008", name: "VNU - UET", location: "Tòa G2", capacity: 456, userID: "APT-123", contact: "0123456987" },
-    { id: 9, code: "0009", name: "VNU - VNU", location: "Tòa H", capacity: 300, userID: "APT-123", contact: "012345678" },
-    { id: 10, code: "0009", name: "VNU - VNU", location: "Tòa H", capacity: 300, userID: "APT-123", contact: "098123456" },
-    { id: 11, code: "0009", name: "VNU - VNU", location: "Tòa H", capacity: 300, userID: "APT-123", contact: "098123456" },
-  ];
+  async function fetchData() {
+    try {
+      const response = await axios.get(`${backendUrl}/parking_lot/get/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  const filteredData = parkingData.filter(item =>
-    item.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.location.toLowerCase().includes(searchTerm.toLowerCase())
+      console.log("Parking data fetched successfully:", response.data);
+      const transformedData = response.data.map((item, index) => ({
+        id: index + 1,
+        code: String(item.id),
+        name: item.name,
+        location: item.location,
+        capacity: item.capacity,
+        userId: item.user_id,
+        userName: item.userName, // Use API-provided userName
+        contact: item.contact, // Use API-provided contact
+      }));
+
+      setData(transformedData);
+      console.log("Transformed parking data:", transformedData);
+    } catch (error) {
+      console.error("Error fetching parking data:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (!token) return;
+    fetchData();
+  }, [token]);
+
+  const filteredData = data.filter(
+    (item) =>
+      item.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.contact.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -51,10 +90,7 @@ const ParkingList = () => {
           className={styles.searchInput}
         />
         {searchTerm && (
-          <span
-            className={styles.clearIcon}
-            onClick={() => setSearchTerm('')}
-          >
+          <span className={styles.clearIcon} onClick={() => setSearchTerm("")}>
             ✕
           </span>
         )}
@@ -81,7 +117,7 @@ const ParkingList = () => {
                   <td className={styles.tableCell}>{item.name}</td>
                   <td className={styles.tableCell}>{item.location}</td>
                   <td className={styles.tableCell}>{item.capacity}</td>
-                  <td className={styles.tableCell}>{item.userID}</td>
+                  <td className={styles.tableCell}>{item.userName}</td>
                   <td className={styles.tableCell}>{item.contact}</td>
                 </tr>
               ))
@@ -108,7 +144,9 @@ const ParkingList = () => {
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}
+              className={`${styles.paginationButton} ${
+                currentPage === page ? styles.active : ""
+              }`}
             >
               {page}
             </button>

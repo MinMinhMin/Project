@@ -4,6 +4,7 @@ import styles from "../../../styles/ParkingForm.module.css";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
 
 const ParkingForm = ({ onClose, id }) => {
   const [formData, setFormData] = useState({
@@ -66,7 +67,12 @@ const ParkingForm = ({ onClose, id }) => {
   }
 
   const handleSubmit = async (e) => {
+    if (role == "admin") {
+      alert("Bạn không có quyền tạo bãi đỗ");
+      return;
+    }
     e.preventDefault();
+
     await createParkingLot(
       formData.name,
       formData.location,

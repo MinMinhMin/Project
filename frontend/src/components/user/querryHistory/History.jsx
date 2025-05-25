@@ -24,8 +24,8 @@ const History = () => {
   const [plateNumber, setPlateNumber] = useState("");
   const [status, setStatus] = useState();
 
-  const [NumberCar, setNumberCar] = useState(23);
-  const [NumberMotor, setNumberMotor] = useState(123);
+  const [NumberCar, setNumberCar] = useState(0);
+  const [NumberMotor, setNumberMotor] = useState(0);
   const [in_picture_plate, setInPicturePlate] = useState();
   const [in_picture_Face, setInPictureFace] = useState();
   const [out_picture_plate, setOutPicturePlate] = useState();
