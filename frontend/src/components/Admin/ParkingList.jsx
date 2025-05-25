@@ -80,20 +80,24 @@ const ParkingList = () => {
   return (
     <div className={styles.parkingContainer}>
       <h1 className={styles.heading}>Danh sách bãi đỗ của người dùng</h1>
-      <div className={styles.searchBar}>
-        <span className={styles.searchIcon}>🔍</span>
-        <input
-          type="text"
-          placeholder="Tìm kiếm"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchInput}
+
+      <div className={styles.SearchContainer}>
+        <div className={styles.Search}>
+          <img src="/assets/magnifier.svg" alt="Search" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
+        <img
+          src="/assets/Vector.svg"
+          alt="X"
+          style={{ cursor: "pointer" }}
+          onClick={() => setSearchTerm("")}
         />
-        {searchTerm && (
-          <span className={styles.clearIcon} onClick={() => setSearchTerm("")}>
-            ✕
-          </span>
-        )}
       </div>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
