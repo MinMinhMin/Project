@@ -20,6 +20,7 @@ const AdminTopBar = () => {
       </div>
 
       <div className={styles["topbar-right"]}>
+        <div className={styles["role"]}>Admin</div>
         <Link
           to="/users"
           className={`${styles["nav-link"]} ${
