@@ -39,35 +39,30 @@
 
 ## Docker 1 (backend)
 - Gói: Python 3.11.5
+
 ```bash
 pip install -r requirements.txt
 
-
-- Host: Máy chủ:
-
+# Host: Máy chủ
 cd backend/src && python main.py
+```
 
-Docker 2 (backend-AI)
+## Docker 2 (backend-AI)
+- Gói: Python 3.11.5
 
-Gói: Python 3.11.5
-
+```bash
 pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
 
-
-Máy chủ:
-
+# Máy chủ
 cd backend-AI && python main.py
+```
 
-Docker 3 (frontend)
+## Docker 3 (frontend)
+- Gói: Node.js
 
-Gói: Node.js
-
+```bash
 cd frontend && npm install
 
-
-Máy chủ:
-
+# Máy chủ
 cd frontend && npm run dev
-
-
-
+```
