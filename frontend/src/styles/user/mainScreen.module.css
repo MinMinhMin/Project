@@ -363,3 +363,55 @@
   text-align: center;
   z-index: 1;
 }
+.cam img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Scales image to cover the container, cropping if needed */
+  transform: scale(1.5); /* Zooms the image, adjust as needed */
+  transform-origin: center; /* Centers the zoom */
+  position: absolute; /* Positions the image within the container */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the image perfectly */
+  border-radius: 8px;
+}
+
+.cam {
+  position: relative;
+  width: 346px;
+  height: 260px;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background-color: #edd8d8;
+  border: 1px solid #000;
+  overflow: hidden; /* Ensures cropped parts are hidden */
+}
+.img-face img,
+.img-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Scales image to cover the container, cropping if needed */
+  transform: scale(1.5); /* Zooms the image, adjust as needed */
+  transform-origin: center; /* Centers the zoom */
+  position: absolute; /* Positions the image within the container */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the image perfectly */
+  border-radius: 8px;
+}
+
+.img-face,
+.img-plate {
+  position: relative; /* Ensures the absolute positioning of img works */
+  width: 300px;
+  height: 210px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: #edd8d8;
+  border: 1px solid;
+  overflow: hidden; /* Clips any parts that overflow */
+}

@@ -59,9 +59,9 @@ const MainScreen = ({ ParkingLotId }) => {
     const prefix = parts[0];
     const number = parts[1];
     if (!/^\d+[A-Z]+\d*$/.test(prefix) && !/^[A-Z]+\d+$/.test(prefix)) {
-    return "Không hợp lệ";
+      return "Không hợp lệ";
     }
-    if (prefix.length === 4) return "Xe máy"; 
+    if (prefix.length === 4) return "Xe máy";
     if (prefix.length === 3) return "Ô tô";
     if (number.length === 5) return "Ô tô";
     if (number.length === 4) return "Xe máy";
@@ -622,7 +622,10 @@ const MainScreen = ({ ParkingLotId }) => {
           setOutPlateImg(plateImg);
           try {
             await processOutGate(faceImg, plateImg);
-            setShowBox(true);
+            if (OutId !== "None") {
+              setShowBox(true);
+            }
+
             console.log("Captured face and plate images");
           } catch (err) {
             setAlert(true);
@@ -763,29 +766,13 @@ const MainScreen = ({ ParkingLotId }) => {
                     className={`${styles["in-picture-back"]} ${styles["cam"]}`}
                   >
                     <p>Mặt sau</p>
-                    <img
-                      src={in_plate_img}
-                      style={{
-                        maxWidth: "200px",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
+                    <img src={in_plate_img} />
                   </div>
                   <div
                     className={`${styles["in-picture-front"]} ${styles["cam"]}`}
                   >
                     <p>Mặt trước</p>
-                    <img
-                      src={in_face_img}
-                      style={{
-                        maxWidth: "200px",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
+                    <img src={in_face_img} />
                   </div>
                 </div>
               </div>
@@ -808,28 +795,10 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
-                    Ảnh chụp khuôn mặt
-                    <img
-                      src={in_face_img}
-                      style={{
-                        maxWidth: "200px",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
+                    <img src={in_face_img} alt="Ảnh chụp khuôn mặt" />
                   </div>
                   <div className={styles["img-plate"]}>
-                    Ảnh chụp biển số
-                    <img
-                      src={in_plate_img}
-                      style={{
-                        maxWidth: "200px",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
+                    <img src={in_plate_img} alt=" Ảnh chụp biển số" />
                   </div>
                 </div>
               </div>
@@ -916,30 +885,14 @@ const MainScreen = ({ ParkingLotId }) => {
                   >
                     <p>Mặt sau</p>
                     <div className={styles["content"]}>
-                      <img
-                        src={out_plate_img}
-                        style={{
-                          maxWidth: "200px",
-                          maxHeight: "200px",
-                          objectFit: "contain",
-                          borderRadius: "8px",
-                        }}
-                      />
+                      <img src={out_plate_img}  />
                     </div>
                   </div>
                   <div
                     className={`${styles["in-picture-front"]} ${styles["cam"]}`}
                   >
                     <p>Mặt trước</p>
-                    <img
-                      src={out_face_img}
-                      style={{
-                        maxWidth: "200px",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
+                    <img src={out_face_img}  />
                   </div>
                 </div>
               </div>
@@ -962,35 +915,15 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
-                    Ảnh chụp khuôn mặt
                     {out_face_img ? (
-                      <img
-                        src={out_face_img}
-                        alt="Mặt sau"
-                        style={{
-                          maxWidth: "200px",
-                          maxHeight: "200px",
-                          objectFit: "contain",
-                          borderRadius: "8px",
-                        }}
-                      />
+                      <img src={out_face_img} alt="Ảnh chụp khuôn mặt" />
                     ) : (
                       ""
                     )}
                   </div>
                   <div className={styles["img-plate"]}>
-                    Ảnh chụp biển số
                     {out_plate_img ? (
-                      <img
-                        src={out_plate_img}
-                        alt="Mặt sau"
-                        style={{
-                          maxWidth: "200px",
-                          maxHeight: "200px",
-                          objectFit: "contain",
-                          borderRadius: "8px",
-                        }}
-                      />
+                      <img src={out_plate_img} alt="Ảnh chụp biển số" />
                     ) : (
                       ""
                     )}

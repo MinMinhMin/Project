@@ -9,7 +9,7 @@ const backendUrl = import.meta.env.VITE_API_URL; // Ensure this is set correctly
 import axios from "axios";
 const token = localStorage.getItem("token");
 
-const Notification = ({ ParkingLotId }) => {
+const Notification = ({ ParkingLotId, handleParkingLotChange }) => {
   const [moto_in, setMotoIn] = useState(0);
   const [car_in, setCarIn] = useState(0);
   const [moto_out, setMotoOut] = useState(0);
@@ -91,10 +91,9 @@ const Notification = ({ ParkingLotId }) => {
     fetchHistory();
   }, [ParkingLotId]);
 
-
   return (
     <div className={styles.notification}>
-      <CurrentParking onChangeParkingLot={handleParkingLotChange}/>
+      <CurrentParking onChangeParkingLot={handleParkingLotChange} />
 
       <div className={`${styles.container} ${styles.in}`}>
         <div className={styles.title}>Xe vào</div>
