@@ -1,14 +1,19 @@
-# Tổng quan dự án
+# E-PARKING – HỆ THỐNG BÃI ĐỖ XE THÔNG MINH
+
+## Tổng quan dự án
 
 Hệ thống E-Parking được phát triển nhằm giải quyết các vấn đề thường gặp tại bãi đỗ xe truyền thống như:
 - Thiếu minh bạch trong quản lý.
 - Khó khăn trong việc kiểm soát ra vào xe và thu phí tự động.
+- Không có khả năng tự động hóa việc tính phí, lưu trữ dữ liệu, và nhận dạng
+
+Dự án này hướng đến việc xây dựng một hệ thống bãi đỗ xe thông minh toàn diện, ứng dụng công nghệ AI để mang lại trải nghiệm tiện lợi, chính xác và an toàn hơn.
 
 Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe thông minh** với khả năng:
 - **Nhận diện biển số xe** tự động qua camera.
 - **Bảo mật thông minh** thông qua nhận diện khuôn mặt.
 - **Theo dõi thời gian đỗ xe** chính xác.
-- **Tính phí tự động**.
+- **Tính phí tự động** minh bạch, tiện lợi.
 - **Quản lý người dùng và xe ra vào** theo thời gian thực.
 
 ## Công nghệ sử dụng
@@ -21,11 +26,11 @@ Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe th
 ## Sơ đồ Use Case
 ![Usecase diagram](./document/use-case.svg)
 ## Tính năng chính
-- 🚗 **Nhận diện biển số xe và khuôn mặt** bằng camera tự động.
-- 🕒 **Ghi nhận thời gian xe vào và ra** bãi đỗ.
-- 💳 **Tính phí đỗ xe tự động**.
-- 📱 **Giao diện web** cho người dùng và quản trị viên.
-- 📊 **Báo cáo và thống kê** lượt xe, doanh thu theo thời gian.
+- **Nhận diện biển số xe và khuôn mặt** bằng camera tự động.
+- **Ghi nhận thời gian xe vào và ra** để tính phí chính xác.
+- **Tính phí đỗ xe tự động** theo khung giờ định sẵn.
+- **Giao diện web** cho người dùng và quản trị viên.
+- **Báo cáo và thống kê** lượt xe, doanh thu theo thời gian.
 
 ## Kiến trúc hệ thống (tổng quan)
 - **Client** (Web): Giao diện người dùng.
