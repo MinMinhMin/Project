@@ -61,7 +61,7 @@ class FaceRecognizer:
             print(f"Failed to get embedding: {e}")
             return None
 
-    def is_match(self, embedding1: np.ndarray, embedding2: np.ndarray, threshold: float = 0.4) -> bool:
+    def is_match(self, embedding1: np.ndarray, embedding2: np.ndarray, threshold: float = 0.3) -> bool:
         """
         So sánh hai face embedding để kiểm tra xem có phải cùng một người không.
         threshold: Ngưỡng xác định xem hai vector có giống nhau không (cosine distance).
