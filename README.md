@@ -99,3 +99,15 @@ docker-compose up -d
 ```
 
 Truy cập http://localhost:5173/ để truy cập frontend
+
+## Thành viên tham gia xây dựng hệ thống
+
+-Trịnh Tuấn Ngọc Bảo (23020333)
+
+-Vũ Đức Minh (23020401)
+
+-Vũ Đức Huy (23020380)
+
+-Phan Trần Mạnh Cường (23020339)
+
+-Nguyễn Vũ Quang Anh (23020329)
