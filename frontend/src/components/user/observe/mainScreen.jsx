@@ -170,7 +170,7 @@ const MainScreen = ({ ParkingLotId }) => {
           },
         }
       );
-      if (!response.data) {
+      if (!response.data || response.data.license_plate === "unknown") {
         if (gate === "In") {
           setCameraMessageIn("Plate -> number failed, try again");
         } else {
@@ -179,6 +179,7 @@ const MainScreen = ({ ParkingLotId }) => {
 
         throw new Error("Empty response");
       }
+      console.log("Plate number response:", response.data);
       return response.data.license_plate;
     } catch (error) {
       if (gate === "In") {
