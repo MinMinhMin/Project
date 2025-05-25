@@ -82,10 +82,19 @@
   color: var(--active-text-color);
 }
 
+/* Hover effect */
 .nav-link:hover {
-  opacity: 0.9;
+  background-color: #fff4e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
 }
 
+/* Active hover effect */
+.nav-link.active:hover {
+  background: #ec8c04;
+  border-color: #ec8c04;
+  transform: translateY(-1px);
+}
 .nav-link.logout-btn {
   border: 1px solid rgba(0, 0, 0, 0.5);
   cursor: pointer;
