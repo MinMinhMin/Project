@@ -43,6 +43,26 @@ def update_user(user_id: int, user_update: schemas.UserUpdate, db: Session = Dep
         raise HTTPException(status_code=404, detail="User not found")
     return crud.update_user_admin(db, user, user_update)
 
+@router.put("/update_profile", response_model=schemas.User)
+def update_user_profile(user_update: schemas.UserUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    user = crud.get_user_by_id(db, current_user.id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user_update.full_name:
+        user.full_name = user_update.full_name
+    if user_update.phone_number:
+        user.phone_number = user_update.phone_number
+    db.commit()
+    db.refresh(user)
+    return user
+
+@router.get("/get_profile", response_model=schemas.User)
+def get_user_profile(db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    user = crud.get_user_by_id(db, current_user.id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
 @router.delete("/delete/{user_id}", response_model=schemas.UserUpdate)
 def delete_user(user_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
     if not crud.is_admin(current_user):
