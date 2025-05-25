@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../../styles/user/notification.module.css"; // CSS Module
+import CurrentParking from "./currentParking";
 
 const Notification = ({
   moto_in,
@@ -8,10 +9,12 @@ const Notification = ({
   car_out,
   moto_not_out,
   car_not_out,
-  revenue,
+  handleParkingLotChange
 }) => {
   return (
     <div className={styles.notification}>
+      <CurrentParking onChangeParkingLot={handleParkingLotChange}/>
+
       <div className={`${styles.container} ${styles.in}`}>
         <div className={styles.title}>Xe vào</div>
         <div className={styles.content}>
@@ -29,7 +32,7 @@ const Notification = ({
         </div>
       </div>
 
-      <div className={styles["vertical-line"]}></div>
+      {/* <div className={styles["vertical-line"]}></div> */}
 
       <div className={`${styles.container} ${styles.out}`}>
         <div className={styles.title}>Xe ra</div>
@@ -48,7 +51,7 @@ const Notification = ({
         </div>
       </div>
 
-      <div className={styles["vertical-line"]}></div>
+      {/* <div className={styles["vertical-line"]}></div> */}
 
       <div className={`${styles.container} ${styles.not} ${styles.out}`}>
         <div className={styles.title}>Xe chưa ra</div>
@@ -67,14 +70,14 @@ const Notification = ({
         </div>
       </div>
 
-      <div className={styles["vertical-line"]}></div>
+      {/* <div className={styles["vertical-line"]}></div>
 
       <div className={`${styles.container} ${styles.revenue}`}>
         <div className={styles.title}>Tổng tiền</div>
         <div className={styles.content}>
           <p className={styles["revenue-num"]}>{revenue || "500.000"} đ</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
