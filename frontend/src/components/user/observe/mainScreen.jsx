@@ -795,9 +795,11 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
+                    <p>Ảnh mặt</p>
                     <img src={in_face_img} />
                   </div>
                   <div className={styles["img-plate"]}>
+                    <p>Ảnh biển</p>
                     <img src={in_plate_img} />
                   </div>
                 </div>
@@ -915,9 +917,11 @@ const MainScreen = ({ ParkingLotId }) => {
                 </div>
                 <div className={styles["img-info"]}>
                   <div className={styles["img-face"]}>
+                    <p>Ảnh mặt</p>
                     {out_face_img ? <img src={out_face_img} /> : ""}
                   </div>
                   <div className={styles["img-plate"]}>
+                    <p>Ảnh biển</p>
                     {out_plate_img ? <img src={out_plate_img} /> : ""}
                   </div>
                 </div>
