@@ -39,13 +39,21 @@
   font-size: 18px;
 }
 
+.nav-link:hover {
+  background-color: #fff4e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
+}
+
+/* Active hover effect */
+.nav-link.active:hover {
+  background: #ec8c04;
+  border-color: #ec8c04;
+  transform: translateY(-1px);
+}
 .nav-link.active {
   background-color: var(--primary-color);
   color: var(--active-text-color);
-}
-
-.nav-link:hover {
-  opacity: 0.9;
 }
 
 .nav-link.logout-btn {
