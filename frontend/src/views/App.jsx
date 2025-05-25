@@ -63,7 +63,7 @@ function App() {
                 <AdminTopBar />
               </Layout>
             }
-          > 
+          >
             {" "}
             <Route
               path="/users"
@@ -73,16 +73,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/admin"
               element={
                 <ProtectedRoute role="admin">
-                  <ParkingList />
+                  <UserList />
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/parking-lots"
               element={

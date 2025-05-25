@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/admin/Userlist.module.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const backendURL = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
 
 const MainScreen = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (role !== "admin") {
+      window.location.reload();
+    }
+
+    console.log("Role:", role);
+  }, [location.pathname, role]);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
