@@ -232,7 +232,7 @@ const History = () => {
       <div className={styles.QuerryandlistHistory}>
         <div className={styles.Querry}>
           <div className={styles.Querrylist}>
-            {/*Chọn đối trạng thái */}
+            {/* Chọn đối trạng thái
             <div className={styles.ChosseQuerry}>
               <span className={styles.titleQuerry}>Trạng thái:</span>
               <button
@@ -263,7 +263,7 @@ const History = () => {
                   ))}
                 </ul>
               )}
-            </div>
+            </div> */}
             {/*Chọn loại vé và loại xe */}
             <div className={styles.Vehicles_Ticket}>
               <span className={styles.titleQuerry}>Loại vé:</span>
@@ -339,7 +339,7 @@ const History = () => {
                 />
               </div>
 
-              <div className={styles.DatePickerGroup}>
+              <div className={`${styles.DatePickerGroup} ${styles.c1}`}>
                 <span className={styles.titleQuerry}>Đến:</span>
                 <DatePicker
                   selected={toDate}

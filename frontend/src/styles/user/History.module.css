@@ -20,7 +20,6 @@
   width: 1470px;
   height: 930px;
   align-items: center;
-  flex: 1 0 0;
   align-self: stretch;
 }
 .QuerryandlistHistory {
@@ -32,7 +31,7 @@
 }
 .Querry {
   display: flex;
-  height: 317px;
+  height: 250px;
   padding: 30px 30px 0px 0px;
   align-items: flex-start;
   gap: 10px;
@@ -229,6 +228,7 @@ border-radius: 5px;
 border: 1px solid #9BA5B7;
 background: #EEF1F4;
 }
+
 .listHistory {
   display: flex;
   height: 613px;
@@ -238,6 +238,7 @@ background: #EEF1F4;
   border-top: 0.5px solid #545f71;
   background: #fff;
 }
+
 .TableHistory {
   color: #374151;
   font-family: "Be Vietnam Pro";
@@ -510,13 +511,22 @@ white-space: nowrap; /* 169.231% */
 
 /* styles.module.css */
 .customInput {
-  width: 146px;
+  width: 130px;
   padding: 10px;
   border: 1px solid #9BA5B7;
   border-radius: 5px;
   background: #EEF1F4;
   font-size: 14px;
   cursor: pointer;
+}
+
+.c1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c1 .customInput {
+  width: 135px;
 }
 
 .customCalendar {
