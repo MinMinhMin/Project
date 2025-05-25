@@ -1,129 +1,202 @@
 .parkingContainer {
-  padding: 20px;
-  max-width: 1200px;
+  max-width: 1470px;
   margin: 0 auto;
+  background-color: #FFF;
+  padding: 40px 25px; /* Tăng padding từ 27px 15px */
 }
 
 .heading {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 500;
+  font-style: normal;
   color: #374151;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Tăng từ 20px */
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 10px;
+  padding-bottom: 15px; /* Tăng từ 10px */
+  font-family: "Be Vietnam Pro";
 }
 
-.searchBar {
+.SearchContainer {
   display: flex;
+  width: 471px;
+  padding: 8px 25px 8px 20px; /* Tăng padding từ 2px 20px 2px 14px */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  position: relative;
-  max-width: 300px; /* Thu nhỏ chiều rộng */
+  align-self: stretch;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.20);
+  background: #FFF;
+  margin-bottom: 25px; /* Thêm margin bottom */
+}
+
+.Search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px; /* Tăng từ 8px */
 }
 
 .searchInput {
-  width: 100%;
-  padding: 8px 32px 8px 32px; /* Padding gọn hơn */
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
-  font-size: 14px; /* Nhỏ hơn mặc định */
-}
-
-.searchIcon {
-  position: absolute;
-  left: 10px;
-  color: #6b7280;
-  font-size: 14px;
+  color: var(--Greys-Blue-Grey-700, #737791);
+  font-family: "Be Vietnam Pro";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 12px; /* Thêm padding cho input */
 }
 
 .clearIcon {
   position: absolute;
-  right: 10px;
+  right: 15px; /* Tăng từ 10px */
   color: #6b7280;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px; /* Tăng từ 14px */
+  padding: 4px; /* Thêm padding để dễ click */
 }
 
 .tableContainer {
   overflow-x: auto;
   min-width: 900px;
-  min-height: 500px; /* Đảm bảo chiều cao cố định */
+  min-height: 500px;
+  margin: 20px 0; /* Thêm margin top và bottom */
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Đổi từ collapse để tạo spacing */
+  border-spacing: 0 4px; /* Thêm khoảng cách giữa các hàng */
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   table-layout: fixed;
 }
 
 .tableHeader {
-  padding: 12px 15px;
+  padding: 18px 20px; /* Tăng từ 12px 15px */
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 2px solid #e5e7eb; /* Tăng độ dày border */
   background-color: #f3f4f6;
   font-weight: 600;
   color: #374151;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 16px; /* Tăng từ 14px */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: "Be Vietnam Pro";
+  height: 60px; /* Tăng chiều cao header */
 }
 
 .tableRow {
   background-color: #fff;
+  height: 70px; /* Tăng chiều cao từ mặc định */
+  transition: all 0.3s ease;
 }
 
 .tableRow:nth-child(even) {
   background-color: #f9fafb;
 }
 
+.tableRow:hover {
+  background-color: #FFF4E5;
+  color: #FF9500;
+  transform: translateY(-2px); /* Thêm hiệu ứng nâng nhẹ */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .tableCell {
-  padding: 12px 15px;
+  padding: 20px 20px; /* Tăng từ 12px 15px */
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
   color: #4b5563;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: "Be Vietnam Pro";
+  font-size: 16px; /* Tăng từ mặc định */
+  line-height: 1.5;
 }
 
 .noData {
-  padding: 12px 15px;
+  padding: 30px 20px; /* Tăng từ 12px 15px */
   text-align: center;
   color: #6b7280;
   border-bottom: 1px solid #e5e7eb;
+  font-family: "Be Vietnam Pro";
+  font-size: 16px;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  gap: 5px;
-  min-height: 40px; /* Giữ không gian cố định cho pagination */
+  margin-top: 30px; /* Tăng từ 20px */
+  gap: 10px; /* Tăng từ 5px */
+  min-height: 50px; /* Tăng từ 40px */
+  padding: 15px 0; /* Thêm padding */
 }
 
 .paginationButton {
-  padding: 8px 12px;
+  padding: 12px 18px; /* Tăng từ 8px 12px */
   border: 1px solid #d1d5db;
-  border-radius: 5px;
+  border-radius: 8px; /* Tăng từ 5px */
   background-color: #fff;
   color: #374151;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px; /* Tăng từ 14px */
+  font-family: "Be Vietnam Pro";
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 45px; /* Đảm bảo kích thước tối thiểu */
 }
 
 .paginationButton.active {
   background-color: #f97316;
   color: #fff;
   border-color: #f97316;
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+}
+
+.paginationButton:hover:not(:disabled):not(.active) {
+  background-color: #FFF4E5;
+  border-color: #f97316;
+  color: #f97316;
+  transform: translateY(-1px);
 }
 
 .paginationButton:disabled {
   color: #d1d5db;
   cursor: not-allowed;
+  background-color: #f9fafb;
+}
+
+/* Thêm spacing cho các cột cụ thể */
+.colIndex {
+  width: 80px; /* Tăng từ mặc định */
+  text-align: center;
+}
+
+.colParkingId {
+  width: 180px; /* Tăng để có không gian thoải mái */
+}
+
+.colParkingName {
+  width: 300px; /* Tăng cho tên bãi đỗ */
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 1470px) {
+  .parkingContainer {
+    max-width: 100%;
+    margin: 0 15px;
+  }
+  
+  .SearchContainer {
+    width: 100%;
+    max-width: 471px;
+  }
 }
