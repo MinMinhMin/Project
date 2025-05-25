@@ -21,7 +21,6 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-       
         <Routes>
           <Route path="/" element={<LoginPage />} />
 
@@ -63,13 +62,31 @@ function App() {
                 <AdminTopBar />
               </Layout>
             }
-          >
+          > 
             {" "}
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute role="admin">
+                  <UserList />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/admin"
               element={
                 <ProtectedRoute role="admin">
                   <UserList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/parking-lots"
+              element={
+                <ProtectedRoute role="admin">
+                  <ParkingList />
                 </ProtectedRoute>
               }
             />

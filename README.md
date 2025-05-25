@@ -1,52 +1,5 @@
-This project includes:
-
-- Back-end: FastAPI (Python)
-- Front-end: React + Vite (JavaScript)
-
-## Backend Setup
-- Install back-end packages
-  ```batch
-   pip install -r requirements.txt
-   ```
-  ```batch
-   pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
-   ```
-- Start a back-end server (the server is hosted at port 8000 by default, can be customized in main.py)
-  ```batch
-   cd backend/src
-   
-   ```
-  ```batch
-   python main.py 
-   ```
-- Start a back-end-AI server (the server is hosted at port 8001 by default, can be customized in main.py)
-```batch
- cd backend-AI
- 
- ```
-```batch
- python main.py 
- ```
-## Frontend Setup
-- Install Node.js at [here](https://nodejs.org/en)
-- Install front-end packages
-  ```batch
-   cd frontend
-   
-   ```
-  ```batch
-   npm install
-   
-   ```
-- Start a front-end server (the server is hosted at port 3000 by default, can be customized in vite.config.js)
-   ```batch
-   cd frontend
-   
-   ```
-   ```batch
-   npm run dev
-   
-   ```
+## Project overview
+- Bảo viết vào hộ cái
 ## Camera Setup
 
 ### Hardware Requirements:
@@ -57,10 +10,10 @@ This project includes:
 
 ### If don't have enough webcams:
 
-   Use Android phone as a webcam by following these steps:
+   Use Android/Ios phone as a webcam by following these steps:
 
  *Install the required apps:*
-   - On Android phone: install *DroidCam* from the Google Play Store.
+   - On Android/Ios: install *DroidCam* from the Google Play Store/App Store.
    - On computer: download and install *DroidCam Client* from the official website: [https://www.dev47apps.com/](https://www.dev47apps.com/)
 
  *Connect both devices:*
@@ -72,18 +25,17 @@ This project includes:
    If successful, your phone will act as a webcam and can be used as a substitute for a physical webcam.
 
 
+## Testing accounts
 
-
-## Admin
+### Admin
 - Username: admin
 - Password: 123
-## User
+### User
 - Username: minmin
 - Password: 123
-## Database
-- Images which taken from the camera are hosted by Imgur (SQLite's table does not contain images, it only contains image URLs).
-- Details at backend/src/face_images/routes.py 
+
 ## Setup Docker
+
 - Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
 - Package backend, backend-AI, frontend into 3 docker compose
 - Docker 1 (backend):

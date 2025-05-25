@@ -58,10 +58,10 @@ const MainScreen = ({ ParkingLotId }) => {
     const prefix = parts[0];
     const number = parts[1];
     if (!/^\d+[A-Z]+\d*$/.test(prefix) && !/^[A-Z]+\d+$/.test(prefix)) {
-      return "Không hợp lệ";
+    return "Không hợp lệ";
     }
-    if (prefix.length === 4 && number.length === 4) return "Xe máy";
-    if (prefix.length === 3 && number.length === 5) return "Ô tô";
+    if (prefix.length === 4) return "Xe máy"; 
+    if (prefix.length === 3) return "Ô tô";
     if (number.length === 5) return "Ô tô";
     if (number.length === 4) return "Xe máy";
     return "Không xác định";
