@@ -71,35 +71,16 @@ Mục tiêu của dự án là xây dựng một hệ thống **bãi đỗ xe th
 - Mật khẩu: 123
 
 # Thiết lập Docker
-- Tìm một hình ảnh Docker cơ bản trên Docker Hub có chứa Node.js và Python, sau đó tạo một tệp compose để thực hiện các thao tác trên.
-- Đóng gói backend, backend-AI, frontend thành 3 dịch vụ Docker Compose.
+- Liên kết kho Docker Hub https://hub.docker.com/u/xyzhuy
 
-## Docker 1 (backend)
-- Gói: Python 3.11.5
-
+- Chạy lệnh các lệnh sau để pull images
 ```bash
-pip install -r requirements.txt
-
-# Host: Máy chủ
-cd backend/src && python main.py
+docker pull xyzhuy/frontend
+docker pull xyzhuy/backend
+docker pull xyzhuy/backend-ai
 ```
 
-## Docker 2 (backend-AI)
-- Gói: Python 3.11.5
-
+Chạy lệnh sau để khởi động hệ thống
 ```bash
-pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
-
-# Máy chủ
-cd backend-AI && python main.py
-```
-
-## Docker 3 (frontend)
-- Gói: Node.js
-
-```bash
-cd frontend && npm install
-
-# Máy chủ
-cd frontend && npm run dev
+docker-compose up -d
 ```

@@ -1,16 +1,97 @@
-import React from "react";
+import React, { use } from "react";
 import styles from "../../../styles/user/notification.module.css"; // CSS Module
+
 import CurrentParking from "./currentParking";
 
-const Notification = ({
-  moto_in,
-  car_in,
-  moto_out,
-  car_out,
-  moto_not_out,
-  car_not_out,
-  handleParkingLotChange
-}) => {
+import { useState, useEffect } from "react";
+
+const backendUrl = import.meta.env.VITE_API_URL; // Ensure this is set correctly in your environment
+import axios from "axios";
+const token = localStorage.getItem("token");
+
+const Notification = ({ ParkingLotId }) => {
+  const [moto_in, setMotoIn] = useState(0);
+  const [car_in, setCarIn] = useState(0);
+  const [moto_out, setMotoOut] = useState(0);
+  const [car_out, setCarOut] = useState(0);
+  const [moto_not_out, setMotoNotOut] = useState(0);
+  const [car_not_out, setCarNotOut] = useState(0);
+  const [revenue, setRevenue] = useState("500.000");
+
+  function getCurrentDateInfo() {
+    const now = new Date();
+    const date = now.toISOString().split("T")[0];
+    return date;
+  }
+
+  function getNextDateInfo() {
+    const now = new Date();
+    now.setDate(now.getDate() + 1); // Add 1 day
+    const date = now.toISOString().split("T")[0];
+    return date;
+  }
+
+  async function fetchHistory() {
+    const params = {};
+    if (ParkingLotId) {
+      params.date_from = getCurrentDateInfo();
+      params.date_to = getNextDateInfo();
+      params.parking_lot_id = ParkingLotId;
+    }
+
+    const res = await axios.get(`${backendUrl}/history/search`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: params,
+    });
+    const motor_out = res.data.filter(
+      (vehicle) =>
+        vehicle.date_in && vehicle.date_out && vehicle.vehicle_type === "Xe máy"
+    );
+
+    const motor_in = res.data.filter(
+      (vehicle) => vehicle.date_in && vehicle.vehicle_type === "Xe máy"
+    );
+
+    const car_out = res.data.filter(
+      (vehicle) =>
+        vehicle.date_in && vehicle.date_out && vehicle.vehicle_type === "Ô tô"
+    );
+
+    const car_in = res.data.filter(
+      (vehicle) => vehicle.date_in && vehicle.vehicle_type === "Ô tô"
+    );
+
+    const moto_not_out = res.data.filter(
+      (vehicle) =>
+        vehicle.date_in &&
+        !vehicle.date_out &&
+        vehicle.vehicle_type === "Xe máy"
+    );
+    const car_not_out = res.data.filter(
+      (vehicle) =>
+        vehicle.date_in && !vehicle.date_out && vehicle.vehicle_type === "Ô tô"
+    );
+
+    setCarNotOut(car_not_out.length);
+    setMotoNotOut(moto_not_out.length);
+    setCarIn(car_in.length);
+    setCarOut(car_out.length);
+    setMotoIn(motor_in.length);
+    setMotoOut(motor_out.length);
+
+    console.log("History data:", res.data);
+  }
+
+  useEffect(() => {
+    if (!ParkingLotId || !token) {
+      return;
+    }
+    fetchHistory();
+  }, [ParkingLotId]);
+
+
   return (
     <div className={styles.notification}>
       <CurrentParking onChangeParkingLot={handleParkingLotChange}/>
