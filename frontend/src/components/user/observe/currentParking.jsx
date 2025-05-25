@@ -45,6 +45,7 @@ const CurrentParking = ({ onChangeParkingLot }) => {
   }
 
   useEffect(() => {
+    if (!token) return;
     fetchParkinglot();
   }, [token]);
 

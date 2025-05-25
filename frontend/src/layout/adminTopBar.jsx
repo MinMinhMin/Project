@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TopBarLeft from "../components/topbarLeft";
 import styles from "../styles/admin/admintopbar.module.css";
-
 const AdminTopBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +23,10 @@ const AdminTopBar = () => {
         <Link
           to="/users"
           className={`${styles["nav-link"]} ${
-          (location.pathname.startsWith("/users") || location.pathname.startsWith("/admin")) ? styles["active"] : ""
+            location.pathname.startsWith("/users") ||
+            location.pathname.startsWith("/admin")
+              ? styles["active"]
+              : ""
           }`}
         >
           Danh sách người dùng
@@ -33,7 +35,9 @@ const AdminTopBar = () => {
         <Link
           to="/parking-lots"
           className={`${styles["nav-link"]} ${
-            location.pathname.startsWith("/parking-lots") ? styles["active"] : ""
+            location.pathname.startsWith("/parking-lots")
+              ? styles["active"]
+              : ""
           }`}
         >
           Danh sách bãi đỗ

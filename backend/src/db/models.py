@@ -8,6 +8,8 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     role = Column(String, default="user")  # <-- Add this line
+    full_name = Column(String, nullable=True)
+    phone_number = Column(String, nullable=True)
 
     parking_lots = relationship("ParkingLot", back_populates="owner", cascade="all, delete")
     tickets = relationship("Ticket", back_populates="user", cascade="all, delete")

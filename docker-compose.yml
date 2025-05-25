@@ -1,31 +1,22 @@
 services:
   frontend:
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      ports:
-        - "5173:5173"
-      volumes:
-        - ./frontend:/app
-        - /app/node_modules
-      environment:
-        - NODE_ENV=development
-      networks:
-        - app-network
-      healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:5173"]
-        interval: 30s
-        timeout: 10s
-        retries: 3
+    image: xyzhuy/frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5173"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: xyzhuy/backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend/src:/app
     environment:
       - PYTHONUNBUFFERED=1
     networks:
@@ -38,13 +29,9 @@ services:
 
   backend-ai:
     platform: linux/amd64
-    build:
-      context: ./backend-AI
-      dockerfile: Dockerfile
+    image: xyzhuy/backend-ai
     ports:
       - "8001:8001"
-    volumes:
-      - ./backend-AI/src:/app/src
     environment:
       - PYTHONUNBUFFERED=1
     deploy:
@@ -62,7 +49,6 @@ services:
       timeout: 10s
       retries: 3
 
-  
 networks:
   app-network:
     driver: bridge

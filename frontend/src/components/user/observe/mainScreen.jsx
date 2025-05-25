@@ -7,9 +7,10 @@ import BoxChecking from "./boxChecking";
 const backendUrl_AI = import.meta.env.VITE_API_URL_AI;
 const backendUrl = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
 const MainScreen = ({ ParkingLotId }) => {
   const [alert, setAlert] = useState(true);
-
+  console.log(role);
   const [dropdownInOpen, setDropdownInOpen] = useState(false);
   const [dropdownOutOpen, setDropdownOutOpen] = useState(false);
   const [rotateIn, setRotateIn] = useState(0);
@@ -124,6 +125,7 @@ const MainScreen = ({ ParkingLotId }) => {
     }
   };
   useEffect(() => {
+    if (!token || ParkingLotId) return;
     if (ParkingLotId) {
       console.log("Parking lot ID:", ParkingLotId);
       fetchTicketListIn(ParkingLotId);

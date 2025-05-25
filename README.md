@@ -1,81 +1,49 @@
-## Project overview
+# Tổng quan dự án
 - Bảo viết vào hộ cái
-## Camera Setup
 
-### Hardware Requirements:
+# Thiết lập Camera
 
-- *2 webcams*:
-  - For *desktop PCs*: 2 external webcams are required.
-  - For *laptops*: 1 built-in webcam + 1 external webcam is sufficient.
+## Yêu cầu phần cứng
+- 2 webcam:
+  - Đối với máy tính để bàn: Cần 2 webcam gắn ngoài.
+  - Đối với laptop: 1 webcam tích hợp + 1 webcam gắn ngoài là đủ.
 
-### If don't have enough webcams:
+## Nếu không đủ webcam
+- Sử dụng điện thoại Android/iOS làm webcam bằng cách thực hiện các bước sau:
 
-   Use Android/Ios phone as a webcam by following these steps:
+### Cài đặt ứng dụng cần thiết
+- Trên Android/iOS: Cài đặt *DroidCam* từ Google Play Store/App Store.
+- Trên máy tính: Tải và cài đặt *DroidCam Client* từ trang web chính thức: https://www.dev47apps.com/
 
- *Install the required apps:*
-   - On Android/Ios: install *DroidCam* from the Google Play Store/App Store.
-   - On computer: download and install *DroidCam Client* from the official website: [https://www.dev47apps.com/](https://www.dev47apps.com/)
+### Kết nối cả hai thiết bị
+- Đảm bảo điện thoại và máy tính được kết nối với cùng một mạng Wi-Fi.
+- Mở ứng dụng *DroidCam* trên điện thoại và ghi lại địa chỉ IP (Wi-Fi) được hiển thị.
+- Mở *DroidCam Client* trên máy tính, nhập địa chỉ IP (Wi-Fi) và cổng từ điện thoại, sau đó nhấp vào *Start*.
 
- *Connect both devices:*
-   - Make sure your *phone and computer are connected to the same Wi-Fi network*.
-   - Open the *DroidCam app on your phone* and note the IP(Wifi) address displayed.
-   - Open the *DroidCam Client on your computer*, enter the IP(Wifi) address and port from your phone, then click *Start*.
+### Kiểm tra kết nối
+- Nếu thành công, điện thoại của bạn sẽ hoạt động như một webcam và có thể được sử dụng thay thế cho webcam vật lý.
 
- *Verify the connection:*
-   If successful, your phone will act as a webcam and can be used as a substitute for a physical webcam.
+# Tài khoản kiểm thử
 
+## Quản trị viên
+- Tên đăng nhập: admin
+- Mật khẩu: 123
 
-## Testing accounts
+## Người dùng
+- Tên đăng nhập: minmin
+- Mật khẩu: 123
 
-### Admin
-- Username: admin
-- Password: 123
-### User
-- Username: minmin
-- Password: 123
+# Thiết lập Docker
+- Liên kết kho Docker Hub https://hub.docker.com/u/xyzhuy
 
-## Setup Docker
+- Chạy lệnh các lệnh sau để pull images
+```bash
+docker pull xyzhuy/frontend
+docker pull xyzhuy/backend
+docker pull xyzhuy/backend-ai
+```
 
-- Find a base Docker image on Docker Hub that contains Node.js and Python, then make a compose file to do the things above.
-- Package backend, backend-AI, frontend into 3 docker compose
-- Docker 1 (backend):
-  - Package:Python 3.11.5
-   ```batch
-   pip install -r requirements.txt
-   ```
-  - Host:
-  ```batch
-   cd backend/src
-   ```
-  ```batch
-   python main.py 
-   ```
-- Docker 2 (backend-AI): 
-  - Package: Python 3.11.5
-  ```batch
-   pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu118
-   ```
-  - Host:
-    ```batch
-     cd backend-AI
-     ```
-    ```batch
-     python main.py 
-     ```
-- Docker 3 (frontend):
-  - Package: Node.js
-     ```batch
-     cd frontend
-     ```
-     ```batch
-     npm install
-      ```
-  - Host:
-     ```batch
-     cd frontend
-     ```
-     ```batch
-     npm run dev
-     ```
-
-  
+Chạy lệnh sau để khởi động hệ thống
+```bash
+docker-compose up -d
+```

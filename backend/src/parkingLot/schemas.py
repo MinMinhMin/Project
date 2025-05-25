@@ -1,3 +1,4 @@
+# parking_lot/schemas.py
 from pydantic import BaseModel
 from typing import Optional
 
@@ -15,6 +16,8 @@ class ParkingLotUpdate(BaseModel):
 class ParkingLot(ParkingLotCreate):
     id: int
     user_id: int
+    userName: Optional[str] = None  # Add username from users table
+    contact: Optional[str] = None   # Add phone_number from users table
 
     class Config:
         orm_mode = True

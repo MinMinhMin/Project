@@ -20,3 +20,4 @@ def get_user_info(db: Session = Depends(get_db), current_user=Depends(get_curren
     if not user_info:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User info not found")
     return user_info
+

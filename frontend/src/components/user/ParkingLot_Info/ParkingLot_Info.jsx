@@ -76,6 +76,10 @@ const ParkingLot_Info = () => {
     }
   }
   useEffect(() => {
+    if (!token) {
+      console.log("No token found");
+      return;
+    }
     fetchParkinglot();
   }, [token]);
 
